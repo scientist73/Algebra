@@ -9,10 +9,6 @@ namespace alg
 {
     namespace num
     {
-        class INumType;
-        class NumType;
-
-        
         class INumType
         {
         public:
@@ -27,12 +23,22 @@ namespace alg
         {
         public:
             NumType(const NumType& num);
+            NumType(NumType&& num);
             ~NumType() = default;
 
-            static NumType constuctReal(const std::string& num);
+            static NumType constructReal(const std::string& num);
+            static NumType constructComplex(const std::string& real, const std::string& imag);
 
             std::string getString() const;
             ALGEBRA getAlgebraType() const;
+
+            NumType& operator=(const NumType& num);
+            NumType& operator=(NumType&& num);
+
+            NumType& operator+=(const NumType& right_op);
+            NumType& operator-=(const NumType& right_op);
+            NumType& operator*=(const NumType& right_op);
+            NumType& operator/=(const NumType& right_op);
 
             NumType operator+(const NumType& right_op) const;
             NumType operator-(const NumType& right_op) const;

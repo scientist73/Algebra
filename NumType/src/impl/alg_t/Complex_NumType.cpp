@@ -3,8 +3,8 @@
 using namespace alg::num::impl::alg_t;
 
 
-Complex_NumType::Complex_NumType(std::initializer_list<std::string> complex_num) :
-    value(*complex_num.begin(), *(complex_num.begin() + 1))
+Complex_NumType::Complex_NumType(const std::string& real, const std::string& imag) :
+    value(real, imag)
 {}
 Complex_NumType::Complex_NumType(const Complex_NumType& complex_num) :
     value(complex_num.value)

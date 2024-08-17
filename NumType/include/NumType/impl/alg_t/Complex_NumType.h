@@ -18,7 +18,7 @@ namespace alg
                 class Complex_NumType : public INumType
                 {                    
                 public:
-                    Complex_NumType(std::initializer_list<std::string> complex_num);
+                    Complex_NumType(const std::string& real, const std::string& imag);
                     Complex_NumType(const Complex_NumType& complex_num);
                     ~Complex_NumType() override = default;
 
@@ -26,9 +26,24 @@ namespace alg
                     alg::ALGEBRA getAlgebraType() const override;
                     INumType* getCopy() const override;
 
+                    INumType* operator+=(const Real_NumType& right_op);
+                    INumType* operator-=(const Real_NumType& right_op);
+                    INumType* operator*=(const Real_NumType& right_op);
+                    INumType* operator/=(const Real_NumType& right_op);
+
+                    INumType* operator+=(const Complex_NumType& right_op);
+                    INumType* operator-=(const Complex_NumType& right_op);
+                    INumType* operator*=(const Complex_NumType& right_op);
+                    INumType* operator/=(const Complex_NumType& right_op);
+
                 private:
                     Complex_NumType(std::complex<ScalarType> complex_num);
                     FRIEND_OPERATORS
+
+                    friend INumType* Real_NumType::operator+=(const Complex_NumType& num);
+                    friend INumType* Real_NumType::operator-=(const Complex_NumType& num);
+                    friend INumType* Real_NumType::operator*=(const Complex_NumType& num);
+                    friend INumType* Real_NumType::operator/=(const Complex_NumType& num);
 
                     std::complex<ScalarType> value;
                 };

@@ -6,8 +6,8 @@ using alg::num::NumType;
 
 TEST(Real_NumType, SumTest)
 {
-    NumType var1 = NumType::constuctReal("4.5");
-    NumType var2 = NumType::constuctReal("4.5");
+    NumType var1 = NumType::constructReal("4.5");
+    NumType var2 = NumType::constructReal("4.5");
 
     NumType sum = var1 + var2;
 

@@ -27,9 +27,23 @@ namespace alg
                     alg::ALGEBRA getAlgebraType() const override;
                     INumType* getCopy() const override;
 
+                    INumType* operator+=(const Real_NumType& right_op);
+                    INumType* operator-=(const Real_NumType& right_op);
+                    INumType* operator*=(const Real_NumType& right_op);
+                    INumType* operator/=(const Real_NumType& right_op);
+
+                    INumType* operator+=(const Complex_NumType& right_op);
+                    INumType* operator-=(const Complex_NumType& right_op);
+                    INumType* operator*=(const Complex_NumType& right_op);
+                    INumType* operator/=(const Complex_NumType& right_op);
                 private:
                     Real_NumType(const ScalarType& num);
                     FRIEND_OPERATORS
+
+                    friend INumType* Complex_NumType::operator+=(const Real_NumType& right_op);
+                    friend INumType* Complex_NumType::operator-=(const Real_NumType& right_op);
+                    friend INumType* Complex_NumType::operator*=(const Real_NumType& right_op);
+                    friend INumType* Complex_NumType::operator/=(const Real_NumType& right_op);
 
                     ScalarType a;
                 };

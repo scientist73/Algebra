@@ -46,9 +46,21 @@ case ALGEBRA::COMPLEX:\
 NumType::NumType(INumType* num) : 
     num(num)
 {}
+NumType::NumType(NumType&& num) :
+    num(std::move(num.num))
+{}
 NumType::NumType(const NumType& num) :
     num(num.num->getCopy())
 {}
+
+NumType NumType::constructReal(const std::string& num)
+{
+    return NumType(new impl::alg_t::Real_NumType(num));
+}
+NumType NumType::constructComplex(const std::string& real, const std::string& imag)
+{
+    return NumType(new impl::alg_t::Complex_NumType(real, imag));
+}
 
 std::string NumType::getString() const
 {
@@ -60,10 +72,42 @@ alg::ALGEBRA NumType::getAlgebraType() const
     return num->getAlgebraType();
 }
 
-NumType NumType::constuctReal(const std::string& num)
+NumType& NumType::operator=(const NumType& num)
 {
-    return NumType(new impl::alg_t::Real_NumType(num));
+    this->num.reset(num.num->getCopy());
+    return *this;
 }
+NumType& NumType::operator=(NumType&& num)
+{
+    this->num.swap(num.num);
+    return *this;
+}
+
+NumType& NumType::operator+=(const NumType& right_op)
+{
+    OPERATOR_DEF(+=)
+
+    throw std::runtime_error("");
+}
+NumType& NumType::operator-=(const NumType& right_op)
+{
+    OPERATOR_DEF(-=)
+
+    throw std::runtime_error("");
+}
+NumType& NumType::operator*=(const NumType& right_op)
+{
+    OPERATOR_DEF(*=)
+
+    throw std::runtime_error("");
+}
+NumType& NumType::operator/=(const NumType& right_op)
+{
+    OPERATOR_DEF(/=)
+
+    throw std::runtime_error("");
+}
+
 
 NumType NumType::operator+(const NumType& right_op) const
 {
