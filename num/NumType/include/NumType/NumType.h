@@ -66,6 +66,8 @@ namespace alg
             NumType(const Complex_NumType<ScalarType>& complex_num);
             NumType(Complex_NumType<ScalarType>&& complex_num);
 
+            bool is_valid() const;
+
             std::unique_ptr<INumType<ScalarType>> value;
         };        
     } // namespace num
@@ -101,23 +103,39 @@ NumType<ScalarType>::NumType(const NumType<ScalarType>& num) :
 template<typename ScalarType>
 std::string NumType<ScalarType>::getString() const
 {
+    if (!is_valid())
+        throw std::runtime_error("NumType<ScalarType>::getString() error: NumType doesn't contain a value");
     return value->getString();
 }
 template<typename ScalarType>
 ALGEBRA NumType<ScalarType>::getAlgebraType() const
 {
+    if (!is_valid())
+        throw std::runtime_error("NumType<ScalarType>::getAlgebraType() error: NumType doesn't contain a value");
     return value->getAlgebraType();
 }
 
 template<typename ScalarType>
 Real<ScalarType> NumType<ScalarType>::getReal() const
 {
-    return dynamic_cast<const Real_NumType<ScalarType>*>(value.get())->getReal();
+    if (!is_valid())
+        throw std::runtime_error("NumType<ScalarType>::getReal() error: NumType doesn't contain a value");
+
+    if (auto real_num = dynamic_cast<const Real_NumType<ScalarType>*>(value.get()))
+        return real_num->getReal();
+    else
+        throw std::runtime_error("NumType<ScalarType>::getReal() error: NumType is not a Real type");
 }
 template<typename ScalarType>
 Complex<ScalarType> NumType<ScalarType>::getComplex() const
 {
-    return dynamic_cast<const Complex_NumType<ScalarType>*>(value.get())->getComplex();
+    if (!is_valid())
+        throw std::runtime_error("NumType<ScalarType>::getComplex() error: NumType doesn't contain a value");
+
+    if (auto complex_num = dynamic_cast<const Complex_NumType<ScalarType>*>(value.get()))
+        return complex_num->getComplex();
+    else
+        throw std::runtime_error("NumType<ScalarType>::getComplex error: NumType is not a Complex type");
 }
 
 template<typename ScalarType>
@@ -143,7 +161,10 @@ NumType<ScalarType>& NumType<ScalarType>::operator=(const NumType& num)
 template<typename ScalarType>
 NumType<ScalarType>& NumType<ScalarType>::operator+=(const NumType& right_op)
 {
-    switch (this->getAlgebraType())
+    if (!is_valid())
+        throw std::runtime_error("NumType<ScalarType>::operator+= error: NumType doesn't contain a value");
+
+    switch (value->getAlgebraType())
     {
     case ALGEBRA::REAL:
         if (auto l_op = dynamic_cast<impl::Real_NumType<ScalarType>*>(this->value.get()))
@@ -197,7 +218,10 @@ NumType<ScalarType>& NumType<ScalarType>::operator+=(const NumType& right_op)
 template<typename ScalarType>
 NumType<ScalarType>& NumType<ScalarType>::operator-=(const NumType& right_op)
 {
-    switch (this->getAlgebraType())
+    if (!is_valid())
+        throw std::runtime_error("NumType<ScalarType>::operator-= error: NumType doesn't contain a value");
+
+    switch (value->getAlgebraType())
     {
     case ALGEBRA::REAL:
         if (auto l_op = dynamic_cast<impl::Real_NumType<ScalarType>*>(this->value.get()))
@@ -251,7 +275,10 @@ NumType<ScalarType>& NumType<ScalarType>::operator-=(const NumType& right_op)
 template<typename ScalarType>
 NumType<ScalarType>& NumType<ScalarType>::operator*=(const NumType& right_op)
 {
-    switch (this->getAlgebraType())
+    if (!is_valid())
+        throw std::runtime_error("NumType<ScalarType>::operator*= error: NumType doesn't contain a value");
+
+    switch (value->getAlgebraType())
     {
     case ALGEBRA::REAL:
         if (auto l_op = dynamic_cast<impl::Real_NumType<ScalarType>*>(this->value.get()))
@@ -305,7 +332,10 @@ NumType<ScalarType>& NumType<ScalarType>::operator*=(const NumType& right_op)
 template<typename ScalarType>
 NumType<ScalarType>& NumType<ScalarType>::operator/=(const NumType& right_op)
 {
-    switch (this->getAlgebraType())
+    if (!is_valid())
+        throw std::runtime_error("NumType<ScalarType>::operator/= error: NumType doesn't contain a value");
+
+    switch (value->getAlgebraType())
     {
     case ALGEBRA::REAL:
         if (auto l_op = dynamic_cast<impl::Real_NumType<ScalarType>*>(this->value.get()))
@@ -360,7 +390,10 @@ NumType<ScalarType>& NumType<ScalarType>::operator/=(const NumType& right_op)
 template<typename ScalarType>
 NumType<ScalarType> NumType<ScalarType>::operator+(const NumType& right_op) const
 {
-    switch (this->getAlgebraType())
+    if (!is_valid())
+        throw std::runtime_error("NumType<ScalarType>::operator+ error: NumType doesn't contain a value");
+
+    switch (value->getAlgebraType())
     {
     case ALGEBRA::REAL:
         if (auto l_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(this->value.get()))
@@ -402,7 +435,10 @@ NumType<ScalarType> NumType<ScalarType>::operator+(const NumType& right_op) cons
 template<typename ScalarType>
 NumType<ScalarType> NumType<ScalarType>::operator-(const NumType& right_op) const
 {
-    switch (this->getAlgebraType())
+    if (!is_valid())
+        throw std::runtime_error("NumType<ScalarType>::operator- error: NumType doesn't contain a value");
+
+    switch (value->getAlgebraType())
     {
     case ALGEBRA::REAL:
         if (auto l_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(this->value.get()))
@@ -444,7 +480,10 @@ NumType<ScalarType> NumType<ScalarType>::operator-(const NumType& right_op) cons
 template<typename ScalarType>
 NumType<ScalarType> NumType<ScalarType>::operator*(const NumType& right_op) const
 {
-    switch (this->getAlgebraType())
+    if (!is_valid())
+        throw std::runtime_error("NumType<ScalarType>::operator* error: NumType doesn't contain a value");
+
+    switch (value->getAlgebraType())
     {
     case ALGEBRA::REAL:
         if (auto l_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(this->value.get()))
@@ -486,7 +525,10 @@ NumType<ScalarType> NumType<ScalarType>::operator*(const NumType& right_op) cons
 template<typename ScalarType>
 NumType<ScalarType> NumType<ScalarType>::operator/(const NumType& right_op) const
 {
-    switch (this->getAlgebraType())
+    if (!is_valid())
+        throw std::runtime_error("NumType<ScalarType>::operator/ error: NumType doesn't contain a value");
+
+    switch (value->getAlgebraType())
     {
     case ALGEBRA::REAL:
         if (auto l_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(this->value.get()))
@@ -543,3 +585,9 @@ template<typename ScalarType>
 NumType<ScalarType>::NumType(Complex_NumType<ScalarType>&& complex_num) :
     value(new Complex_NumType(std::move(complex_num)))
 {}
+
+template<typename ScalarType>
+inline bool NumType<ScalarType>::is_valid() const
+{
+    return bool(value);
+}
