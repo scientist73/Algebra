@@ -69,7 +69,10 @@ namespace alg
             bool is_valid() const;
 
             std::unique_ptr<INumType<ScalarType>> value;
-        };        
+        };
+
+        template<typename ScalarType>
+        bool operator==(const NumType<ScalarType>& left_op, const NumType<ScalarType>& right_op);
     } // namespace num
 } // namespace alg
 
@@ -590,4 +593,26 @@ template<typename ScalarType>
 inline bool NumType<ScalarType>::is_valid() const
 {
     return bool(value);
+}
+
+template<typename ScalarType>
+bool alg::num::operator==(const NumType<ScalarType>& left_op, const NumType<ScalarType>& right_op)
+{
+    if (left_op.getAlgebraType() == right_op.getAlgebraType())
+    {
+        auto alg_t = left_op.getAlgebraType();
+
+        switch (alg_t)
+        {
+        case ALGEBRA::REAL:
+            return right_op.getReal() == left_op.getReal();
+        case ALGEBRA::COMPLEX:
+            return right_op.getComplex() == left_op.getComplex();
+        }
+    }
+    else
+        return false;
+    
+
+    
 }

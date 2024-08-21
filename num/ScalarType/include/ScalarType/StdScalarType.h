@@ -30,5 +30,11 @@ namespace alg
         StdScalarType operator/(const StdScalarType& right_op, const StdScalarType& left_op);
 
         bool operator>=(const StdScalarType& right_op, const StdScalarType& left_op);
+        bool operator<=(const StdScalarType& right_op, const StdScalarType& left_op);
+        bool operator>(const StdScalarType& right_op, const StdScalarType& left_op);
+        bool operator<(const StdScalarType& right_op, const StdScalarType& left_op);
+        bool operator==(const StdScalarType& right_op, const StdScalarType& left_op);
+        bool operator!=(const StdScalarType& right_op, const StdScalarType& left_op);
+
     } // namespace num
 } // namespace alg

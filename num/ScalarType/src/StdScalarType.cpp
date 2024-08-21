@@ -60,3 +60,23 @@ bool alg::num::operator>=(const StdScalarType& right_op, const StdScalarType& le
 {
     return right_op.scalar() >= left_op.scalar();
 }
+bool alg::num::operator<=(const StdScalarType& right_op, const StdScalarType& left_op)
+{
+    return right_op.scalar() <= left_op.scalar();
+}
+bool alg::num::operator>(const StdScalarType& right_op, const StdScalarType& left_op)
+{
+    return right_op.scalar() > left_op.scalar();
+}
+bool alg::num::operator<(const StdScalarType& right_op, const StdScalarType& left_op)
+{
+    return right_op.scalar() < left_op.scalar();
+}
+bool alg::num::operator==(const StdScalarType& right_op, const StdScalarType& left_op)
+{
+    return right_op.scalar() == left_op.scalar();
+}
+bool alg::num::operator!=(const StdScalarType& right_op, const StdScalarType& left_op)
+{
+    return right_op.scalar() != left_op.scalar();
+}

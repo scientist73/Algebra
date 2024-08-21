@@ -31,6 +31,20 @@ namespace alg
         template<typename ScalarType>
         Real<ScalarType> operator/(const Real<ScalarType>& left_op, const Real<ScalarType>& right_op);
 
+        template<typename ScalarType>
+        bool operator>=(const Real<ScalarType>& left_op, const Real<ScalarType>& right_op);
+        template<typename ScalarType>
+        bool operator<=(const Real<ScalarType>& left_op, const Real<ScalarType>& right_op);
+        template<typename ScalarType>
+        bool operator>(const Real<ScalarType>& left_op, const Real<ScalarType>& right_op);
+        template<typename ScalarType>
+        bool operator<(const Real<ScalarType>& left_op, const Real<ScalarType>& right_op);
+        template<typename ScalarType>
+        bool operator==(const Real<ScalarType>& left_op, const Real<ScalarType>& right_op);
+        template<typename ScalarType>
+        bool operator!=(const Real<ScalarType>& left_op, const Real<ScalarType>& right_op);
+        
+
     } // namespace num
 } // namespace alg
 
@@ -95,4 +109,35 @@ template<typename ScalarType>
 Real<ScalarType> alg::num::operator/(const Real<ScalarType>& left_op, const Real<ScalarType>& right_op)
 {
     return Real<ScalarType>(left_op.real() / right_op.real());
+}
+
+template<typename ScalarType>
+bool alg::num::operator>=(const Real<ScalarType>& left_op, const Real<ScalarType>& right_op)
+{
+    return left_op.real() >= right_op.real();
+}
+template<typename ScalarType>
+bool alg::num::operator<=(const Real<ScalarType>& left_op, const Real<ScalarType>& right_op)
+{
+    return left_op.real() <= right_op.real();
+}
+template<typename ScalarType>
+bool alg::num::operator>(const Real<ScalarType>& left_op, const Real<ScalarType>& right_op)
+{
+    return left_op.real() > right_op.real();
+}
+template<typename ScalarType>
+bool alg::num::operator<(const Real<ScalarType>& left_op, const Real<ScalarType>& right_op)
+{
+    return left_op.real() < right_op.real();
+}
+template<typename ScalarType>
+bool alg::num::operator==(const Real<ScalarType>& left_op, const Real<ScalarType>& right_op)
+{
+    return left_op.real() == right_op.real();
+}
+template<typename ScalarType>
+bool alg::num::operator!=(const Real<ScalarType>& left_op, const Real<ScalarType>& right_op)
+{
+    return left_op.real() != right_op.real();
 }
