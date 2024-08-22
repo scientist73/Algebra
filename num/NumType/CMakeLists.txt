@@ -22,9 +22,14 @@ if (NOT TARGET NumType)
     add_library(NumType INTERFACE)
     target_include_directories(NumType INTERFACE ${NumType_include_dirs})
 
-    add_subdirectory(../Real ../Real/build)
-    add_subdirectory(../Complex ../Complex/build)
-    add_subdirectory(../ScalarType ../ScalarType/build)
+
+    ########################################################################
+    #
+    # NumType's dependencies.
+
+    add_subdirectory(../Real build/Real)
+    add_subdirectory(../Complex build/Complex)
+    add_subdirectory(../ScalarType build/ScalarType)
 
     target_link_libraries(NumType INTERFACE Complex Real ScalarType)
 

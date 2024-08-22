@@ -30,3 +30,7 @@ add_subdirectory(num/Real)
 add_subdirectory(num/Complex)
 add_subdirectory(num/ScalarType)
 add_subdirectory(num/NumType)
+
+add_subdirectory(calc/tok/TokenType)
+add_subdirectory(calc/tok/TokenGenerator)
+add_subdirectory(calc/tok/TokenRegexGenerator)
