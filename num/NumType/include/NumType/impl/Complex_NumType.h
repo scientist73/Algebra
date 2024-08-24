@@ -1,11 +1,7 @@
 #pragma once
-#include <initializer_list>
-#include <complex>
-#include <utility>
-#include <cmath>
+#include <type_traits>
 #include "ALGEBRA.h"
-#include "NumType.h"
-#include "NumTypeOperators.h"
+#include "INumType.h"
 #include "Complex.h"
 #include "Real_NumType.h"
 
@@ -13,9 +9,6 @@ namespace alg
 {        
     namespace num
     {
-        template<typename ScalarType>
-        class INumType;
-
         namespace impl
         {
             template<typename ScalarType>
@@ -59,8 +52,6 @@ namespace alg
 } // namespace alg
 
 
-
-//#include "Complex_NumType.cpp"
 
 using namespace alg::num::impl;
 

@@ -2,29 +2,17 @@
 #include <memory>
 #include <string>
 #include "ALGEBRA.h"
-#include "Real_NumType.h"
-#include "Complex_NumType.h"
-#include "NumTypeOperators.h"
 #include "Real.h"
 #include "Complex.h"
+#include "INumType.h"
+#include "Real_NumType.h"
+#include "Complex_NumType.h"
+
 
 namespace alg
 {
     namespace num
     {
-        template<typename ScalarType>
-        class INumType
-        {
-        public:
-            virtual ~INumType() = default;
-
-            virtual std::string getString() const = 0;
-            virtual ALGEBRA getAlgebraType() const = 0;
-            virtual INumType<ScalarType>* getCopy() const = 0;
-        };  
-
-
-
         template<typename ScalarType>
         class NumType
         {
@@ -76,6 +64,9 @@ namespace alg
     } // namespace num
 } // namespace alg
 
+
+
+#include "NumTypeOperators.h"
 
 
 using namespace alg::num;

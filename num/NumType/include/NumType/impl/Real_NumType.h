@@ -1,23 +1,17 @@
 #pragma once
-#include "ALGEBRA.h"
-#include "NumType.h"
-#include "NumTypeOperators.h"
-#include "Real.h"
 #include <type_traits>
+#include "ALGEBRA.h"
+#include "INumType.h"
+#include "Real.h"
+
 
 
 namespace alg
 {        
     namespace num
     {
-        template<typename ScalarType>
-        class INumType;
-
         namespace impl
         {
-            template<typename ScalarType>
-            class Complex_NumType;
-
             template<typename ScalarType>
             class Real_NumType : public INumType<ScalarType>
             {                    
@@ -52,10 +46,6 @@ namespace alg
 } // namespace alg
 
 
-
-
-
-//#include "Real_NumType.cpp"
 
 using namespace alg::num::impl;
 

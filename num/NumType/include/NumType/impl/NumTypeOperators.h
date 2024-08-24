@@ -1,5 +1,6 @@
 #pragma once
-#include "NumType.h"
+#include "Real_NumType.h"
+#include "Complex_NumType.h"
 
 
 namespace alg
@@ -8,9 +9,6 @@ namespace alg
     {
         namespace impl
         {
-            template<typename ScalarType> class Real_NumType;
-            template<typename ScalarType> class Complex_NumType;
-        
             template<typename ScalarType> 
             Real_NumType<ScalarType> operator+(const Real_NumType<ScalarType>& left_op, const Real_NumType<ScalarType>& right_op);
             template<typename ScalarType> 
@@ -49,6 +47,7 @@ namespace alg
         } // namespace impl        
     } // namespace num
 } // namespace alg
+
 
 
 using namespace alg::num::impl;

@@ -49,7 +49,7 @@ namespace alg
             struct IdentifierTokenType
             {
             public:
-                enum class IDENTIFIER // change name and IDENTIFIER id as well
+                enum class IDENTIFIER
                 {
                     FUNC,
                     CONST,
@@ -65,6 +65,12 @@ namespace alg
                 std::string name;
             };
 
+            struct TerminationTokenType
+            {
+            public:
+                TerminationTokenType() {}
+            };
+
 
             struct TokenType
             {
@@ -74,20 +80,23 @@ namespace alg
                     OPERATOR,
                     NUM,
                     IDENTIFIER,
+                    TERMINATION,
                 };
 
                 TokenType(OperatorTokenType&& op) : token_t(TOKEN::OPERATOR), token(std::move(op)) {}
                 TokenType(NumTokenType&& num) : token_t(TOKEN::NUM), token(std::move(num)) {}
                 TokenType(IdentifierTokenType&& id) : token_t(TOKEN::IDENTIFIER), token(std::move(id)) {}
+                TokenType(TerminationTokenType&& term) : token_t(TOKEN::TERMINATION), token(std::move(term)) {}
 
                 TOKEN getTokenType() const { return token_t; }
                 OperatorTokenType getOperatorToken() const { try{ return std::get<OperatorTokenType>(token); } catch(...) { throw std::runtime_error(""); } }
                 NumTokenType getNumToken() const { try{ return std::get<NumTokenType>(token); } catch(...) { throw std::runtime_error(""); } }
                 IdentifierTokenType getIdentifierToken() const { try{ return std::get<IdentifierTokenType>(token); } catch(...) { throw std::runtime_error(""); } }
+                TerminationTokenType getTerminationToken() const { try{ return std::get<TerminationTokenType>(token); } catch(...) { throw std::runtime_error(""); } }
 
             private:
                 TOKEN token_t;
-                std::variant<OperatorTokenType, NumTokenType, IdentifierTokenType> token;
+                std::variant<OperatorTokenType, NumTokenType, IdentifierTokenType, TerminationTokenType> token;
             };
         } // namespace tok
     } // namespace calc

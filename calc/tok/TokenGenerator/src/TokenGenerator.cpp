@@ -14,3 +14,7 @@ TokenType TokenGenerator::constructIdentifierToken(IdentifierTokenType&& id_toke
 {
     return TokenType(std::move(id_token));   
 }
+TokenType TokenGenerator::constructTerminationToken(TerminationTokenType&& term_token)
+{
+    return TokenType(std::move(term_token));
+}
