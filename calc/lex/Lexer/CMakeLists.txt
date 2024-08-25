@@ -21,12 +21,11 @@ if (NOT TARGET Lexer)
     set(Lexer_src_files
     "${Lexer_SOURCE_DIR}/src/Lexer.cpp"
     "${Lexer_SOURCE_DIR}/src/impl/flex/Flex_Lexer.cpp"
-    "${Lexer_SOURCE_DIR}/src/impl/flex/FlexLexerGenerated.cpp"
     )
 
     # Flex lexer generator 
     find_package(FLEX)
-    FLEX_TARGET(FlexLexer src/impl/flex/FlexLexerGenerated.l  ${Lexer_SOURCE_DIR}/src/impl/flex/FlexLexerGenerated.cpp)
+    FLEX_TARGET(FlexLexer src/impl/flex/Flex_Lexer.l  ${Lexer_SOURCE_DIR}/src/impl/flex/Flex_Lexer.cpp)
 
     add_library(Lexer STATIC ${Lexer_src_files})
     target_include_directories(Lexer PUBLIC ${Lexer_include_dirs})

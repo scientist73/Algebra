@@ -23,6 +23,7 @@ namespace alg
                     FILE,
                     CIN,
                     NONE,
+                    END_OF_INPUT,
                 };
 
                 virtual ~ILexer() = default;
@@ -31,7 +32,7 @@ namespace alg
                 virtual void closeInput() = 0;
 
                 virtual INPUT getInputType() const = 0;
-                virtual TokenType getNextToken() const = 0;
+                virtual TokenType getNextToken() = 0;
             };
         } // namespace lex
     } // namespace calc
