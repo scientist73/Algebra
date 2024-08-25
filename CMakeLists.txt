@@ -33,6 +33,5 @@ add_subdirectory(num/NumType)
 
 add_subdirectory(calc/tok/TokenType)
 add_subdirectory(calc/tok/TokenGenerator)
-add_subdirectory(calc/tok/TokenRegexGenerator)
 
 add_subdirectory(calc/lex/Lexer)

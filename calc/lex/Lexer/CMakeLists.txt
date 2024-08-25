@@ -36,8 +36,7 @@ if (NOT TARGET Lexer)
 
     add_subdirectory(../../tok/TokenType build/TokenType)
     add_subdirectory(../../tok/TokenGenerator build/TokenGenerator)
-    add_subdirectory(../../tok/TokenRegexGenerator build/TokenRegexGenerator)
-    target_link_libraries(Lexer PRIVATE TokenType TokenGenerator TokenRegexGenerator)
+    target_link_libraries(Lexer PRIVATE TokenType TokenGenerator)
 
     ########################################################################
     #
