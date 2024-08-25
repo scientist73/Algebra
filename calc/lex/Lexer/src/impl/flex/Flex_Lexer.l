@@ -2,16 +2,15 @@
 #include <stdexcept>
 #include <string>
 #include "Flex_Lexer.h"
-#include "TokenRegexGenerator.h"
 #include "TokenGenerator.h"
 
 
 using alg::calc::lex::flex::Flex_Lexer;
 using alg::calc::tok::TokenType;
-using alg::calc::tok::TokenRegexGenerator;
 using alg::calc::tok::TokenGenerator;
 using alg::calc::tok::OperatorTokenType;
 using alg::calc::tok::NumTokenType;
+using alg::calc::tok::IdentifierTokenType;
 using alg::calc::tok::TerminationTokenType;
 %}
 
@@ -36,8 +35,9 @@ MINUS       "-"
 PLUS        "+"
 MULT        "*"
 DIV         "/"
-REAL        [0-9]+(\.[0-9]*)?
+REAL        [0-9]+(\.[0-9]+)?
 IMAG        "i"
+ID          [_a-zA-Z][_a-zA-Z0-9]*
 
 
 %%
@@ -50,10 +50,14 @@ IMAG        "i"
 {DIV} return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::DIV));
 
 {REAL} return TokenGenerator::constructNumTokenToken(NumTokenType(NumTokenType::NUM::REAL, yytext));
+{IMAG} return TokenGenerator::constructNumTokenToken(NumTokenType(NumTokenType::NUM::IMAG, "1"));
 {REAL}{IMAG} {
     yytext[strlen(yytext)-1] = '\0';
     return TokenGenerator::constructNumTokenToken(NumTokenType(NumTokenType::NUM::IMAG, yytext));
 }
+
+{ID} return TokenGenerator::constructIdentifierToken(IdentifierTokenType(yytext));
+
 
 . { throw std::runtime_error("some error"); }
 <<EOF>> yyterminate()
