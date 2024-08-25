@@ -49,26 +49,23 @@ namespace alg
             struct IdentifierTokenType
             {
             public:
-                enum class IDENTIFIER
-                {
-                    FUNC,
-                    CONST,
-                    VAR,
-                    UNKNOWN,
-                };
-
-                IdentifierTokenType(const std::string& name) : id(IDENTIFIER::UNKNOWN), name(name) {}
-                IdentifierTokenType(IDENTIFIER id, const std::string& name) : id(id), name(name) {}
+                IdentifierTokenType(const std::string& name) : name(name) {}
             
             private:
-                IDENTIFIER id;
                 std::string name;
             };
 
             struct TerminationTokenType
             {
             public:
-                TerminationTokenType() {}
+                enum class TERMINATION
+                {
+                    END_OF_INPUT,
+                    END_OF_LINE
+                };
+                TerminationTokenType(TERMINATION term) : term(term) {}
+            private:
+                TERMINATION term;
             };
 
 

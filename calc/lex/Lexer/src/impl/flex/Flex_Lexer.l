@@ -1,5 +1,6 @@
 %{
 #include <stdexcept>
+#include <string>
 #include "Flex_Lexer.h"
 #include "TokenRegexGenerator.h"
 #include "TokenGenerator.h"
@@ -10,6 +11,7 @@ using alg::calc::tok::TokenType;
 using alg::calc::tok::TokenRegexGenerator;
 using alg::calc::tok::TokenGenerator;
 using alg::calc::tok::OperatorTokenType;
+using alg::calc::tok::NumTokenType;
 using alg::calc::tok::TerminationTokenType;
 %}
 
@@ -17,31 +19,46 @@ using alg::calc::tok::TerminationTokenType;
 %option batch
 %option debug
 
-blank [ \t\r]
-new_line \n
 
 %{
 #define yyterminate() \
 input_t = INPUT::END_OF_INPUT;\
-return TokenGenerator::constructTerminationToken(TerminationTokenType());
+return TokenGenerator::constructTerminationToken(TerminationTokenType(TerminationTokenType::TERMINATION::END_OF_INPUT));
 
 #define YY_USER_INIT \
 if (input_t == Flex_Lexer::INPUT::NONE || input_t == Flex_Lexer::INPUT::END_OF_INPUT)\
     throw std::runtime_error("some error");
 %}
 
+blank       [ \t\r]
+new_line    "\n"
+MINUS       "-"
+PLUS        "+"
+MULT        "*"
+DIV         "/"
+REAL        [0-9]+(\.[0-9]*)?
+IMAG        "i"
+
 
 %%
 {blank}+
-{new_line}+
+{new_line} return TokenGenerator::constructTerminationToken(TerminationTokenType(TerminationTokenType::TERMINATION::END_OF_LINE));
 
+{MINUS} return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::MINUS));
+{PLUS} return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::PLUS));
+{MULT} return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::MULT));
+{DIV} return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::DIV));
 
-TokenRegexGenerator::getOperatorRegex(OPERATOR::MINUS) return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::MINUS));
-TokenRegexGenerator::getOperatorRegex(OPERATOR::PLUS) return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::PLUS));
+{REAL} return TokenGenerator::constructNumTokenToken(NumTokenType(NumTokenType::NUM::REAL, yytext));
+{REAL}{IMAG} {
+    yytext[strlen(yytext)-1] = '\0';
+    return TokenGenerator::constructNumTokenToken(NumTokenType(NumTokenType::NUM::IMAG, yytext));
+}
+
 . { throw std::runtime_error("some error"); }
 <<EOF>> yyterminate()
-
 %%
+
 
 static YY_BUFFER_STATE yy_input_buf;
 

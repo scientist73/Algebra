@@ -12,7 +12,7 @@ namespace alg
             public:
                 static std::string getOperatorRegex(OperatorTokenType::OPERATOR op_t);
                 static std::string getNumTokenRegex(NumTokenType::NUM num_t);
-                static std::string getIdentifierRegex(IdentifierTokenType::IDENTIFIER id_t = IdentifierTokenType::IDENTIFIER::UNKNOWN);
+                static std::string getIdentifierRegex();
 
             private:
                 TokenRegexGenerator() = default;
