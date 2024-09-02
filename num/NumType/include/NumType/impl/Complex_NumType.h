@@ -15,33 +15,33 @@ namespace alg
             class Complex_NumType : public INumType<ScalarType>
             {                    
             public:
-                Complex_NumType(const Complex<ScalarType>& value);
-                Complex_NumType(Complex<ScalarType>&& value);
+                constexpr Complex_NumType(const Complex<ScalarType>& value);
+                constexpr Complex_NumType(Complex<ScalarType>&& value);
 
-                Complex_NumType(const Complex_NumType<ScalarType>& num) = default;
-                Complex_NumType(Complex_NumType<ScalarType>&& num) = default;
-                Complex_NumType(const Real_NumType<ScalarType>& num);
-                Complex_NumType(Real_NumType<ScalarType>&& num);
+                constexpr Complex_NumType(const Complex_NumType<ScalarType>& num) = default;
+                constexpr Complex_NumType(Complex_NumType<ScalarType>&& num) = default;
+                constexpr Complex_NumType(const Real_NumType<ScalarType>& num);
+                constexpr Complex_NumType(Real_NumType<ScalarType>&& num);
                 ~Complex_NumType() override = default;
 
                 std::string getString() const override;
-                ALGEBRA getAlgebraType() const override;
-                INumType<ScalarType>* getCopy() const override;
+                constexpr ALGEBRA getAlgebraType() const override;
+                constexpr INumType<ScalarType>* getCopy() const override;
 
-                const Complex<ScalarType>& getComplex() const;
+                constexpr const Complex<ScalarType>& getComplex() const;
 
-                Complex_NumType<ScalarType>& operator=(const Complex_NumType<ScalarType>& num) = delete;
-                Complex_NumType<ScalarType>& operator=(Complex_NumType<ScalarType>&& num) = delete;
+                constexpr Complex_NumType<ScalarType>& operator=(const Complex_NumType<ScalarType>& num) = delete;
+                constexpr Complex_NumType<ScalarType>& operator=(Complex_NumType<ScalarType>&& num) = delete;
 
-                Complex_NumType<ScalarType>& operator+=(const Real_NumType<ScalarType>& right_op);
-                Complex_NumType<ScalarType>& operator-=(const Real_NumType<ScalarType>& right_op);
-                Complex_NumType<ScalarType>& operator*=(const Real_NumType<ScalarType>& right_op);
-                Complex_NumType<ScalarType>& operator/=(const Real_NumType<ScalarType>& right_op);
+                constexpr Complex_NumType<ScalarType>& operator+=(const Real_NumType<ScalarType>& right_op);
+                constexpr Complex_NumType<ScalarType>& operator-=(const Real_NumType<ScalarType>& right_op);
+                constexpr Complex_NumType<ScalarType>& operator*=(const Real_NumType<ScalarType>& right_op);
+                constexpr Complex_NumType<ScalarType>& operator/=(const Real_NumType<ScalarType>& right_op);
 
-                Complex_NumType<ScalarType>& operator+=(const Complex_NumType<ScalarType>& right_op);
-                Complex_NumType<ScalarType>& operator-=(const Complex_NumType<ScalarType>& right_op);
-                Complex_NumType<ScalarType>& operator*=(const Complex_NumType<ScalarType>& right_op);
-                Complex_NumType<ScalarType>& operator/=(const Complex_NumType<ScalarType>& right_op);
+                constexpr Complex_NumType<ScalarType>& operator+=(const Complex_NumType<ScalarType>& right_op);
+                constexpr Complex_NumType<ScalarType>& operator-=(const Complex_NumType<ScalarType>& right_op);
+                constexpr Complex_NumType<ScalarType>& operator*=(const Complex_NumType<ScalarType>& right_op);
+                constexpr Complex_NumType<ScalarType>& operator/=(const Complex_NumType<ScalarType>& right_op);
 
             private:
 
@@ -57,20 +57,20 @@ using namespace alg::num::impl;
 
 
 template<typename ScalarType>
-Complex_NumType<ScalarType>::Complex_NumType(const Complex<ScalarType>& value) :
+constexpr Complex_NumType<ScalarType>::Complex_NumType(const Complex<ScalarType>& value) :
     value(value)
 {}
 template<typename ScalarType>
-Complex_NumType<ScalarType>::Complex_NumType(Complex<ScalarType>&& value) :
+constexpr Complex_NumType<ScalarType>::Complex_NumType(Complex<ScalarType>&& value) :
     value(std::move(value))
 {}
 
 template<typename ScalarType>
-Complex_NumType<ScalarType>::Complex_NumType(const Real_NumType<ScalarType>& num) :
+constexpr Complex_NumType<ScalarType>::Complex_NumType(const Real_NumType<ScalarType>& num) :
     value(num.getReal().real(), 0)
 {}
 template<typename ScalarType>
-Complex_NumType<ScalarType>::Complex_NumType(Real_NumType<ScalarType>&& num) :
+constexpr Complex_NumType<ScalarType>::Complex_NumType(Real_NumType<ScalarType>&& num) :
     value(std::move(num.getReal().real()), 0)
 {}
 
@@ -93,67 +93,67 @@ std::string Complex_NumType<ScalarType>::getString() const
     }
 }
 template<typename ScalarType>
-ALGEBRA Complex_NumType<ScalarType>::getAlgebraType() const
+constexpr ALGEBRA Complex_NumType<ScalarType>::getAlgebraType() const
 {
     return ALGEBRA::COMPLEX;
 }
 template<typename ScalarType>
-INumType<ScalarType>* Complex_NumType<ScalarType>::getCopy() const
+constexpr INumType<ScalarType>* Complex_NumType<ScalarType>::getCopy() const
 {
     return new Complex_NumType<ScalarType>(this->value);
 }
 
 template<typename ScalarType>
-const Complex<ScalarType>& Complex_NumType<ScalarType>::getComplex() const
+constexpr const Complex<ScalarType>& Complex_NumType<ScalarType>::getComplex() const
 {
     return value;
 }
 
 template<typename ScalarType>
-Complex_NumType<ScalarType>& Complex_NumType<ScalarType>::operator+=(const Real_NumType<ScalarType>& right_op)
+constexpr Complex_NumType<ScalarType>& Complex_NumType<ScalarType>::operator+=(const Real_NumType<ScalarType>& right_op)
 {
     this->value.real(this->value.real() + right_op.getReal().real());
     return *this;
 }
 template<typename ScalarType>
-Complex_NumType<ScalarType>& Complex_NumType<ScalarType>::operator-=(const Real_NumType<ScalarType>& right_op)
+constexpr Complex_NumType<ScalarType>& Complex_NumType<ScalarType>::operator-=(const Real_NumType<ScalarType>& right_op)
 {
     this->value.real(this->value.real() - right_op.getReal().real());
     return *this;
 }
 template<typename ScalarType>
-Complex_NumType<ScalarType>& Complex_NumType<ScalarType>::operator*=(const Real_NumType<ScalarType>& right_op)
+constexpr Complex_NumType<ScalarType>& Complex_NumType<ScalarType>::operator*=(const Real_NumType<ScalarType>& right_op)
 {
     this->value.real(this->value.real() * right_op.getReal().real());
     return *this;
 }
 template<typename ScalarType>
-Complex_NumType<ScalarType>& Complex_NumType<ScalarType>::operator/=(const Real_NumType<ScalarType>& right_op)
+constexpr Complex_NumType<ScalarType>& Complex_NumType<ScalarType>::operator/=(const Real_NumType<ScalarType>& right_op)
 {
     this->value.real(this->value.real() / right_op.getReal().real());
     return *this;
 }
 
 template<typename ScalarType>
-Complex_NumType<ScalarType>& Complex_NumType<ScalarType>::operator+=(const Complex_NumType<ScalarType>& right_op)
+constexpr Complex_NumType<ScalarType>& Complex_NumType<ScalarType>::operator+=(const Complex_NumType<ScalarType>& right_op)
 {
     this->value += right_op.value;
     return *this;
 }
 template<typename ScalarType>
-Complex_NumType<ScalarType>& Complex_NumType<ScalarType>::operator-=(const Complex_NumType<ScalarType>& right_op)
+constexpr Complex_NumType<ScalarType>& Complex_NumType<ScalarType>::operator-=(const Complex_NumType<ScalarType>& right_op)
 {
     this->value -= right_op.value;
     return *this;
 }
 template<typename ScalarType>
-Complex_NumType<ScalarType>& Complex_NumType<ScalarType>::operator*=(const Complex_NumType<ScalarType>& right_op)
+constexpr Complex_NumType<ScalarType>& Complex_NumType<ScalarType>::operator*=(const Complex_NumType<ScalarType>& right_op)
 {
     this->value *= right_op.value;
     return *this;
 }
 template<typename ScalarType>
-Complex_NumType<ScalarType>& Complex_NumType<ScalarType>::operator/=(const Complex_NumType<ScalarType>& right_op)
+constexpr Complex_NumType<ScalarType>& Complex_NumType<ScalarType>::operator/=(const Complex_NumType<ScalarType>& right_op)
 {
     this->value /= right_op.value;
     return *this;

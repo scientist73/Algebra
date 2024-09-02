@@ -17,50 +17,50 @@ namespace alg
         class NumType
         {
         public:
-            NumType(const Real<ScalarType>& real_num);
-            NumType(Real<ScalarType>&& real_num);
-            NumType(const Complex<ScalarType>& complex_num);
-            NumType(Complex<ScalarType>&& complex_num);
+            constexpr NumType(const Real<ScalarType>& real_num);
+            constexpr NumType(Real<ScalarType>&& real_num);
+            constexpr NumType(const Complex<ScalarType>& complex_num);
+            constexpr NumType(Complex<ScalarType>&& complex_num);
 
-            NumType(const NumType<ScalarType>& num);
-            NumType(NumType<ScalarType>&& num) = default;
+            constexpr NumType(const NumType<ScalarType>& num);
+            constexpr NumType(NumType<ScalarType>&& num) = default;
             ~NumType() = default;
 
             std::string getString() const;
-            ALGEBRA getAlgebraType() const;
+            constexpr ALGEBRA getAlgebraType() const;
 
-            Real<ScalarType> getReal() const;
-            Complex<ScalarType> getComplex() const;
+            constexpr Real<ScalarType> getReal() const;
+            constexpr Complex<ScalarType> getComplex() const;
 
-            NumType<ScalarType>& operator=(const Real<ScalarType>& real_num);
-            NumType<ScalarType>& operator=(const Complex<ScalarType>& complex_num);
+            constexpr NumType<ScalarType>& operator=(const Real<ScalarType>& real_num);
+            constexpr NumType<ScalarType>& operator=(const Complex<ScalarType>& complex_num);
 
-            NumType<ScalarType>& operator=(const NumType& num);
-            NumType<ScalarType>& operator=(NumType&& num) = default;
+            constexpr NumType<ScalarType>& operator=(const NumType& num);
+            constexpr NumType<ScalarType>& operator=(NumType&& num) = default;
 
-            NumType<ScalarType>& operator+=(const NumType& right_op);
-            NumType<ScalarType>& operator-=(const NumType& right_op);
-            NumType<ScalarType>& operator*=(const NumType& right_op);
-            NumType<ScalarType>& operator/=(const NumType& right_op);
+            constexpr NumType<ScalarType>& operator+=(const NumType& right_op);
+            constexpr NumType<ScalarType>& operator-=(const NumType& right_op);
+            constexpr NumType<ScalarType>& operator*=(const NumType& right_op);
+            constexpr NumType<ScalarType>& operator/=(const NumType& right_op);
 
-            NumType<ScalarType> operator+(const NumType& right_op) const;
-            NumType<ScalarType> operator-(const NumType& right_op) const;
-            NumType<ScalarType> operator*(const NumType& right_op) const;
-            NumType<ScalarType> operator/(const NumType& right_op) const;
+            constexpr NumType<ScalarType> operator+(const NumType& right_op) const;
+            constexpr NumType<ScalarType> operator-(const NumType& right_op) const;
+            constexpr NumType<ScalarType> operator*(const NumType& right_op) const;
+            constexpr NumType<ScalarType> operator/(const NumType& right_op) const;
 
         private:
-            NumType(const Real_NumType<ScalarType>& real_num);
-            NumType(Real_NumType<ScalarType>&& real_num);
-            NumType(const Complex_NumType<ScalarType>& complex_num);
-            NumType(Complex_NumType<ScalarType>&& complex_num);
+            constexpr NumType(const Real_NumType<ScalarType>& real_num);
+            constexpr NumType(Real_NumType<ScalarType>&& real_num);
+            constexpr NumType(const Complex_NumType<ScalarType>& complex_num);
+            constexpr NumType(Complex_NumType<ScalarType>&& complex_num);
 
-            bool is_valid() const;
+            constexpr bool is_valid() const;
 
             std::unique_ptr<INumType<ScalarType>> value;
         };
 
         template<typename ScalarType>
-        bool operator==(const NumType<ScalarType>& left_op, const NumType<ScalarType>& right_op);
+        constexpr bool operator==(const NumType<ScalarType>& left_op, const NumType<ScalarType>& right_op);
     } // namespace num
 } // namespace alg
 
@@ -73,24 +73,24 @@ using namespace alg::num;
 
 
 template<typename ScalarType>
-NumType<ScalarType>::NumType(const Real<ScalarType>& real_num) :
+constexpr NumType<ScalarType>::NumType(const Real<ScalarType>& real_num) :
     value(new Real_NumType<ScalarType>(real_num))
 {}
 template<typename ScalarType>
-NumType<ScalarType>::NumType(Real<ScalarType>&& real_num) :
+constexpr NumType<ScalarType>::NumType(Real<ScalarType>&& real_num) :
     value(new Real_NumType<ScalarType>(std::move(real_num)))
 {}
 template<typename ScalarType>
-NumType<ScalarType>::NumType(const Complex<ScalarType>& complex_num) :
+constexpr NumType<ScalarType>::NumType(const Complex<ScalarType>& complex_num) :
     value(new Complex_NumType<ScalarType>(complex_num))
 {}
 template<typename ScalarType>
-NumType<ScalarType>::NumType(Complex<ScalarType>&& complex_num) :
+constexpr NumType<ScalarType>::NumType(Complex<ScalarType>&& complex_num) :
     value(new Complex_NumType<ScalarType>(std::move(complex_num)))
 {}
 
 template<typename ScalarType>
-NumType<ScalarType>::NumType(const NumType<ScalarType>& num) :
+constexpr NumType<ScalarType>::NumType(const NumType<ScalarType>& num) :
     value(num.value->getCopy())
 {}
 
@@ -102,7 +102,7 @@ std::string NumType<ScalarType>::getString() const
     return value->getString();
 }
 template<typename ScalarType>
-ALGEBRA NumType<ScalarType>::getAlgebraType() const
+constexpr ALGEBRA NumType<ScalarType>::getAlgebraType() const
 {
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::getAlgebraType() error: NumType doesn't contain a value");
@@ -110,7 +110,7 @@ ALGEBRA NumType<ScalarType>::getAlgebraType() const
 }
 
 template<typename ScalarType>
-Real<ScalarType> NumType<ScalarType>::getReal() const
+constexpr Real<ScalarType> NumType<ScalarType>::getReal() const
 {
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::getReal() error: NumType doesn't contain a value");
@@ -121,7 +121,7 @@ Real<ScalarType> NumType<ScalarType>::getReal() const
         throw std::runtime_error("NumType<ScalarType>::getReal() error: NumType is not a Real type");
 }
 template<typename ScalarType>
-Complex<ScalarType> NumType<ScalarType>::getComplex() const
+constexpr Complex<ScalarType> NumType<ScalarType>::getComplex() const
 {
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::getComplex() error: NumType doesn't contain a value");
@@ -133,27 +133,27 @@ Complex<ScalarType> NumType<ScalarType>::getComplex() const
 }
 
 template<typename ScalarType>
-NumType<ScalarType>& NumType<ScalarType>::operator=(const Real<ScalarType>& real_num)
+constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(const Real<ScalarType>& real_num)
 {
     value.reset(new Real<ScalarType>(real_num));
     return *this;
 }
 template<typename ScalarType>
-NumType<ScalarType>& NumType<ScalarType>::operator=(const Complex<ScalarType>& complex_num)
+constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(const Complex<ScalarType>& complex_num)
 {
     value.reset(new Complex<ScalarType>(complex_num));
     return *this;    
 }
 
 template<typename ScalarType>
-NumType<ScalarType>& NumType<ScalarType>::operator=(const NumType& num)
+constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(const NumType& num)
 {
     value.reset(new NumType<ScalarType>(num));
     return *this;
 }
 
 template<typename ScalarType>
-NumType<ScalarType>& NumType<ScalarType>::operator+=(const NumType& right_op)
+constexpr NumType<ScalarType>& NumType<ScalarType>::operator+=(const NumType& right_op)
 {
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator+= error: NumType doesn't contain a value");
@@ -210,7 +210,7 @@ NumType<ScalarType>& NumType<ScalarType>::operator+=(const NumType& right_op)
     throw std::runtime_error("NumType<ScalarType>::operator+= error");
 }
 template<typename ScalarType>
-NumType<ScalarType>& NumType<ScalarType>::operator-=(const NumType& right_op)
+constexpr NumType<ScalarType>& NumType<ScalarType>::operator-=(const NumType& right_op)
 {
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator-= error: NumType doesn't contain a value");
@@ -267,7 +267,7 @@ NumType<ScalarType>& NumType<ScalarType>::operator-=(const NumType& right_op)
     throw std::runtime_error("NumType<ScalarType>::operator-= error");
 }
 template<typename ScalarType>
-NumType<ScalarType>& NumType<ScalarType>::operator*=(const NumType& right_op)
+constexpr NumType<ScalarType>& NumType<ScalarType>::operator*=(const NumType& right_op)
 {
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator*= error: NumType doesn't contain a value");
@@ -324,7 +324,7 @@ NumType<ScalarType>& NumType<ScalarType>::operator*=(const NumType& right_op)
     throw std::runtime_error("NumType<ScalarType>::operator*= error");
 }
 template<typename ScalarType>
-NumType<ScalarType>& NumType<ScalarType>::operator/=(const NumType& right_op)
+constexpr NumType<ScalarType>& NumType<ScalarType>::operator/=(const NumType& right_op)
 {
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator/= error: NumType doesn't contain a value");
@@ -382,7 +382,7 @@ NumType<ScalarType>& NumType<ScalarType>::operator/=(const NumType& right_op)
 }
 
 template<typename ScalarType>
-NumType<ScalarType> NumType<ScalarType>::operator+(const NumType& right_op) const
+constexpr NumType<ScalarType> NumType<ScalarType>::operator+(const NumType& right_op) const
 {
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator+ error: NumType doesn't contain a value");
@@ -427,7 +427,7 @@ NumType<ScalarType> NumType<ScalarType>::operator+(const NumType& right_op) cons
     throw std::runtime_error("NumType<ScalarType>::operator+ error");
 }
 template<typename ScalarType>
-NumType<ScalarType> NumType<ScalarType>::operator-(const NumType& right_op) const
+constexpr NumType<ScalarType> NumType<ScalarType>::operator-(const NumType& right_op) const
 {
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator- error: NumType doesn't contain a value");
@@ -472,7 +472,7 @@ NumType<ScalarType> NumType<ScalarType>::operator-(const NumType& right_op) cons
     throw std::runtime_error("NumType<ScalarType>::operator- error");
 }
 template<typename ScalarType>
-NumType<ScalarType> NumType<ScalarType>::operator*(const NumType& right_op) const
+constexpr NumType<ScalarType> NumType<ScalarType>::operator*(const NumType& right_op) const
 {
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator* error: NumType doesn't contain a value");
@@ -517,7 +517,7 @@ NumType<ScalarType> NumType<ScalarType>::operator*(const NumType& right_op) cons
     throw std::runtime_error("NumType<ScalarType>::operator* error");
 }
 template<typename ScalarType>
-NumType<ScalarType> NumType<ScalarType>::operator/(const NumType& right_op) const
+constexpr NumType<ScalarType> NumType<ScalarType>::operator/(const NumType& right_op) const
 {
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator/ error: NumType doesn't contain a value");
@@ -564,30 +564,30 @@ NumType<ScalarType> NumType<ScalarType>::operator/(const NumType& right_op) cons
 
 
 template<typename ScalarType>
-NumType<ScalarType>::NumType(const Real_NumType<ScalarType>& real_num) :
+constexpr NumType<ScalarType>::NumType(const Real_NumType<ScalarType>& real_num) :
     value(new Real_NumType(real_num))
 {}
 template<typename ScalarType>
-NumType<ScalarType>::NumType(Real_NumType<ScalarType>&& real_num) :
+constexpr NumType<ScalarType>::NumType(Real_NumType<ScalarType>&& real_num) :
     value(new Real_NumType(std::move(real_num)))
 {}
 template<typename ScalarType>
-NumType<ScalarType>::NumType(const Complex_NumType<ScalarType>& complex_num) :
+constexpr NumType<ScalarType>::NumType(const Complex_NumType<ScalarType>& complex_num) :
     value(new Complex_NumType(complex_num))
 {}
 template<typename ScalarType>
-NumType<ScalarType>::NumType(Complex_NumType<ScalarType>&& complex_num) :
+constexpr NumType<ScalarType>::NumType(Complex_NumType<ScalarType>&& complex_num) :
     value(new Complex_NumType(std::move(complex_num)))
 {}
 
 template<typename ScalarType>
-inline bool NumType<ScalarType>::is_valid() const
+inline constexpr bool NumType<ScalarType>::is_valid() const
 {
     return bool(value);
 }
 
 template<typename ScalarType>
-bool alg::num::operator==(const NumType<ScalarType>& left_op, const NumType<ScalarType>& right_op)
+constexpr bool alg::num::operator==(const NumType<ScalarType>& left_op, const NumType<ScalarType>& right_op)
 {
     if (left_op.getAlgebraType() == right_op.getAlgebraType())
     {

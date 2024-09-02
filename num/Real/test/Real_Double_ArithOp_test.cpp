@@ -1,4 +1,4 @@
-#include "Real.h"
+#include "Real_Double.h"
 #include "gtest/gtest.h"
 
 using alg::num::Real;
@@ -6,17 +6,17 @@ using alg::num::Real;
 
 struct Operation
 {
-    long double l_op;
-    long double r_op;
-    long double res;
+    double l_op;
+    double r_op;
+    double res;
 };
 
 class RealTests : public ::testing::TestWithParam<Operation> 
 {
 public:
-    void InitOperands(long double r_op, long double l_op) { this->r_op = Real<long double>(r_op); this->l_op = Real<long double>(l_op); }
+    void InitOperands(double r_op, double l_op) { this->r_op = Real<double>(r_op); this->l_op = Real<double>(l_op); }
 protected:
-    Real<long double> r_op, l_op;
+    Real<double> r_op, l_op;
 };
 
 //*************************************************************SUM*************************************************************//
@@ -27,7 +27,7 @@ TEST_P(RealSumTests, sum_of_two_real_numbers)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
-    Real<long double> res = r_op + l_op;
+    Real<double> res = r_op + l_op;
 
     EXPECT_DOUBLE_EQ(res.real(), GetParam().res);
 }
@@ -42,7 +42,7 @@ TEST_P(RealSubTests, sub_of_two_real_numbers)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
-    Real<long double> res = r_op - l_op;
+    Real<double> res = r_op - l_op;
 
     EXPECT_DOUBLE_EQ(res.real(), GetParam().res);
 }
@@ -57,7 +57,7 @@ TEST_P(RealMulTests, mul_of_two_real_numbers)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
-    Real<long double> res = r_op * l_op;
+    Real<double> res = r_op * l_op;
 
     EXPECT_DOUBLE_EQ(res.real(), GetParam().res);
 }
@@ -72,9 +72,19 @@ TEST_P(RealDivTests, div_of_two_real_numbers)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
-    Real<long double> res = r_op / l_op;
+    Real<double> res = r_op / l_op;
 
     EXPECT_DOUBLE_EQ(res.real(), GetParam().res);
 }
 
 INSTANTIATE_TEST_SUITE_P(Default, RealDivTests, ::testing::Values(Operation{1,1,1}, Operation{3,4,0.75}, Operation{34,16,2.125}));
+
+
+
+TEST(sd,ds)
+{
+    constexpr Real<double> var1 = 5.6;
+
+    constexpr Real<double> var2(var1);
+    constexpr Real<double> var3(Real<double>(5.3));
+}

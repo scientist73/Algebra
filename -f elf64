@@ -1,0 +1,52 @@
+[
+{
+  "directory": "/home/scientist73/projects/Algebra/build/num/Real",
+  "command": "/usr/bin/clang++  -I/home/scientist73/projects/Algebra/num/Real/include/Real -g -DGTEST_HAS_PTHREAD=1 -std=gnu++17 -o CMakeFiles/Real_test.dir/test/Real_Double_ArithOp_test.cpp.o -c /home/scientist73/projects/Algebra/num/Real/test/Real_Double_ArithOp_test.cpp",
+  "file": "/home/scientist73/projects/Algebra/num/Real/test/Real_Double_ArithOp_test.cpp"
+},
+{
+  "directory": "/home/scientist73/projects/Algebra/build/num/Complex",
+  "command": "/usr/bin/clang++  -I/home/scientist73/projects/Algebra/num/Complex/include/Complex -g -DGTEST_HAS_PTHREAD=1 -std=gnu++17 -o CMakeFiles/Complex_test.dir/test/Complex_test.cpp.o -c /home/scientist73/projects/Algebra/num/Complex/test/Complex_test.cpp",
+  "file": "/home/scientist73/projects/Algebra/num/Complex/test/Complex_test.cpp"
+},
+{
+  "directory": "/home/scientist73/projects/Algebra/build/num/ScalarType",
+  "command": "/usr/bin/clang++  -I/home/scientist73/projects/Algebra/num/ScalarType/include/ScalarType -g -std=gnu++17 -o CMakeFiles/ScalarType.dir/src/StdScalarType.cpp.o -c /home/scientist73/projects/Algebra/num/ScalarType/src/StdScalarType.cpp",
+  "file": "/home/scientist73/projects/Algebra/num/ScalarType/src/StdScalarType.cpp"
+},
+{
+  "directory": "/home/scientist73/projects/Algebra/build/num/ScalarType",
+  "command": "/usr/bin/clang++  -I/home/scientist73/projects/Algebra/num/ScalarType/include/ScalarType -g -DGTEST_HAS_PTHREAD=1 -std=gnu++17 -o CMakeFiles/ScalarType_test.dir/test/ScalarType_test.cpp.o -c /home/scientist73/projects/Algebra/num/ScalarType/test/ScalarType_test.cpp",
+  "file": "/home/scientist73/projects/Algebra/num/ScalarType/test/ScalarType_test.cpp"
+},
+{
+  "directory": "/home/scientist73/projects/Algebra/build/num/NumType",
+  "command": "/usr/bin/clang++  -I/home/scientist73/projects/Algebra/num/NumType/include/NumType -I/home/scientist73/projects/Algebra/num/NumType/include/NumType/impl -I/home/scientist73/projects/Algebra/num/Complex/include/Complex -I/home/scientist73/projects/Algebra/num/Real/include/Real -I/home/scientist73/projects/Algebra/num/ScalarType/include/ScalarType -g -DGTEST_HAS_PTHREAD=1 -std=gnu++17 -o CMakeFiles/NumType_test.dir/test/NumType_test.cpp.o -c /home/scientist73/projects/Algebra/num/NumType/test/NumType_test.cpp",
+  "file": "/home/scientist73/projects/Algebra/num/NumType/test/NumType_test.cpp"
+},
+{
+  "directory": "/home/scientist73/projects/Algebra/build/calc/tok/TokenGenerator",
+  "command": "/usr/bin/clang++  -I/home/scientist73/projects/Algebra/calc/tok/TokenGenerator/include/TokenGenerator -I/home/scientist73/projects/Algebra/calc/tok/TokenType/include/TokenType -g -std=gnu++17 -o CMakeFiles/TokenGenerator.dir/src/TokenGenerator.cpp.o -c /home/scientist73/projects/Algebra/calc/tok/TokenGenerator/src/TokenGenerator.cpp",
+  "file": "/home/scientist73/projects/Algebra/calc/tok/TokenGenerator/src/TokenGenerator.cpp"
+},
+{
+  "directory": "/home/scientist73/projects/Algebra/build/calc/tok/TokenGenerator",
+  "command": "/usr/bin/clang++  -I/home/scientist73/projects/Algebra/calc/tok/TokenGenerator/include/TokenGenerator -g -DGTEST_HAS_PTHREAD=1 -std=gnu++17 -o CMakeFiles/TokenGenerator_test.dir/test/TokenGenerator_test.cpp.o -c /home/scientist73/projects/Algebra/calc/tok/TokenGenerator/test/TokenGenerator_test.cpp",
+  "file": "/home/scientist73/projects/Algebra/calc/tok/TokenGenerator/test/TokenGenerator_test.cpp"
+},
+{
+  "directory": "/home/scientist73/projects/Algebra/build/calc/lex/Lexer",
+  "command": "/usr/bin/clang++  -I/home/scientist73/projects/Algebra/calc/lex/Lexer/include/Lexer -I/home/scientist73/projects/Algebra/calc/lex/Lexer/include/Lexer/impl/flex -I/home/scientist73/projects/Algebra/calc/tok/TokenType/include/TokenType -I/home/scientist73/projects/Algebra/calc/tok/TokenGenerator/include/TokenGenerator -g -std=gnu++17 -o CMakeFiles/Lexer.dir/src/Lexer.cpp.o -c /home/scientist73/projects/Algebra/calc/lex/Lexer/src/Lexer.cpp",
+  "file": "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/Lexer.cpp"
+},
+{
+  "directory": "/home/scientist73/projects/Algebra/build/calc/lex/Lexer",
+  "command": "/usr/bin/clang++  -I/home/scientist73/projects/Algebra/calc/lex/Lexer/include/Lexer -I/home/scientist73/projects/Algebra/calc/lex/Lexer/include/Lexer/impl/flex -I/home/scientist73/projects/Algebra/calc/tok/TokenType/include/TokenType -I/home/scientist73/projects/Algebra/calc/tok/TokenGenerator/include/TokenGenerator -g -std=gnu++17 -o CMakeFiles/Lexer.dir/src/impl/flex/Flex_Lexer.cpp.o -c /home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.cpp",
+  "file": "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.cpp"
+},
+{
+  "directory": "/home/scientist73/projects/Algebra/build/calc/lex/Lexer",
+  "command": "/usr/bin/clang++  -I/home/scientist73/projects/Algebra/calc/lex/Lexer/include/Lexer -I/home/scientist73/projects/Algebra/calc/lex/Lexer/include/Lexer/impl/flex -I/home/scientist73/projects/Algebra/calc/tok/TokenType/include/TokenType -I/home/scientist73/projects/Algebra/calc/tok/TokenGenerator/include/TokenGenerator -g -DGTEST_HAS_PTHREAD=1 -std=gnu++17 -o CMakeFiles/Lexer_test.dir/test/Lexer_test.cpp.o -c /home/scientist73/projects/Algebra/calc/lex/Lexer/test/Lexer_test.cpp",
+  "file": "/home/scientist73/projects/Algebra/calc/lex/Lexer/test/Lexer_test.cpp"
+}
+]
