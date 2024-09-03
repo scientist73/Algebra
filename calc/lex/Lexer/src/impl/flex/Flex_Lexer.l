@@ -21,12 +21,13 @@ using alg::calc::tok::TerminationTokenType;
 
 %{
 #define yyterminate() \
-input_t = INPUT::END_OF_INPUT;\
-return TokenGenerator::constructTerminationToken(TerminationTokenType(TerminationTokenType::TERMINATION::END_OF_INPUT));
-
-#define YY_USER_INIT \
-if (input_t == Flex_Lexer::INPUT::NONE || input_t == Flex_Lexer::INPUT::END_OF_INPUT)\
-    throw std::runtime_error("some error");
+if (getInputType() == INPUT::END_OF_INPUT)\
+    throw std::runtime_error("some error");\
+else\
+{\
+    input_t = INPUT::END_OF_INPUT;\
+    return TokenGenerator::constructTerminationToken(TerminationTokenType(TerminationTokenType::TERMINATION::END_OF_INPUT));\
+}
 %}
 
 blank       [ \t\r]
@@ -91,4 +92,12 @@ void Flex_Lexer::closeInput()
 Flex_Lexer::INPUT Flex_Lexer::getInputType() const
 {
 	return input_t;
+}
+
+TokenType Flex_Lexer::getNextToken()
+{
+    if (getInputType() == INPUT::NONE)
+        throw std::runtime_error("some error");
+
+    return yylex();
 }

@@ -77,7 +77,7 @@ constexpr Complex_NumType<ScalarType>::Complex_NumType(Real_NumType<ScalarType>&
 template<typename ScalarType>
 std::string Complex_NumType<ScalarType>::getString() const
 {
-    if constexpr (std::is_same_v<ScalarType, long double>)
+    if constexpr (std::is_same_v<ScalarType, double>)
     {
         if (value.imag() >= 0)
             return std::to_string(value.real()) + " + " + std::to_string(value.imag()) + "i";

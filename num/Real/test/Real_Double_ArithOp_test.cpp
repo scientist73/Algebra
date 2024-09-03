@@ -78,13 +78,3 @@ TEST_P(RealDivTests, div_of_two_real_numbers)
 }
 
 INSTANTIATE_TEST_SUITE_P(Default, RealDivTests, ::testing::Values(Operation{1,1,1}, Operation{3,4,0.75}, Operation{34,16,2.125}));
-
-
-
-TEST(sd,ds)
-{
-    constexpr Real<double> var1 = 5.6;
-
-    constexpr Real<double> var2(var1);
-    constexpr Real<double> var3(Real<double>(5.3));
-}

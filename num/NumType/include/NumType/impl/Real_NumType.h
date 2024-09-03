@@ -61,7 +61,7 @@ constexpr Real_NumType<ScalarType>::Real_NumType(Real<ScalarType>&& value) :
 template<typename ScalarType>
 std::string Real_NumType<ScalarType>::getString() const
 {
-    if constexpr (std::is_same_v<ScalarType, long double>)
+    if constexpr (std::is_same_v<ScalarType, double>)
         return std::to_string(value.real());
     else
         return value.real().getString();

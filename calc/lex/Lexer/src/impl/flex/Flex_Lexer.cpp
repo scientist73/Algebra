@@ -525,8 +525,8 @@ int yy_flex_debug = 1;
 
 static const flex_int16_t yy_rule_linenum[12] =
     {   0,
-       44,   45,   47,   48,   49,   50,   52,   53,   54,   59,
-       62
+       45,   46,   48,   49,   50,   51,   53,   54,   55,   60,
+       63
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -555,14 +555,15 @@ using alg::calc::tok::TerminationTokenType;
 #line 556 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.cpp"
 #line 23 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
 #define yyterminate() \
-input_t = INPUT::END_OF_INPUT;\
-return TokenGenerator::constructTerminationToken(TerminationTokenType(TerminationTokenType::TERMINATION::END_OF_INPUT));
-
-#define YY_USER_INIT \
-if (input_t == Flex_Lexer::INPUT::NONE || input_t == Flex_Lexer::INPUT::END_OF_INPUT)\
-    throw std::runtime_error("some error");
-#line 565 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.cpp"
+if (getInputType() == INPUT::END_OF_INPUT)\
+    throw std::runtime_error("some error");\
+else\
+{\
+    input_t = INPUT::END_OF_INPUT;\
+    return TokenGenerator::constructTerminationToken(TerminationTokenType(TerminationTokenType::TERMINATION::END_OF_INPUT));\
+}
 #line 566 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.cpp"
+#line 567 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.cpp"
 
 #define INITIAL 0
 
@@ -842,9 +843,9 @@ YY_DECL
 
 	{
 /* %% [7.0] user's declarations go here */
-#line 43 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
+#line 44 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
 
-#line 848 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.cpp"
+#line 849 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.cpp"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -922,48 +923,48 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 44 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
+#line 45 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
 
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 45 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
+#line 46 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
 return TokenGenerator::constructTerminationToken(TerminationTokenType(TerminationTokenType::TERMINATION::END_OF_LINE));
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 47 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
+#line 48 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
 return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::MINUS));
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 48 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
+#line 49 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
 return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::PLUS));
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 49 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
+#line 50 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
 return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::MULT));
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 50 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
+#line 51 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
 return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::DIV));
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 52 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
+#line 53 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
 return TokenGenerator::constructNumTokenToken(NumTokenType(NumTokenType::NUM::REAL, yytext));
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 53 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
+#line 54 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
 return TokenGenerator::constructNumTokenToken(NumTokenType(NumTokenType::NUM::IMAG, "1"));
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 54 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
+#line 55 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
 {
     yytext[strlen(yytext)-1] = '\0';
     return TokenGenerator::constructNumTokenToken(NumTokenType(NumTokenType::NUM::IMAG, yytext));
@@ -971,24 +972,24 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 59 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
+#line 60 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
 return TokenGenerator::constructIdentifierToken(IdentifierTokenType(yytext));
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 62 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
+#line 63 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
 { throw std::runtime_error("some error"); }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 63 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
+#line 64 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
 yyterminate()
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 64 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
+#line 65 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
 ECHO;
 	YY_BREAK
-#line 992 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.cpp"
+#line 993 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.cpp"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2136,7 +2137,7 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 64 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
+#line 65 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
 
 
 
@@ -2167,4 +2168,12 @@ void Flex_Lexer::closeInput()
 Flex_Lexer::INPUT Flex_Lexer::getInputType() const
 {
 	return input_t;
+}
+
+TokenType Flex_Lexer::getNextToken()
+{
+    if (getInputType() == INPUT::NONE)
+        throw std::runtime_error("some error");
+
+    return yylex();
 }

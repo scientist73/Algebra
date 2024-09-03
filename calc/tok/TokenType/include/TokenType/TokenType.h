@@ -21,7 +21,7 @@ namespace alg
 
                 NumTokenType(NUM num_t, const std::string& scalar) : num_t(num_t), scalar(scalar) {}
 
-                NUM getNumToken() const { return num_t; }
+                NUM getNumTokenType() const { return num_t; }
                 std::string getScalar() const { return scalar; }
 
             private:
@@ -42,6 +42,7 @@ namespace alg
 
                 OperatorTokenType(OPERATOR operator_t) : operator_t(operator_t) {}
 
+                OPERATOR getOperatorTokenType() const { return operator_t; }
             private:
                 OPERATOR operator_t;
             };
@@ -63,9 +64,11 @@ namespace alg
                     END_OF_INPUT,
                     END_OF_LINE
                 };
-                TerminationTokenType(TERMINATION term) : term(term) {}
+                TerminationTokenType(TERMINATION term_t) : term_t(term_t) {}
+
+                TERMINATION getTerminationTokenType() const { return term_t; }
             private:
-                TERMINATION term;
+                TERMINATION term_t;
             };
 
 

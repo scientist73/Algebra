@@ -23,12 +23,14 @@ namespace alg
                     INPUT getInputType() const override;
                     TokenType getNextToken() override;
                 private:
+                    TokenType yylex();
+
                     INPUT input_t;
                 };
 
                 /* This macro is used by flex to generate func body */
                 #define YY_DECL \
-                alg::calc::tok::TokenType alg::calc::lex::flex::Flex_Lexer::getNextToken()
+                alg::calc::tok::TokenType alg::calc::lex::flex::Flex_Lexer::yylex()
 
             } // namespace flex
         } // namespace lex
