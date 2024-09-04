@@ -2,23 +2,23 @@
 
 using namespace alg::calc::tok;
 
-TokenType TokenGenerator::constructOperatorToken(OperatorTokenType&& op_token)
+TokenType TokenGenerator::constructOperator(OperatorTokenType::OPERATOR op_t)
 {
-    return TokenType(std::move(op_token));
+    return TokenType(OperatorTokenType(op_t));
 }
-TokenType TokenGenerator::constructParamToken(ParamTokenType&& param_token)
+TokenType TokenGenerator::constructParam(ParamTokenType::PARAM param_t)
 {
-    return TokenType(std::move(param_token));
+    return TokenType(ParamTokenType(param_t));
 }
-TokenType TokenGenerator::constructNumTokenToken(NumTokenType&& num_token)
+TokenType TokenGenerator::constructNumToken(NumTokenType::NUM num_t, const std::string& scalar)
 {
-    return TokenType(std::move(num_token));
+    return TokenType(NumTokenType(num_t, scalar));
 }
-TokenType TokenGenerator::constructIdentifierToken(IdentifierTokenType&& id_token)
+TokenType TokenGenerator::constructIdentifier(const std::string& id)
 {
-    return TokenType(std::move(id_token));   
+    return TokenType(IdentifierTokenType(id));
 }
-TokenType TokenGenerator::constructTerminationToken(TerminationTokenType&& term_token)
+TokenType TokenGenerator::constructTermination(TerminationTokenType::TERMINATION term_t)
 {
-    return TokenType(std::move(term_token));
+    return TokenType(TerminationTokenType(term_t));
 }

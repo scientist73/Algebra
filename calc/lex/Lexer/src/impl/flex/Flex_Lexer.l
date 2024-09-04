@@ -27,7 +27,7 @@ if (getInputType() == INPUT::END_OF_INPUT)\
 else\
 {\
     input_t = INPUT::END_OF_INPUT;\
-    return TokenGenerator::constructTerminationToken(TerminationTokenType(TerminationTokenType::TERMINATION::END_OF_INPUT));\
+    return TokenGenerator::constructTermination(TerminationTokenType::TERMINATION::END_OF_INPUT);\
 }
 %}
 
@@ -46,25 +46,25 @@ ID          [_a-zA-Z][_a-zA-Z0-9]*
 
 %%
 {blank}+
-{new_line} return TokenGenerator::constructTerminationToken(TerminationTokenType(TerminationTokenType::TERMINATION::END_OF_LINE));
+{new_line} return TokenGenerator::constructTermination(TerminationTokenType::TERMINATION::END_OF_LINE);
 
-{MINUS} return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::MINUS));
-{PLUS} return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::PLUS));
-{MULT} return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::MULT));
-{DIV} return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::DIV));
+{MINUS} return TokenGenerator::constructOperator(OperatorTokenType::OPERATOR::MINUS);
+{PLUS} return TokenGenerator::constructOperator(OperatorTokenType::OPERATOR::PLUS);
+{MULT} return TokenGenerator::constructOperator(OperatorTokenType::OPERATOR::MULT);
+{DIV} return TokenGenerator::constructOperator(OperatorTokenType::OPERATOR::DIV);
 
-{PARAM_ROUND_OPEN} return TokenGenerator::constructParamToken(ParamTokenType(ParamTokenType::PARAM::ROUND_OPEN));
-{PARAM_ROUND_CLOSE} return TokenGenerator::constructParamToken(ParamTokenType(ParamTokenType::PARAM::ROUND_CLOSE));
+{PARAM_ROUND_OPEN} return TokenGenerator::constructParam(ParamTokenType::PARAM::ROUND_OPEN);
+{PARAM_ROUND_CLOSE} return TokenGenerator::constructParam(ParamTokenType::PARAM::ROUND_CLOSE);
 
 
-{REAL} return TokenGenerator::constructNumTokenToken(NumTokenType(NumTokenType::NUM::REAL, yytext));
-{IMAG} return TokenGenerator::constructNumTokenToken(NumTokenType(NumTokenType::NUM::IMAG, "1"));
+{REAL} return TokenGenerator::constructNumToken(NumTokenType::NUM::REAL, yytext);
+{IMAG} return TokenGenerator::constructNumToken(NumTokenType::NUM::IMAG, "1");
 {REAL}{IMAG} {
     yytext[strlen(yytext)-1] = '\0';
-    return TokenGenerator::constructNumTokenToken(NumTokenType(NumTokenType::NUM::IMAG, yytext));
+    return TokenGenerator::constructNumToken(NumTokenType::NUM::IMAG, yytext);
 }
 
-{ID} return TokenGenerator::constructIdentifierToken(IdentifierTokenType(yytext));
+{ID} return TokenGenerator::constructIdentifier(yytext);
 
 . { throw std::runtime_error("some error"); }
 <<EOF>> yyterminate()

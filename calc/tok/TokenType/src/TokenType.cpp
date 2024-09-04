@@ -1,4 +1,12 @@
 #include "TokenType.h"
+#include <stdexcept>
+
+using alg::calc::tok::TokenType;
+using alg::calc::tok::OperatorTokenType;
+using alg::calc::tok::ParamTokenType;
+using alg::calc::tok::NumTokenType;
+using alg::calc::tok::IdentifierTokenType;
+using alg::calc::tok::TerminationTokenType;
 
 
 bool alg::calc::tok::operator==(const NumTokenType& l_op, const NumTokenType& r_op)
@@ -21,6 +29,64 @@ bool alg::calc::tok::operator==(const TerminationTokenType& l_op, const Terminat
 { 
     return l_op.getTerminationTokenType() == r_op.getTerminationTokenType();
 }
+
+OperatorTokenType TokenType::getOperatorToken() const
+{
+    try
+    { 
+        return std::get<OperatorTokenType>(token); 
+    } 
+    catch(std::bad_variant_access& ex) 
+    { 
+        throw std::runtime_error("getOperatorToken"); 
+    }
+}
+ParamTokenType TokenType::getParamToken() const
+{
+    try
+    { 
+        return std::get<ParamTokenType>(token); 
+    } 
+    catch(std::bad_variant_access& ex) 
+    { 
+        throw std::runtime_error("getParamToken"); 
+    }
+}
+NumTokenType TokenType::getNumToken() const
+{
+    try
+    { 
+        return std::get<NumTokenType>(token); 
+    } 
+    catch(std::bad_variant_access& ex) 
+    { 
+        throw std::runtime_error("getNumToken"); 
+    }
+}
+IdentifierTokenType TokenType::getIdentifierToken() const
+{
+    try
+    { 
+        return std::get<IdentifierTokenType>(token); 
+    } 
+    catch(std::bad_variant_access& ex) 
+    { 
+        throw std::runtime_error("getIdentifierToken"); 
+    }
+}
+TerminationTokenType TokenType::getTerminationToken() const
+{
+    try
+    { 
+        return std::get<TerminationTokenType>(token); 
+    } 
+    catch(std::bad_variant_access& ex) 
+    { 
+        throw std::runtime_error("getTerminationToken"); 
+    }
+}
+
+
 bool alg::calc::tok::operator==(const TokenType& l_op, const TokenType& r_op)
 {
     if (l_op.getTokenType() == r_op.getTokenType())

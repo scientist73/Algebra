@@ -1,6 +1,6 @@
 #pragma once
 #include "TokenType.h"
-
+#include <string>
 
 namespace alg
 {
@@ -11,11 +11,11 @@ namespace alg
             class TokenGenerator
             {
             public:
-                static TokenType constructOperatorToken(OperatorTokenType&& op_token);
-                static TokenType constructParamToken(ParamTokenType&& param_token);
-                static TokenType constructNumTokenToken(NumTokenType&& num_token);
-                static TokenType constructIdentifierToken(IdentifierTokenType&& id_token);
-                static TokenType constructTerminationToken(TerminationTokenType&& term_token);
+                static TokenType constructOperator(OperatorTokenType::OPERATOR op_t);
+                static TokenType constructParam(ParamTokenType::PARAM param_t);
+                static TokenType constructNumToken(NumTokenType::NUM num_t, const std::string& scalar);
+                static TokenType constructIdentifier(const std::string& id);
+                static TokenType constructTermination(TerminationTokenType::TERMINATION term_t);
 
             private:
                 TokenGenerator() = default;

@@ -562,7 +562,7 @@ if (getInputType() == INPUT::END_OF_INPUT)\
 else\
 {\
     input_t = INPUT::END_OF_INPUT;\
-    return TokenGenerator::constructTerminationToken(TerminationTokenType(TerminationTokenType::TERMINATION::END_OF_INPUT));\
+    return TokenGenerator::constructTermination(TerminationTokenType::TERMINATION::END_OF_INPUT);\
 }
 #line 568 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.cpp"
 #line 569 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.cpp"
@@ -932,60 +932,60 @@ case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
 #line 49 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return TokenGenerator::constructTerminationToken(TerminationTokenType(TerminationTokenType::TERMINATION::END_OF_LINE));
+return TokenGenerator::constructTermination(TerminationTokenType::TERMINATION::END_OF_LINE);
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 51 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::MINUS));
+return TokenGenerator::constructOperator(OperatorTokenType::OPERATOR::MINUS);
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 52 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::PLUS));
+return TokenGenerator::constructOperator(OperatorTokenType::OPERATOR::PLUS);
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 53 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::MULT));
+return TokenGenerator::constructOperator(OperatorTokenType::OPERATOR::MULT);
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 54 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::DIV));
+return TokenGenerator::constructOperator(OperatorTokenType::OPERATOR::DIV);
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 56 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return TokenGenerator::constructParamToken(ParamTokenType(ParamTokenType::PARAM::ROUND_OPEN));
+return TokenGenerator::constructParam(ParamTokenType::PARAM::ROUND_OPEN);
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 57 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return TokenGenerator::constructParamToken(ParamTokenType(ParamTokenType::PARAM::ROUND_CLOSE));
+return TokenGenerator::constructParam(ParamTokenType::PARAM::ROUND_CLOSE);
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 60 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return TokenGenerator::constructNumTokenToken(NumTokenType(NumTokenType::NUM::REAL, yytext));
+return TokenGenerator::constructNumToken(NumTokenType::NUM::REAL, yytext);
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 61 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return TokenGenerator::constructNumTokenToken(NumTokenType(NumTokenType::NUM::IMAG, "1"));
+return TokenGenerator::constructNumToken(NumTokenType::NUM::IMAG, "1");
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 62 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
 {
     yytext[strlen(yytext)-1] = '\0';
-    return TokenGenerator::constructNumTokenToken(NumTokenType(NumTokenType::NUM::IMAG, yytext));
+    return TokenGenerator::constructNumToken(NumTokenType::NUM::IMAG, yytext);
 }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 67 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return TokenGenerator::constructIdentifierToken(IdentifierTokenType(yytext));
+return TokenGenerator::constructIdentifier(yytext);
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
