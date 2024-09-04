@@ -17,7 +17,13 @@ if (NOT TARGET TokenType)
         "${TokenType_SOURCE_DIR}/include/TokenType"
     )
 
+    # TokenType's .cpp files
+    set(TokenType_src_files
+    "${TokenType_SOURCE_DIR}/src/TokenType.cpp"
+    )
+
+
     # TokenType is a simple data structure, so consists of one .h file
-    add_library(TokenType INTERFACE)
-    target_include_directories(TokenType INTERFACE ${TokenType_include_dirs})
+    add_library(TokenType STATIC ${TokenType_src_files})
+    target_include_directories(TokenType PUBLIC ${TokenType_include_dirs})
 endif(NOT TARGET TokenType)

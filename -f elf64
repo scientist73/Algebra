@@ -25,6 +25,11 @@
   "file": "/home/scientist73/projects/Algebra/num/NumType/test/NumType_test.cpp"
 },
 {
+  "directory": "/home/scientist73/projects/Algebra/build/calc/tok/TokenType",
+  "command": "/usr/bin/clang++  -I/home/scientist73/projects/Algebra/calc/tok/TokenType/include/TokenType -g -std=gnu++17 -o CMakeFiles/TokenType.dir/src/TokenType.cpp.o -c /home/scientist73/projects/Algebra/calc/tok/TokenType/src/TokenType.cpp",
+  "file": "/home/scientist73/projects/Algebra/calc/tok/TokenType/src/TokenType.cpp"
+},
+{
   "directory": "/home/scientist73/projects/Algebra/build/calc/tok/TokenGenerator",
   "command": "/usr/bin/clang++  -I/home/scientist73/projects/Algebra/calc/tok/TokenGenerator/include/TokenGenerator -I/home/scientist73/projects/Algebra/calc/tok/TokenType/include/TokenType -g -std=gnu++17 -o CMakeFiles/TokenGenerator.dir/src/TokenGenerator.cpp.o -c /home/scientist73/projects/Algebra/calc/tok/TokenGenerator/src/TokenGenerator.cpp",
   "file": "/home/scientist73/projects/Algebra/calc/tok/TokenGenerator/src/TokenGenerator.cpp"

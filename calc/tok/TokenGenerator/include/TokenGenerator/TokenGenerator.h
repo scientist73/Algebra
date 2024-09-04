@@ -12,6 +12,7 @@ namespace alg
             {
             public:
                 static TokenType constructOperatorToken(OperatorTokenType&& op_token);
+                static TokenType constructParamToken(ParamTokenType&& param_token);
                 static TokenType constructNumTokenToken(NumTokenType&& num_token);
                 static TokenType constructIdentifierToken(IdentifierTokenType&& id_token);
                 static TokenType constructTerminationToken(TerminationTokenType&& term_token);

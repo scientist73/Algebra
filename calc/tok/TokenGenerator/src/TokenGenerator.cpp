@@ -6,6 +6,10 @@ TokenType TokenGenerator::constructOperatorToken(OperatorTokenType&& op_token)
 {
     return TokenType(std::move(op_token));
 }
+TokenType TokenGenerator::constructParamToken(ParamTokenType&& param_token)
+{
+    return TokenType(std::move(param_token));
+}
 TokenType TokenGenerator::constructNumTokenToken(NumTokenType&& num_token)
 {
     return TokenType(std::move(num_token));

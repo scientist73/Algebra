@@ -9,6 +9,7 @@ using alg::calc::lex::flex::Flex_Lexer;
 using alg::calc::tok::TokenType;
 using alg::calc::tok::TokenGenerator;
 using alg::calc::tok::OperatorTokenType;
+using alg::calc::tok::ParamTokenType;
 using alg::calc::tok::NumTokenType;
 using alg::calc::tok::IdentifierTokenType;
 using alg::calc::tok::TerminationTokenType;
@@ -36,6 +37,8 @@ MINUS       "-"
 PLUS        "+"
 MULT        "*"
 DIV         "/"
+PARAM_ROUND_OPEN "("
+PARAM_ROUND_CLOSE ")"
 REAL        [0-9]+(\.[0-9]+)?
 IMAG        "i"
 ID          [_a-zA-Z][_a-zA-Z0-9]*
@@ -50,6 +53,10 @@ ID          [_a-zA-Z][_a-zA-Z0-9]*
 {MULT} return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::MULT));
 {DIV} return TokenGenerator::constructOperatorToken(OperatorTokenType(OperatorTokenType::OPERATOR::DIV));
 
+{PARAM_ROUND_OPEN} return TokenGenerator::constructParamToken(ParamTokenType(ParamTokenType::PARAM::ROUND_OPEN));
+{PARAM_ROUND_CLOSE} return TokenGenerator::constructParamToken(ParamTokenType(ParamTokenType::PARAM::ROUND_CLOSE));
+
+
 {REAL} return TokenGenerator::constructNumTokenToken(NumTokenType(NumTokenType::NUM::REAL, yytext));
 {IMAG} return TokenGenerator::constructNumTokenToken(NumTokenType(NumTokenType::NUM::IMAG, "1"));
 {REAL}{IMAG} {
@@ -58,7 +65,6 @@ ID          [_a-zA-Z][_a-zA-Z0-9]*
 }
 
 {ID} return TokenGenerator::constructIdentifierToken(IdentifierTokenType(yytext));
-
 
 . { throw std::runtime_error("some error"); }
 <<EOF>> yyterminate()
