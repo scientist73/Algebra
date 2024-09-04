@@ -30,7 +30,7 @@ if (NOT TARGET Real)
 
     if (${BUILD_TESTING} AND ${Real_test_enable})
         find_package(GTest REQUIRED)
-        add_executable(Real_test ${Real_SOURCE_DIR}/test/Real_Double_ArithOp_test.cpp)
+        add_executable(Real_test ${Real_SOURCE_DIR}/test/Real_Double_Operators_test.cpp)
         target_link_libraries(Real_test Real GTest::gtest_main)
         add_test(NAME Real_test COMMAND Real_test)
     endif()

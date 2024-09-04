@@ -41,7 +41,7 @@ if (NOT TARGET NumType)
 
     if (${BUILD_TESTING} AND ${NumType_test_enable})
         find_package(GTest REQUIRED) # sudo apt-get install libgtest-dev
-        add_executable(NumType_test ${NumType_SOURCE_DIR}/test/NumType_test.cpp)
+        add_executable(NumType_test ${NumType_SOURCE_DIR}/test/NumType_Double_Operators_test.cpp)
         target_link_libraries(NumType_test NumType GTest::gtest_main)
         add_test(NAME NumType_test COMMAND NumType_test)
     endif()

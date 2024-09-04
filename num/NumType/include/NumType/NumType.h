@@ -17,6 +17,8 @@ namespace alg
         class NumType
         {
         public:
+            constexpr NumType();
+
             constexpr NumType(const Real<ScalarType>& real_num);
             constexpr NumType(Real<ScalarType>&& real_num);
             constexpr NumType(const Complex<ScalarType>& complex_num);
@@ -33,7 +35,9 @@ namespace alg
             constexpr Complex<ScalarType> getComplex() const;
 
             constexpr NumType<ScalarType>& operator=(const Real<ScalarType>& real_num);
+            constexpr NumType<ScalarType>& operator=(Real<ScalarType>&& real_num);
             constexpr NumType<ScalarType>& operator=(const Complex<ScalarType>& complex_num);
+            constexpr NumType<ScalarType>& operator=(Complex<ScalarType>&& complex_num);
 
             constexpr NumType<ScalarType>& operator=(const NumType& num);
             constexpr NumType<ScalarType>& operator=(NumType&& num) = default;
@@ -71,6 +75,10 @@ namespace alg
 
 using namespace alg::num;
 
+template<typename ScalarType>
+constexpr NumType<ScalarType>::NumType() :
+    value(nullptr)
+{}
 
 template<typename ScalarType>
 constexpr NumType<ScalarType>::NumType(const Real<ScalarType>& real_num) :
@@ -139,10 +147,22 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(const Real<ScalarT
     return *this;
 }
 template<typename ScalarType>
+constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(Real<ScalarType>&& real_num)
+{
+    value.reset(new Real_NumType<ScalarType>(std::move(real_num)));
+    return *this;
+}
+template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(const Complex<ScalarType>& complex_num)
 {
-    value.reset(new Complex<ScalarType>(complex_num));
-    return *this;    
+    value.reset(new Complex_NumType<ScalarType>(complex_num));
+    return *this;
+}
+template<typename ScalarType>
+constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(Complex<ScalarType>&& complex_num)
+{
+    value.reset(new Complex_NumType<ScalarType>(std::move(complex_num)));
+    return *this;
 }
 
 template<typename ScalarType>
