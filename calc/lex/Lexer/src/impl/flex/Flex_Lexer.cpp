@@ -550,7 +550,7 @@ using alg::calc::lex::flex::Flex_Lexer;
 using alg::calc::tok::TokenType;
 using alg::calc::tok::TokenGenerator;
 using alg::calc::tok::OperatorTokenType;
-using alg::calc::tok::ParamTokenType;
+using alg::calc::tok::ParenTokenType;
 using alg::calc::tok::NumTokenType;
 using alg::calc::tok::IdentifierTokenType;
 using alg::calc::tok::TerminationTokenType;
@@ -957,12 +957,12 @@ return TokenGenerator::constructOperator(OperatorTokenType::OPERATOR::DIV);
 case 7:
 YY_RULE_SETUP
 #line 56 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return TokenGenerator::constructParam(ParamTokenType::PARAM::ROUND_OPEN);
+return TokenGenerator::constructParen(ParenTokenType::PAREN::ROUND_OPEN);
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 57 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return TokenGenerator::constructParam(ParamTokenType::PARAM::ROUND_CLOSE);
+return TokenGenerator::constructParen(ParenTokenType::PAREN::ROUND_CLOSE);
 	YY_BREAK
 case 9:
 YY_RULE_SETUP

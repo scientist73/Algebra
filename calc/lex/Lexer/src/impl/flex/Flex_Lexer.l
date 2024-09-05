@@ -9,7 +9,7 @@ using alg::calc::lex::flex::Flex_Lexer;
 using alg::calc::tok::TokenType;
 using alg::calc::tok::TokenGenerator;
 using alg::calc::tok::OperatorTokenType;
-using alg::calc::tok::ParamTokenType;
+using alg::calc::tok::ParenTokenType;
 using alg::calc::tok::NumTokenType;
 using alg::calc::tok::IdentifierTokenType;
 using alg::calc::tok::TerminationTokenType;
@@ -37,8 +37,8 @@ MINUS       "-"
 PLUS        "+"
 MULT        "*"
 DIV         "/"
-PARAM_ROUND_OPEN "("
-PARAM_ROUND_CLOSE ")"
+PAREN_ROUND_OPEN "("
+PAREN_ROUND_CLOSE ")"
 REAL        [0-9]+(\.[0-9]+)?
 IMAG        "i"
 ID          [_a-zA-Z][_a-zA-Z0-9]*
@@ -53,8 +53,8 @@ ID          [_a-zA-Z][_a-zA-Z0-9]*
 {MULT} return TokenGenerator::constructOperator(OperatorTokenType::OPERATOR::MULT);
 {DIV} return TokenGenerator::constructOperator(OperatorTokenType::OPERATOR::DIV);
 
-{PARAM_ROUND_OPEN} return TokenGenerator::constructParam(ParamTokenType::PARAM::ROUND_OPEN);
-{PARAM_ROUND_CLOSE} return TokenGenerator::constructParam(ParamTokenType::PARAM::ROUND_CLOSE);
+{PAREN_ROUND_OPEN} return TokenGenerator::constructParen(ParenTokenType::PAREN::ROUND_OPEN);
+{PAREN_ROUND_CLOSE} return TokenGenerator::constructParen(ParenTokenType::PAREN::ROUND_CLOSE);
 
 
 {REAL} return TokenGenerator::constructNumToken(NumTokenType::NUM::REAL, yytext);

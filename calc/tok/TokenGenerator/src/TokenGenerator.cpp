@@ -6,9 +6,9 @@ TokenType TokenGenerator::constructOperator(OperatorTokenType::OPERATOR op_t)
 {
     return TokenType(OperatorTokenType(op_t));
 }
-TokenType TokenGenerator::constructParam(ParamTokenType::PARAM param_t)
+TokenType TokenGenerator::constructParen(ParenTokenType::PAREN paren_t)
 {
-    return TokenType(ParamTokenType(param_t));
+    return TokenType(ParenTokenType(paren_t));
 }
 TokenType TokenGenerator::constructNumToken(NumTokenType::NUM num_t, std::string_view scalar)
 {

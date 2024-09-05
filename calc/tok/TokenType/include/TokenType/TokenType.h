@@ -45,20 +45,20 @@ namespace alg
             private:
                 OPERATOR operator_t;
             };
-            struct ParamTokenType
+            struct ParenTokenType
             {
             public:
-                enum class PARAM
+                enum class PAREN
                 {
                     ROUND_OPEN,
                     ROUND_CLOSE,
                 };
 
-                constexpr explicit ParamTokenType(PARAM param_t) : param_t(param_t) {}
+                constexpr explicit ParenTokenType(PAREN paren_t) : paren_t(paren_t) {}
 
-                PARAM getParamTokenType() const { return param_t; }
+                PAREN getParenTokenType() const { return paren_t; }
             private:
-                PARAM param_t;
+                PAREN paren_t;
             };
             struct IdentifierTokenType
             {
@@ -86,7 +86,7 @@ namespace alg
 
             bool operator==(const NumTokenType& l_op, const NumTokenType& r_op);
             bool operator==(const OperatorTokenType& l_op, const OperatorTokenType& r_op);
-            bool operator==(const ParamTokenType& l_op, const ParamTokenType& r_op);
+            bool operator==(const ParenTokenType& l_op, const ParenTokenType& r_op);
             bool operator==(const IdentifierTokenType& l_op, const IdentifierTokenType& r_op);
             bool operator==(const TerminationTokenType& l_op, const TerminationTokenType& r_op);
 
@@ -97,14 +97,14 @@ namespace alg
                 enum class TOKEN
                 {
                     OPERATOR,
-                    PARAM,
+                    PAREN,
                     NUM,
                     IDENTIFIER,
                     TERMINATION,
                 };
 
                 constexpr explicit TokenType(OperatorTokenType&& op) : token_t(TOKEN::OPERATOR), token(std::move(op)) {}
-                constexpr explicit TokenType(ParamTokenType&& param) : token_t(TOKEN::PARAM), token(std::move(param)) {}
+                constexpr explicit TokenType(ParenTokenType&& paren) : token_t(TOKEN::PAREN), token(std::move(paren)) {}
                 constexpr explicit TokenType(NumTokenType&& num) : token_t(TOKEN::NUM), token(std::move(num)) {}
                 constexpr explicit TokenType(IdentifierTokenType&& id) : token_t(TOKEN::IDENTIFIER), token(std::move(id)) {}
                 constexpr explicit TokenType(TerminationTokenType&& term) : token_t(TOKEN::TERMINATION), token(std::move(term)) {}
@@ -112,14 +112,14 @@ namespace alg
                 TOKEN getTokenType() const { return token_t; }
                 
                 OperatorTokenType getOperatorToken() const;
-                ParamTokenType getParamToken() const;
+                ParenTokenType getParenToken() const;
                 NumTokenType getNumToken() const;
                 IdentifierTokenType getIdentifierToken() const;
                 TerminationTokenType getTerminationToken() const;
 
             private:
                 TOKEN token_t;
-                std::variant<OperatorTokenType, ParamTokenType, NumTokenType, IdentifierTokenType, TerminationTokenType> token;
+                std::variant<OperatorTokenType, ParenTokenType, NumTokenType, IdentifierTokenType, TerminationTokenType> token;
             };
             bool operator==(const TokenType& l_op, const TokenType& r_op);
 

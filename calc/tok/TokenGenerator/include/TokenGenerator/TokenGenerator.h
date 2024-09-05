@@ -12,7 +12,7 @@ namespace alg
             {
             public:
                 static TokenType constructOperator(OperatorTokenType::OPERATOR op_t);
-                static TokenType constructParam(ParamTokenType::PARAM param_t);
+                static TokenType constructParen(ParenTokenType::PAREN paren_t);
                 static TokenType constructNumToken(NumTokenType::NUM num_t, std::string_view scalar);
                 static TokenType constructIdentifier(std::string_view id);
                 static TokenType constructTermination(TerminationTokenType::TERMINATION term_t);

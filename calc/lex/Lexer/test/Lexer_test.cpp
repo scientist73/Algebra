@@ -7,7 +7,7 @@
 using alg::calc::lex::Lexer;
 using alg::calc::tok::NumTokenType;
 using alg::calc::tok::OperatorTokenType;
-using alg::calc::tok::ParamTokenType;
+using alg::calc::tok::ParenTokenType;
 using alg::calc::tok::TerminationTokenType;
 using alg::calc::tok::IdentifierTokenType;
 
@@ -17,8 +17,8 @@ using alg::calc::tok::IdentifierTokenType;
 #define DIV_TOKEN TokenType(OperatorTokenType(OperatorTokenType::OPERATOR::DIV))
 #define MULT_TOKEN TokenType(OperatorTokenType(OperatorTokenType::OPERATOR::MULT))
 
-#define PARAM_ROUND_OPEN_TOKEN TokenType(ParamTokenType(ParamTokenType::PARAM::ROUND_OPEN))
-#define PARAM_ROUND_CLOSE_TOKEN TokenType(ParamTokenType(ParamTokenType::PARAM::ROUND_CLOSE))
+#define PAREN_ROUND_OPEN_TOKEN TokenType(ParenTokenType(ParenTokenType::PAREN::ROUND_OPEN))
+#define PAREN_ROUND_CLOSE_TOKEN TokenType(ParenTokenType(ParenTokenType::PAREN::ROUND_CLOSE))
 
 #define REAL_TOKEN(real_str) TokenType(NumTokenType(NumTokenType::NUM::REAL, real_str))
 #define IMAG_TOKEN(imag_str) TokenType(NumTokenType(NumTokenType::NUM::IMAG, imag_str))
@@ -60,8 +60,8 @@ INSTANTIATE_TEST_SUITE_P(Operators, scan_single_token, ::testing::Values(
     SingleToken{"/", TokenType(OperatorTokenType(OperatorTokenType::OPERATOR::DIV))}
 ));
 INSTANTIATE_TEST_SUITE_P(Params, scan_single_token, ::testing::Values(
-    SingleToken{"(", TokenType(ParamTokenType(ParamTokenType::PARAM::ROUND_OPEN))},
-    SingleToken{")", TokenType(ParamTokenType(ParamTokenType::PARAM::ROUND_CLOSE))}
+    SingleToken{"(", TokenType(ParenTokenType(ParenTokenType::PAREN::ROUND_OPEN))},
+    SingleToken{")", TokenType(ParenTokenType(ParenTokenType::PAREN::ROUND_CLOSE))}
 ));
 INSTANTIATE_TEST_SUITE_P(Nums, scan_single_token, ::testing::Values(
     SingleToken{"5", TokenType(NumTokenType(NumTokenType::NUM::REAL, "5"))},
@@ -108,14 +108,14 @@ TEST_P(scan_multiple_tokens, Default)
 }
 INSTANTIATE_TEST_SUITE_P(Default, scan_multiple_tokens, ::testing::Values(
     MultipleTokens{"3.4 + 4.5", { REAL_TOKEN("3.4"), PLUS_TOKEN, REAL_TOKEN("4.5"), END_OF_INPUT_TOKEN }},
-    MultipleTokens{"sin(180)", {IDENTIFIER_TOKEN("sin"), PARAM_ROUND_OPEN_TOKEN, REAL_TOKEN("180"), PARAM_ROUND_CLOSE_TOKEN, END_OF_INPUT_TOKEN}},
+    MultipleTokens{"sin(180)", {IDENTIFIER_TOKEN("sin"), PAREN_ROUND_OPEN_TOKEN, REAL_TOKEN("180"), PAREN_ROUND_CLOSE_TOKEN, END_OF_INPUT_TOKEN}},
     MultipleTokens{"Pi*R", {IDENTIFIER_TOKEN("Pi"), MULT_TOKEN, IDENTIFIER_TOKEN("R"), END_OF_INPUT_TOKEN}},
-    MultipleTokens{"4.5i * tan(x)", {IMAG_TOKEN("4.5"), MULT_TOKEN, IDENTIFIER_TOKEN("tan"), PARAM_ROUND_OPEN_TOKEN, IDENTIFIER_TOKEN("x"), PARAM_ROUND_CLOSE_TOKEN, END_OF_INPUT_TOKEN}},
+    MultipleTokens{"4.5i * tan(x)", {IMAG_TOKEN("4.5"), MULT_TOKEN, IDENTIFIER_TOKEN("tan"), PAREN_ROUND_OPEN_TOKEN, IDENTIFIER_TOKEN("x"), PAREN_ROUND_CLOSE_TOKEN, END_OF_INPUT_TOKEN}},
     MultipleTokens{"5.6 - i", {REAL_TOKEN("5.6"), MINUS_TOKEN, IMAG_TOKEN("1"), END_OF_INPUT_TOKEN}},
     MultipleTokens{"2Pi", {REAL_TOKEN("2"), IDENTIFIER_TOKEN("Pi"), END_OF_INPUT_TOKEN}}
 ));
 INSTANTIATE_TEST_SUITE_P(spaces_between_tokens_is_not_important, scan_multiple_tokens, ::testing::Values(
-    MultipleTokens{"  * 4.5   (  /", { MULT_TOKEN, REAL_TOKEN("4.5"), PARAM_ROUND_OPEN_TOKEN, DIV_TOKEN, END_OF_INPUT_TOKEN }}
+    MultipleTokens{"  * 4.5   (  /", { MULT_TOKEN, REAL_TOKEN("4.5"), PAREN_ROUND_OPEN_TOKEN, DIV_TOKEN, END_OF_INPUT_TOKEN }}
 ));
 
 
