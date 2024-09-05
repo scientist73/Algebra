@@ -28,7 +28,7 @@ endif()
 
 add_subdirectory(num/Real)
 add_subdirectory(num/Complex)
-add_subdirectory(num/ScalarType)
+add_subdirectory(num/scalar/ScalarType)
 add_subdirectory(num/NumType)
 
 add_subdirectory(calc/tok/TokenType)

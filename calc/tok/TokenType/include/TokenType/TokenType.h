@@ -1,6 +1,6 @@
 #pragma once
 #include <optional>
-#include <string>
+#include <string_view>
 #include <stdexcept>
 #include <variant>
 
@@ -19,14 +19,14 @@ namespace alg
                     IMAG,
                 };
 
-                explicit NumTokenType(NUM num_t, const std::string& scalar) : num_t(num_t), scalar(scalar) {}
+                constexpr explicit NumTokenType(NUM num_t, std::string_view scalar) : num_t(num_t), scalar(scalar) {}
 
                 NUM getNumTokenType() const { return num_t; }
-                std::string getScalar() const { return scalar; }
+                std::string_view getScalar() const { return scalar; }
 
             private:
                 NUM num_t;
-                std::string scalar;
+                std::string_view scalar;
             };
             struct OperatorTokenType
             {
@@ -39,7 +39,7 @@ namespace alg
                     DIV,
                 };
 
-                explicit OperatorTokenType(OPERATOR operator_t) : operator_t(operator_t) {}
+                constexpr explicit OperatorTokenType(OPERATOR operator_t) : operator_t(operator_t) {}
 
                 OPERATOR getOperatorTokenType() const { return operator_t; }
             private:
@@ -54,7 +54,7 @@ namespace alg
                     ROUND_CLOSE,
                 };
 
-                explicit ParamTokenType(PARAM param_t) : param_t(param_t) {}
+                constexpr explicit ParamTokenType(PARAM param_t) : param_t(param_t) {}
 
                 PARAM getParamTokenType() const { return param_t; }
             private:
@@ -63,11 +63,11 @@ namespace alg
             struct IdentifierTokenType
             {
             public:
-                explicit IdentifierTokenType(const std::string& id) : id(id) {}
+                constexpr explicit IdentifierTokenType(std::string_view id) : id(id) {}
             
-                std::string getIdentifier() const { return id; }
+                std::string_view getIdentifier() const { return id; }
             private:
-                std::string id;
+                std::string_view id;
             };
             struct TerminationTokenType
             {
@@ -77,7 +77,7 @@ namespace alg
                     END_OF_INPUT,
                     END_OF_LINE
                 };
-                explicit TerminationTokenType(TERMINATION term_t) : term_t(term_t) {}
+                constexpr explicit TerminationTokenType(TERMINATION term_t) : term_t(term_t) {}
 
                 TERMINATION getTerminationTokenType() const { return term_t; }
             private:
@@ -103,11 +103,11 @@ namespace alg
                     TERMINATION,
                 };
 
-                explicit TokenType(OperatorTokenType&& op) : token_t(TOKEN::OPERATOR), token(std::move(op)) {}
-                explicit TokenType(ParamTokenType&& param) : token_t(TOKEN::PARAM), token(std::move(param)) {}
-                explicit TokenType(NumTokenType&& num) : token_t(TOKEN::NUM), token(std::move(num)) {}
-                explicit TokenType(IdentifierTokenType&& id) : token_t(TOKEN::IDENTIFIER), token(std::move(id)) {}
-                explicit TokenType(TerminationTokenType&& term) : token_t(TOKEN::TERMINATION), token(std::move(term)) {}
+                constexpr explicit TokenType(OperatorTokenType&& op) : token_t(TOKEN::OPERATOR), token(std::move(op)) {}
+                constexpr explicit TokenType(ParamTokenType&& param) : token_t(TOKEN::PARAM), token(std::move(param)) {}
+                constexpr explicit TokenType(NumTokenType&& num) : token_t(TOKEN::NUM), token(std::move(num)) {}
+                constexpr explicit TokenType(IdentifierTokenType&& id) : token_t(TOKEN::IDENTIFIER), token(std::move(id)) {}
+                constexpr explicit TokenType(TerminationTokenType&& term) : token_t(TOKEN::TERMINATION), token(std::move(term)) {}
 
                 TOKEN getTokenType() const { return token_t; }
                 

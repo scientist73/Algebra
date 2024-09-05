@@ -10,11 +10,11 @@ TokenType TokenGenerator::constructParam(ParamTokenType::PARAM param_t)
 {
     return TokenType(ParamTokenType(param_t));
 }
-TokenType TokenGenerator::constructNumToken(NumTokenType::NUM num_t, const std::string& scalar)
+TokenType TokenGenerator::constructNumToken(NumTokenType::NUM num_t, std::string_view scalar)
 {
     return TokenType(NumTokenType(num_t, scalar));
 }
-TokenType TokenGenerator::constructIdentifier(const std::string& id)
+TokenType TokenGenerator::constructIdentifier(std::string_view id)
 {
     return TokenType(IdentifierTokenType(id));
 }

@@ -1,6 +1,6 @@
 #include "StdScalarType.h"
 
-using namespace alg::num;
+using namespace alg::num::scalar;
 
 
 std::string StdScalarType::getString() const
@@ -39,44 +39,44 @@ StdScalarType& StdScalarType::operator/=(const StdScalarType& left_op)
 }
 
 
-StdScalarType alg::num::operator+(const StdScalarType& right_op, const StdScalarType& left_op)
+StdScalarType alg::num::scalar::operator+(const StdScalarType& right_op, const StdScalarType& left_op)
 {
     return StdScalarType(right_op.scalar() + left_op.scalar());
 }
-StdScalarType alg::num::operator-(const StdScalarType& right_op, const StdScalarType& left_op)
+StdScalarType alg::num::scalar::operator-(const StdScalarType& right_op, const StdScalarType& left_op)
 {
     return StdScalarType(right_op.scalar() - left_op.scalar());
 }
-StdScalarType alg::num::operator*(const StdScalarType& right_op, const StdScalarType& left_op)
+StdScalarType alg::num::scalar::operator*(const StdScalarType& right_op, const StdScalarType& left_op)
 {
     return StdScalarType(right_op.scalar() * left_op.scalar());
 }
-StdScalarType alg::num::operator/(const StdScalarType& right_op, const StdScalarType& left_op)
+StdScalarType alg::num::scalar::operator/(const StdScalarType& right_op, const StdScalarType& left_op)
 {
     return StdScalarType(right_op.scalar() / left_op.scalar());
 }
 
-bool alg::num::operator>=(const StdScalarType& right_op, const StdScalarType& left_op)
+bool alg::num::scalar::operator>=(const StdScalarType& right_op, const StdScalarType& left_op)
 {
     return right_op.scalar() >= left_op.scalar();
 }
-bool alg::num::operator<=(const StdScalarType& right_op, const StdScalarType& left_op)
+bool alg::num::scalar::operator<=(const StdScalarType& right_op, const StdScalarType& left_op)
 {
     return right_op.scalar() <= left_op.scalar();
 }
-bool alg::num::operator>(const StdScalarType& right_op, const StdScalarType& left_op)
+bool alg::num::scalar::operator>(const StdScalarType& right_op, const StdScalarType& left_op)
 {
     return right_op.scalar() > left_op.scalar();
 }
-bool alg::num::operator<(const StdScalarType& right_op, const StdScalarType& left_op)
+bool alg::num::scalar::operator<(const StdScalarType& right_op, const StdScalarType& left_op)
 {
     return right_op.scalar() < left_op.scalar();
 }
-bool alg::num::operator==(const StdScalarType& right_op, const StdScalarType& left_op)
+bool alg::num::scalar::operator==(const StdScalarType& right_op, const StdScalarType& left_op)
 {
     return right_op.scalar() == left_op.scalar();
 }
-bool alg::num::operator!=(const StdScalarType& right_op, const StdScalarType& left_op)
+bool alg::num::scalar::operator!=(const StdScalarType& right_op, const StdScalarType& left_op)
 {
     return right_op.scalar() != left_op.scalar();
 }

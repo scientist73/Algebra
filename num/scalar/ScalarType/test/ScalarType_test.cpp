@@ -1,7 +1,7 @@
 #include "ScalarType.h"
 #include "gtest/gtest.h"
 
-using alg::num::StdScalarType;
+using alg::num::scalar::StdScalarType;
 
 TEST(StdScalarType, OperatorA_test)
 {
