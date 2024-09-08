@@ -3,6 +3,7 @@
 #include "TokenType.h"
 #include <memory>
 #include <vector>
+#include <string_view>
 
 using alg::calc::lex::Lexer;
 using alg::calc::tok::NumTokenType;
@@ -48,10 +49,8 @@ TEST_P(scan_single_token, Default)
     InitLexer();
 
     lexer->setupInputString(GetParam().token_str);
-    auto token = lexer->getNextToken();
+    ASSERT_EQ(lexer->getNextToken(), GetParam().token);
     lexer->closeInput();
-
-    ASSERT_EQ(token, GetParam().token);
 }
 INSTANTIATE_TEST_SUITE_P(Operators, scan_single_token, ::testing::Values(
     SingleToken{"+", TokenType(OperatorTokenType(OperatorTokenType::OPERATOR::PLUS))},
@@ -64,8 +63,8 @@ INSTANTIATE_TEST_SUITE_P(Params, scan_single_token, ::testing::Values(
     SingleToken{")", TokenType(ParenTokenType(ParenTokenType::PAREN::ROUND_CLOSE))}
 ));
 INSTANTIATE_TEST_SUITE_P(Nums, scan_single_token, ::testing::Values(
-    SingleToken{"5", TokenType(NumTokenType(NumTokenType::NUM::REAL, "5"))},
-    SingleToken{"5.78", TokenType(NumTokenType(NumTokenType::NUM::REAL, "5.78"))},
+    SingleToken{"5", REAL_TOKEN("5")},
+    SingleToken{"5.78", REAL_TOKEN("5.78")},
     SingleToken{"7i", TokenType(NumTokenType(NumTokenType::NUM::IMAG, "7"))},
     SingleToken{"45.6i", TokenType(NumTokenType(NumTokenType::NUM::IMAG, "45.6"))}
 ));

@@ -1,5 +1,6 @@
 #include "TokenType.h"
 #include <stdexcept>
+#include <iostream>
 
 using alg::calc::tok::TokenType;
 using alg::calc::tok::OperatorTokenType;

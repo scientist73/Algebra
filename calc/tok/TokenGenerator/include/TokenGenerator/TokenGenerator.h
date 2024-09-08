@@ -1,6 +1,6 @@
 #pragma once
 #include "TokenType.h"
-#include <string_view>
+#include <string>
 
 namespace alg
 {
@@ -13,8 +13,8 @@ namespace alg
             public:
                 static TokenType constructOperator(OperatorTokenType::OPERATOR op_t);
                 static TokenType constructParen(ParenTokenType::PAREN paren_t);
-                static TokenType constructNumToken(NumTokenType::NUM num_t, std::string_view scalar);
-                static TokenType constructIdentifier(std::string_view id);
+                static TokenType constructNumToken(NumTokenType::NUM num_t, std::string scalar);
+                static TokenType constructIdentifier(std::string id);
                 static TokenType constructTermination(TerminationTokenType::TERMINATION term_t);
 
             private:

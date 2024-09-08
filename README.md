@@ -159,7 +159,32 @@ int main()
 * getInputType - получить вид ввода (строка, поток и тд)
 * getNextToken - получить следующий токен. Если токенов больше нет, то возвращается терминирующих токен TokenType(TerminationTokenType(TerminationTokenType::TERMINATION::END_OF_INPUT)) (если после него вызвать эту функцию, то будет брошено исключение std::runtime_error). Если ввод не задан, то выбрасывается исключение std::runtime_error.
 
+### pars
+Модуль для парсинга токенов. Данная реализация основана на gnu bison. В связи с этим класс парсера хоть и я является шаблонным, но ограничен лишь типом double. В будущем планируется переписать данный модуль с помощью Boost::Spirit.
 
+#### Parser
+Модуль представляющий собой непосредственно парсер. Для парсинга необходимо добавить токены с помощью pushToken() с завершающим (терминирующим токеном) и вызвать метод parse(). Пример:
+
+```
+#include "Parser.h"
+#include "TokenType.h"
+
+#define REAL_TOKEN(real_str) TokenType(NumTokenType(NumTokenType::NUM::REAL, real_str))
+#define PLUS_TOKEN TokenType(OperatorTokenType(OperatorTokenType::OPERATOR::PLUS))
+#define END_OF_INPUT_TOKEN TokenType(TerminationTokenType(TerminationTokenType::TERMINATION::END_OF_INPUT))
+
+int main()
+{
+    Parser<double> parser;
+    std::vector<TokenType> tokens({REAL_TOKEN("5"), PLUS_TOKEN, REAL_TOKEN("5"), END_OF_INPUT_TOKEN});
+
+    for (auto token : tokens)
+        parser.pushToken(token);
+    NumType<double> res = parser.parse();
+
+    return 0;
+}
+```
 
 ## Примечание
 На данный момент не реализована обработка исключений, возможно не хватает некоторых "удобных" для пользователей функций.

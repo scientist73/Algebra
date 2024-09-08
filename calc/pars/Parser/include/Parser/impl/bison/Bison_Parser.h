@@ -40,7 +40,7 @@ Bison_Parser<double>::Bison_Parser() : par() {}
 template<>
 void Bison_Parser<double>::pushToken(tok::TokenType token)
 {
-    alg::calc::pars::impl::bison::pushToken(token);
+    return alg::calc::pars::impl::bison::pushToken(token);
 }
 template<>
 NumType<double> Bison_Parser<double>::parse()

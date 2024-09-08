@@ -26,26 +26,57 @@ using alg::calc::tok::IdentifierTokenType;
 
 #define END_OF_INPUT_TOKEN TokenType(TerminationTokenType(TerminationTokenType::TERMINATION::END_OF_INPUT))
 
+
+
 class ParserTests
 {
 public:
     void InitParser() { parser.reset(new Parser<double>()); }
+    void AssertNum(const NumType<double>& l_op, const NumType<double>& r_op)
+    {
+        if (l_op.getAlgebraType() == r_op.getAlgebraType())
+        {
+            switch (l_op.getAlgebraType())
+            {
+            case ALGEBRA::REAL:
+                ASSERT_DOUBLE_EQ(l_op.getReal().real(), r_op.getReal().real());
+                break;
+            case ALGEBRA::COMPLEX:
+                ASSERT_DOUBLE_EQ(l_op.getComplex().real(), r_op.getComplex().real());
+                ASSERT_DOUBLE_EQ(l_op.getComplex().imag(), r_op.getComplex().imag());
+                break;
+            }
+        }
+        else
+            FAIL();
+    }
+
 protected:
     std::unique_ptr<Parser<double>> parser;
 };
 
 
-class parse_expression : public ParserTests, public ::testing::TestWithParam<std::vector<TokenType>> {};
+struct Expression
+{
+    std::vector<TokenType> tokens;
+    NumType<double> res;
+};
+
+class parse_expression : public ParserTests, public ::testing::TestWithParam<Expression> {};
 TEST_P(parse_expression,Default)
 {
     InitParser();
 
-    for (auto token : GetParam())
+    for (auto token : GetParam().tokens)
         parser->pushToken(token);
     auto res = parser->parse();
 
-    ASSERT_DOUBLE_EQ(5, res.getReal().real());
+    AssertNum(res, GetParam().res);
 }
 INSTANTIATE_TEST_SUITE_P(Default, parse_expression, ::testing::Values(
-    std::vector({REAL_TOKEN("5"), END_OF_INPUT_TOKEN})
+    Expression{std::vector({REAL_TOKEN("5"), END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(5))},
+    Expression{std::vector({PAREN_ROUND_OPEN_TOKEN, REAL_TOKEN("5"), PAREN_ROUND_CLOSE_TOKEN, END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(5))},
+    Expression{std::vector({REAL_TOKEN("5"), PLUS_TOKEN, REAL_TOKEN("5"), END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(10))},
+    Expression{std::vector({PAREN_ROUND_OPEN_TOKEN, REAL_TOKEN("5"), PLUS_TOKEN, REAL_TOKEN("5"), PAREN_ROUND_CLOSE_TOKEN, END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(10))},
+    Expression{std::vector({REAL_TOKEN("5"), PLUS_TOKEN, REAL_TOKEN("5"), MULT_TOKEN, REAL_TOKEN("5"), END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(30))}
 ));

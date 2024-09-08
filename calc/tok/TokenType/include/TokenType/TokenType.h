@@ -1,6 +1,6 @@
 #pragma once
 #include <optional>
-#include <string_view>
+#include <string>
 #include <stdexcept>
 #include <variant>
 
@@ -19,14 +19,14 @@ namespace alg
                     IMAG,
                 };
 
-                constexpr explicit NumTokenType(NUM num_t, std::string_view scalar) : num_t(num_t), scalar(scalar) {}
+                explicit NumTokenType(NUM num_t, std::string scalar) : num_t(num_t), scalar(scalar) {}
 
                 NUM getNumTokenType() const { return num_t; }
-                std::string_view getScalar() const { return scalar; }
+                std::string getScalar() const { return scalar; }
 
             private:
                 NUM num_t;
-                std::string_view scalar;
+                std::string scalar;
             };
             struct OperatorTokenType
             {
@@ -63,11 +63,11 @@ namespace alg
             struct IdentifierTokenType
             {
             public:
-                constexpr explicit IdentifierTokenType(std::string_view id) : id(id) {}
+                explicit IdentifierTokenType(std::string id) : id(id) {}
             
-                std::string_view getIdentifier() const { return id; }
+                std::string getIdentifier() const { return id; }
             private:
-                std::string_view id;
+                std::string id;
             };
             struct TerminationTokenType
             {

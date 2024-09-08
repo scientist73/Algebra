@@ -40,7 +40,7 @@ namespace alg
                 {
                     // private func
                     parser::symbol_type yylex ();
-                    void setParseResult(NumType<double> parse_result);
+                    void setParseResult(const NumType<double>& parse_result);
 
                     // public func
                     void pushToken(alg::calc::tok::TokenType token);
@@ -65,7 +65,7 @@ namespace alg
   PAREN_ROUND_OPEN "("
   PAREN_ROUND_CLOSE ")"
 ;
-%token <std::string_view> ID "identifier"
+%token <std::string> ID "identifier"
 %token <NumType<double>> NUM "number"
 %type <NumType<double>> exp
 
@@ -74,14 +74,10 @@ namespace alg
 %left "+" "-";
 %left "*" "/";
 
-%start unit;
-unit: assignments exp END_OF_INPUT { setParseResult($2); }
+input: exp { setParseResult($1); }
   ;
 
-assignments: %empty {}
-  ;
-
-exp: "number"
+exp: NUM
   | exp "+" exp { $$ = $1 + $3; }
   | exp "-" exp { $$ = $1 - $3; }
   | exp "*" exp { $$ = $1 * $3; }
@@ -96,9 +92,9 @@ NumType<double> parse_result;
 std::queue<parser::symbol_type> parser_tokens;
 
 
-void alg::calc::pars::impl::bison::setParseResult(NumType<double> parse_result)
+void alg::calc::pars::impl::bison::setParseResult(const NumType<double>& parse_result)
 {
-    parse_result = parse_result;
+    ::parse_result = parse_result;
 }
 parser::symbol_type alg::calc::pars::impl::bison::yylex ()
 {

@@ -25,7 +25,7 @@ namespace alg
             constexpr NumType(Complex<ScalarType>&& complex_num);
 
             constexpr NumType(const NumType<ScalarType>& num);
-            constexpr NumType(NumType<ScalarType>&& num) = default;
+            constexpr NumType(NumType<ScalarType>&& num);
             ~NumType() = default;
 
             std::string getString() const;
@@ -40,7 +40,7 @@ namespace alg
             constexpr NumType<ScalarType>& operator=(Complex<ScalarType>&& complex_num);
 
             constexpr NumType<ScalarType>& operator=(const NumType& num);
-            constexpr NumType<ScalarType>& operator=(NumType&& num) = default;
+            constexpr NumType<ScalarType>& operator=(NumType&& num);
 
             constexpr NumType<ScalarType>& operator+=(const NumType& right_op);
             constexpr NumType<ScalarType>& operator-=(const NumType& right_op);
@@ -71,6 +71,7 @@ namespace alg
 
 
 #include "NumTypeOperators.h"
+#include <iostream>
 
 
 using namespace alg::num;
@@ -101,8 +102,17 @@ template<typename ScalarType>
 constexpr NumType<ScalarType>::NumType(const NumType<ScalarType>& num) :
     value(nullptr)
 {
-    if (value)
-        value.reset(num.value->getCopy());
+    if (!num.is_valid())
+        throw std::runtime_error("NumType<ScalarType>::NumType(const NumType<ScalarType>& num) error: num doesn't contain a value");
+    value.reset(num.value->getCopy());
+}
+template<typename ScalarType>
+constexpr NumType<ScalarType>::NumType(NumType<ScalarType>&& num) :
+    value(nullptr)
+{
+    if (!num.is_valid())
+        throw std::runtime_error("NumType<ScalarType>::NumType(const NumType<ScalarType>& num) error: num doesn't contain a value");
+    this->value.swap(num.value);
 }
 
 template<typename ScalarType>
@@ -171,10 +181,18 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(Complex<ScalarType
 template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(const NumType& num)
 {
-    if (value)
-        value.reset(num.value->getCopy());
-    else
-        value.reset(nullptr);
+    
+    if (!num.is_valid())
+        throw std::runtime_error("NumType<ScalarType>::operator=(const NumType& num) error: num doesn't contain a value");
+    value.reset(num.value->getCopy());
+    return *this;
+}
+template<typename ScalarType>
+constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(NumType&& num)
+{
+    if (!num.is_valid())
+        throw std::runtime_error("constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(NumType&& num): num doesn't contain a value");
+    value.swap(num.value);
     return *this;
 }
 

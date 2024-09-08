@@ -426,7 +426,7 @@ namespace alg { namespace calc { namespace pars { namespace impl { namespace bis
       char dummy1[sizeof (NumType<double>)];
 
       // "identifier"
-      char dummy2[sizeof (std::string_view)];
+      char dummy2[sizeof (std::string)];
     };
 
     /// The size of the largest semantic type.
@@ -513,9 +513,8 @@ namespace alg { namespace calc { namespace pars { namespace impl { namespace bis
         S_ID = 10,                               // "identifier"
         S_NUM = 11,                              // "number"
         S_YYACCEPT = 12,                         // $accept
-        S_unit = 13,                             // unit
-        S_assignments = 14,                      // assignments
-        S_exp = 15                               // exp
+        S_input = 13,                            // input
+        S_exp = 14                               // exp
       };
     };
 
@@ -556,7 +555,7 @@ namespace alg { namespace calc { namespace pars { namespace impl { namespace bis
         break;
 
       case symbol_kind::S_ID: // "identifier"
-        value.move< std::string_view > (std::move (that.value));
+        value.move< std::string > (std::move (that.value));
         break;
 
       default:
@@ -593,12 +592,12 @@ namespace alg { namespace calc { namespace pars { namespace impl { namespace bis
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, std::string_view&& v)
+      basic_symbol (typename Base::kind_type t, std::string&& v)
         : Base (t)
         , value (std::move (v))
       {}
 #else
-      basic_symbol (typename Base::kind_type t, const std::string_view& v)
+      basic_symbol (typename Base::kind_type t, const std::string& v)
         : Base (t)
         , value (v)
       {}
@@ -634,7 +633,7 @@ switch (yykind)
         break;
 
       case symbol_kind::S_ID: // "identifier"
-        value.template destroy< std::string_view > ();
+        value.template destroy< std::string > ();
         break;
 
       default:
@@ -751,10 +750,10 @@ switch (yykind)
 #endif
       }
 #if 201103L <= YY_CPLUSPLUS
-      symbol_type (int tok, std::string_view v)
+      symbol_type (int tok, std::string v)
         : super_type (token_kind_type (tok), std::move (v))
 #else
-      symbol_type (int tok, const std::string_view& v)
+      symbol_type (int tok, const std::string& v)
         : super_type (token_kind_type (tok), v)
 #endif
       {
@@ -965,14 +964,14 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_ID (std::string_view v)
+      make_ID (std::string v)
       {
         return symbol_type (token::ID, std::move (v));
       }
 #else
       static
       symbol_type
-      make_ID (const std::string_view& v)
+      make_ID (const std::string& v)
       {
         return symbol_type (token::ID, v);
       }
@@ -1296,9 +1295,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 22,     ///< Last index in yytable_.
-      yynnts_ = 4,  ///< Number of nonterminal symbols.
-      yyfinal_ = 3 ///< Termination state number.
+      yylast_ = 19,     ///< Last index in yytable_.
+      yynnts_ = 3,  ///< Number of nonterminal symbols.
+      yyfinal_ = 6 ///< Termination state number.
     };
 
 
@@ -1368,7 +1367,7 @@ switch (yykind)
         break;
 
       case symbol_kind::S_ID: // "identifier"
-        value.copy< std::string_view > (YY_MOVE (that.value));
+        value.copy< std::string > (YY_MOVE (that.value));
         break;
 
       default:
@@ -1408,7 +1407,7 @@ switch (yykind)
         break;
 
       case symbol_kind::S_ID: // "identifier"
-        value.move< std::string_view > (YY_MOVE (s.value));
+        value.move< std::string > (YY_MOVE (s.value));
         break;
 
       default:
@@ -1477,7 +1476,7 @@ switch (yykind)
 
 #line 28 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
 } } } } } // alg::calc::pars::impl::bison
-#line 1481 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
+#line 1480 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
 
 
 // "%code provides" blocks.
@@ -1495,7 +1494,7 @@ namespace alg
                 {
                     // private func
                     parser::symbol_type yylex ();
-                    void setParseResult(NumType<double> parse_result);
+                    void setParseResult(const NumType<double>& parse_result);
 
                     // public func
                     void pushToken(alg::calc::tok::TokenType token);
@@ -1507,7 +1506,7 @@ namespace alg
     } // namespace calc
 } // namespace alg
 
-#line 1511 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
+#line 1510 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
 
 
 #endif // !YY_YY_HOME_SCIENTIST73_PROJECTS_ALGEBRA_CALC_PARS_PARSER_INCLUDE_PARSER_IMPL_BISON_BISONPARSERGENERATED_H_INCLUDED
