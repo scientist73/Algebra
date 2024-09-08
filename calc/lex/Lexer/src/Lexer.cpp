@@ -31,7 +31,7 @@ Lexer::Lexer(LEXER lexer_t) :
     switch (lexer_t)
     {
     case LEXER::FLEX:
-        lexer.reset(new flex::Flex_Lexer());
+        lexer.reset(new impl::flex::Flex_Lexer());
         break;
     }
 }

@@ -1,8 +1,9 @@
 #pragma once
 #include <memory>
 #include "IParser.h"
+#include "TokenType.h"
 
-
+using alg::calc::tok::TokenType;
 
 namespace alg
 {
@@ -16,7 +17,8 @@ namespace alg
             public:
                 Parser();
 
-                NumType<ScalarType> parseString(const std::string& str_input);
+                void pushToken(TokenType token);
+                NumType<ScalarType> parse();
             private:
                 enum class PARSER
                 {
@@ -24,7 +26,7 @@ namespace alg
                 };
                 Parser(PARSER parser_t);
 
-                std::unique_ptr<IParser> parser;
+                std::unique_ptr<IParser<ScalarType>> parser;
                 PARSER parser_t;
             };
 
@@ -42,9 +44,14 @@ Parser<ScalarType>::Parser() : Parser(PARSER::BISON)
 {}
 
 template<typename ScalarType>
-NumType<ScalarType> Parser<ScalarType>::parseString(const std::string& str_input)
+void Parser<ScalarType>::pushToken(TokenType token)
 {
-    return parser->parseString(str_input);
+    return parser->pushToken(token);
+}
+template<typename ScalarType>
+NumType<ScalarType> Parser<ScalarType>::parse()
+{
+    return parser->parse();
 }
 
 template<typename ScalarType>

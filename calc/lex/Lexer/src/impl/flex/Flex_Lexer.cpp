@@ -546,7 +546,7 @@ char *yytext;
 #include "TokenGenerator.h"
 
 
-using alg::calc::lex::flex::Flex_Lexer;
+using alg::calc::lex::impl::flex::Flex_Lexer;
 using alg::calc::tok::TokenType;
 using alg::calc::tok::TokenGenerator;
 using alg::calc::tok::OperatorTokenType;

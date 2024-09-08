@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "NumType.h"
+#include "TokenType.h"
 
 
 namespace alg
@@ -15,7 +16,8 @@ namespace alg
             public:
                 virtual ~IParser() = default;
             
-                virtual NumType<ScalarType> parseString(const std::string& str_input) = 0;
+                virtual void pushToken(tok::TokenType token) = 0;
+                virtual NumType<ScalarType> parse() = 0;
             };
         } // namespace pars
     } // namespace calc

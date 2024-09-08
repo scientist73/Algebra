@@ -99,8 +99,11 @@ constexpr NumType<ScalarType>::NumType(Complex<ScalarType>&& complex_num) :
 
 template<typename ScalarType>
 constexpr NumType<ScalarType>::NumType(const NumType<ScalarType>& num) :
-    value(num.value->getCopy())
-{}
+    value(nullptr)
+{
+    if (value)
+        value.reset(num.value->getCopy());
+}
 
 template<typename ScalarType>
 std::string NumType<ScalarType>::getString() const
@@ -168,7 +171,10 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(Complex<ScalarType
 template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(const NumType& num)
 {
-    value.reset(new NumType<ScalarType>(num));
+    if (value)
+        value.reset(num.value->getCopy());
+    else
+        value.reset(nullptr);
     return *this;
 }
 

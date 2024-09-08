@@ -35,3 +35,4 @@ add_subdirectory(calc/tok/TokenType)
 add_subdirectory(calc/tok/TokenGenerator)
 
 add_subdirectory(calc/lex/Lexer)
+add_subdirectory(calc/pars/Parser)

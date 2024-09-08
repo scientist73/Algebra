@@ -1,71 +1,192 @@
-%skeleton "Bison_Parser.cpp"
 %require "3.4"
 %language "c++"
+%defines
 
 %define api.token.constructor
 %define api.value.type variant
 %define parse.assert
 
 %code requires {
-#include <string>
-class driver;
+#include <string_view>
+#include <queue>
+#include "NumType.h"
+#include "TokenType.h"
+
+
+using alg::num::NumType;
+using alg::calc::tok::TokenType;
+using alg::calc::tok::OperatorTokenType;
+using alg::calc::tok::ParenTokenType;
+using alg::calc::tok::NumTokenType;
+using alg::calc::tok::IdentifierTokenType;
+using alg::calc::tok::TerminationTokenType;
 }
 
-%param { driver& drv }
 
 
 %define parse.trace
-%define parse.error verbose
-%define api.namespace {alg::calc::pars::bison}
+%define api.namespace {alg::calc::pars::impl::bison}
 
-%code {
-#include "driver.hh"
+%code provides{
+namespace alg
+{
+    namespace calc
+    {
+        namespace pars
+        {
+            namespace impl
+            {
+                namespace bison
+                {
+                    // private func
+                    parser::symbol_type yylex ();
+                    void setParseResult(NumType<double> parse_result);
+
+                    // public func
+                    void pushToken(alg::calc::tok::TokenType token);
+                    NumType<double> getParseResult();
+
+                } // namespace bison
+            } // namespace impl
+        } // namespace pars
+    } // namespace calc
+} // namespace alg
 }
 
-%define api.token.prefix {TOK_}
+
+
 %token
-  END 0 "end of input"
+  END_OF_INPUT 0
+  END_OF_LINE "\n"
   MINUS "-"
   PLUS "+"
   MULT "*"
   DIV "/"
-  LPAREN "("
-  RPAREN ")"
+  PAREN_ROUND_OPEN "("
+  PAREN_ROUND_CLOSE ")"
 ;
-%token <std::string> IDENTIFIER "identifier"
-%token <int> NUMBER "number"
-%type <int> exp
+%token <std::string_view> ID "identifier"
+%token <NumType<double>> NUM "number"
+%type <NumType<double>> exp
 
-%printer { yyo << $$; } <*>
 
 %%
-
-%start unit;
-unit: assignments exp { drv.result = $2; }
-  ;
-
-assignments: %empty {}
-  | assignments assignment {}
-  ;
-
-assignment:
-  "identifier" ":=" exp { drv.variables[$1] = $3; }
-  ;
-
 %left "+" "-";
 %left "*" "/";
 
+%start unit;
+unit: assignments exp END_OF_INPUT { setParseResult($2); }
+  ;
+
+assignments: %empty {}
+  ;
+
 exp: "number"
-  | "identifier" { $$ = drv.variables[$1]; }
   | exp "+" exp { $$ = $1 + $3; }
   | exp "-" exp { $$ = $1 - $3; }
   | exp "*" exp { $$ = $1 * $3; }
   | exp "/" exp { $$ = $1 / $3; }
   | "(" exp ")" { $$ = $2; }
   ;
-
 %%
 
-void yy::parser::error(const location_type& loc, const std::string& m) {
-  std::cerr << loc << ": " << m << std::endl;
+using alg::calc::pars::impl::bison::parser;
+
+NumType<double> parse_result;
+std::queue<parser::symbol_type> parser_tokens;
+
+
+void alg::calc::pars::impl::bison::setParseResult(NumType<double> parse_result)
+{
+    parse_result = parse_result;
+}
+parser::symbol_type alg::calc::pars::impl::bison::yylex ()
+{
+    auto token = parser_tokens.front();
+    parser_tokens.pop();
+    return token;
+}
+void alg::calc::pars::impl::bison::pushToken(TokenType token)
+{
+    switch (token.getTokenType())
+    {
+    case TokenType::TOKEN::TERMINATION:
+    {
+        auto term_token = token.getTerminationToken();
+        switch (term_token.getTerminationTokenType())
+        {
+        case TerminationTokenType::TERMINATION::END_OF_INPUT:
+            parser_tokens.push(parser::make_END_OF_INPUT());
+            break;
+        case TerminationTokenType::TERMINATION::END_OF_LINE:
+            parser_tokens.push(parser::make_END_OF_LINE());
+            break;
+        }
+        break;
+    }
+    case TokenType::TOKEN::IDENTIFIER:
+    {
+        auto id_token = token.getIdentifierToken();
+        parser_tokens.push(parser::make_ID(id_token.getIdentifier()));
+        break;
+    }
+    case TokenType::TOKEN::NUM:
+    {
+        auto num_token = token.getNumToken();
+        // modify code here
+        switch (num_token.getNumTokenType())
+        {
+        case NumTokenType::NUM::REAL:
+            parser_tokens.push(parser::make_NUM(NumType<double>(Real<double>(std::stod(std::string(num_token.getScalar()))))));
+            break;
+        case NumTokenType::NUM::IMAG:
+            parser_tokens.push(parser::make_NUM(NumType<double>(Complex<double>(0, std::stod(std::string(num_token.getScalar()))))));
+            break;
+        }
+        break;
+    }
+    case TokenType::TOKEN::OPERATOR:
+    {
+        auto op_token = token.getOperatorToken();
+        switch (op_token.getOperatorTokenType())
+        {
+        case OperatorTokenType::OPERATOR::PLUS:
+            parser_tokens.push(parser::make_PLUS());
+            break;
+        case OperatorTokenType::OPERATOR::MINUS:
+            parser_tokens.push(parser::make_MINUS());
+            break;
+        case OperatorTokenType::OPERATOR::MULT:
+            parser_tokens.push(parser::make_MULT());
+            break;
+        case OperatorTokenType::OPERATOR::DIV:
+            parser_tokens.push(parser::make_DIV());
+            break;
+        }
+        break;
+    }
+    case TokenType::TOKEN::PAREN:
+    {
+        auto paren_token = token.getParenToken();
+        switch (paren_token.getParenTokenType())
+        {
+        case ParenTokenType::PAREN::ROUND_CLOSE:
+            parser_tokens.push(parser::make_PAREN_ROUND_CLOSE());
+            break;
+        case ParenTokenType::PAREN::ROUND_OPEN:
+            parser_tokens.push(parser::make_PAREN_ROUND_OPEN());
+            break;
+        }
+        break;
+    }
+    }
+}
+NumType<double> alg::calc::pars::impl::bison::getParseResult()
+{
+    return parse_result;
+}
+
+
+void parser::error(const std::string& err_mes) {
+  std::cerr << err_mes << std::endl;
 }
