@@ -977,6 +977,8 @@ void alg::calc::pars::impl::bison::pushToken(TokenType token)
         }
         break;
     }
+    case TokenType::TOKEN::EMPTY:
+        throw std::runtime_error("parser received empty token");
     }
 }
 NumType<double> alg::calc::pars::impl::bison::getParseResult()

@@ -101,8 +101,10 @@ namespace alg
                     NUM,
                     IDENTIFIER,
                     TERMINATION,
+                    EMPTY,
                 };
 
+                constexpr explicit TokenType() : token_t(TOKEN::EMPTY) {}
                 constexpr explicit TokenType(OperatorTokenType&& op) : token_t(TOKEN::OPERATOR), token(std::move(op)) {}
                 constexpr explicit TokenType(ParenTokenType&& paren) : token_t(TOKEN::PAREN), token(std::move(paren)) {}
                 constexpr explicit TokenType(NumTokenType&& num) : token_t(TOKEN::NUM), token(std::move(num)) {}
@@ -111,6 +113,7 @@ namespace alg
 
                 TOKEN getTokenType() const { return token_t; }
                 
+                bool isEmpty() const { return token_t == TOKEN::EMPTY; }
                 OperatorTokenType getOperatorToken() const;
                 ParenTokenType getParenToken() const;
                 NumTokenType getNumToken() const;
@@ -119,9 +122,10 @@ namespace alg
 
             private:
                 TOKEN token_t;
-                std::variant<OperatorTokenType, ParenTokenType, NumTokenType, IdentifierTokenType, TerminationTokenType> token;
+                std::optional<std::variant<OperatorTokenType, ParenTokenType, NumTokenType, IdentifierTokenType, TerminationTokenType>> token;
             };
             bool operator==(const TokenType& l_op, const TokenType& r_op);
+            bool operator!=(const TokenType& l_op, const TokenType& r_op);
 
         } // namespace tok
     } // namespace calc

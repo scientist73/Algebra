@@ -35,7 +35,7 @@ OperatorTokenType TokenType::getOperatorToken() const
 {
     try
     { 
-        return std::get<OperatorTokenType>(token); 
+        return std::get<OperatorTokenType>(token.value()); 
     } 
     catch(std::bad_variant_access& ex) 
     { 
@@ -46,7 +46,7 @@ ParenTokenType TokenType::getParenToken() const
 {
     try
     { 
-        return std::get<ParenTokenType>(token); 
+        return std::get<ParenTokenType>(token.value()); 
     } 
     catch(std::bad_variant_access& ex) 
     { 
@@ -57,7 +57,7 @@ NumTokenType TokenType::getNumToken() const
 {
     try
     { 
-        return std::get<NumTokenType>(token); 
+        return std::get<NumTokenType>(token.value()); 
     } 
     catch(std::bad_variant_access& ex) 
     { 
@@ -68,7 +68,7 @@ IdentifierTokenType TokenType::getIdentifierToken() const
 {
     try
     { 
-        return std::get<IdentifierTokenType>(token); 
+        return std::get<IdentifierTokenType>(token.value()); 
     } 
     catch(std::bad_variant_access& ex) 
     { 
@@ -79,7 +79,7 @@ TerminationTokenType TokenType::getTerminationToken() const
 {
     try
     { 
-        return std::get<TerminationTokenType>(token); 
+        return std::get<TerminationTokenType>(token.value()); 
     } 
     catch(std::bad_variant_access& ex) 
     { 
@@ -104,8 +104,14 @@ bool alg::calc::tok::operator==(const TokenType& l_op, const TokenType& r_op)
             return l_op.getTerminationToken() == r_op.getTerminationToken();
         case TokenType::TOKEN::PAREN:
             return l_op.getParenToken() == r_op.getParenToken();
+        case TokenType::TOKEN::EMPTY:
+            return true;
         }
     }
     else
         return false;
+}
+bool alg::calc::tok::operator!=(const TokenType& l_op, const TokenType& r_op)
+{
+    return !(l_op == r_op);
 }

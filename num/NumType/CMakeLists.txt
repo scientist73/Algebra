@@ -13,7 +13,6 @@ if (NOT TARGET NumType)
 
 
     # Where NumType's .h files can be found.
-    # NumType is a template module, so .cpp files includes in the end of .h files
     set(NumType_include_dirs
         "${NumType_SOURCE_DIR}/include/NumType"
         "${NumType_SOURCE_DIR}/include/NumType/impl"
