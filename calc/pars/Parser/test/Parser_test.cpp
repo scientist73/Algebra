@@ -62,8 +62,8 @@ struct Expression
     NumType<double> res;
 };
 
-class parse_expression : public ParserTests, public ::testing::TestWithParam<Expression> {};
-TEST_P(parse_expression,Default)
+class parse_correct_expression : public ParserTests, public ::testing::TestWithParam<Expression> {};
+TEST_P(parse_correct_expression, Default)
 {
     InitParser();
 
@@ -73,10 +73,72 @@ TEST_P(parse_expression,Default)
 
     AssertNum(res, GetParam().res);
 }
-INSTANTIATE_TEST_SUITE_P(Default, parse_expression, ::testing::Values(
-    Expression{std::vector({REAL_TOKEN("5"), END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(5))},
-    Expression{std::vector({PAREN_ROUND_OPEN_TOKEN, REAL_TOKEN("5"), PAREN_ROUND_CLOSE_TOKEN, END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(5))},
-    Expression{std::vector({REAL_TOKEN("5"), PLUS_TOKEN, REAL_TOKEN("5"), END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(10))},
-    Expression{std::vector({PAREN_ROUND_OPEN_TOKEN, REAL_TOKEN("5"), PLUS_TOKEN, REAL_TOKEN("5"), PAREN_ROUND_CLOSE_TOKEN, END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(10))},
+INSTANTIATE_TEST_SUITE_P(simple_real_num_expression, parse_correct_expression, ::testing::Values(
+    Expression{std::vector({REAL_TOKEN("5.1"), END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(5.1))},
+    Expression{std::vector({REAL_TOKEN("3.4"), PLUS_TOKEN, REAL_TOKEN("2.6"), END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(6))},
+    Expression{std::vector({REAL_TOKEN("3.4"), MINUS_TOKEN, REAL_TOKEN("2.4"), END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(1))},
+    Expression{std::vector({REAL_TOKEN("3"), MULT_TOKEN, REAL_TOKEN("2"), END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(6))},
+    Expression{std::vector({REAL_TOKEN("3"), DIV_TOKEN, REAL_TOKEN("2"), END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(1.5))},
+    Expression{std::vector({PAREN_ROUND_OPEN_TOKEN, REAL_TOKEN("7.8"), PAREN_ROUND_CLOSE_TOKEN, END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(7.8))}
+));
+INSTANTIATE_TEST_SUITE_P(simple_complex_num_expression, parse_correct_expression, ::testing::Values(
+    Expression{std::vector({IMAG_TOKEN("5.1"), END_OF_INPUT_TOKEN}), NumType<double>(Complex<double>(0, 5.1))},
+    Expression{std::vector({IMAG_TOKEN("3.4"), PLUS_TOKEN, IMAG_TOKEN("2.6"), END_OF_INPUT_TOKEN}), NumType<double>(Complex<double>(0, 6))},
+    Expression{std::vector({IMAG_TOKEN("3.4"), MINUS_TOKEN, IMAG_TOKEN("2.4"), END_OF_INPUT_TOKEN}), NumType<double>(Complex<double>(0, 1))},
+    Expression{std::vector({IMAG_TOKEN("3"), MULT_TOKEN, IMAG_TOKEN("2"), END_OF_INPUT_TOKEN}), NumType<double>(Complex<double>(-6, 0))},
+    Expression{std::vector({IMAG_TOKEN("3"), DIV_TOKEN, IMAG_TOKEN("2"), END_OF_INPUT_TOKEN}), NumType<double>(Complex<double>(1.5, 0))},
+    Expression{std::vector({PAREN_ROUND_OPEN_TOKEN, IMAG_TOKEN("7.8"), PAREN_ROUND_CLOSE_TOKEN, END_OF_INPUT_TOKEN}), NumType<double>(Complex<double>(0, 7.8))}
+));
+INSTANTIATE_TEST_SUITE_P(complicated_expression, parse_correct_expression, ::testing::Values(
+    Expression{std::vector({REAL_TOKEN("2"), PLUS_TOKEN, IMAG_TOKEN("5.6"), END_OF_INPUT_TOKEN}), NumType<double>(Complex<double>(2, 5.6))},
+    Expression{std::vector({REAL_TOKEN("5"), PLUS_TOKEN, IMAG_TOKEN("5"), MULT_TOKEN, REAL_TOKEN("5"), END_OF_INPUT_TOKEN}), NumType<double>(Complex<double>(5, 25))},
+    Expression{std::vector({REAL_TOKEN("5"), MINUS_TOKEN, REAL_TOKEN("5"), MULT_TOKEN, REAL_TOKEN("5"), END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(-20))},
+    Expression{std::vector({PAREN_ROUND_OPEN_TOKEN, REAL_TOKEN("5"), PLUS_TOKEN, REAL_TOKEN("5"), PAREN_ROUND_CLOSE_TOKEN, MULT_TOKEN, REAL_TOKEN("5"), END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(50))},
+    Expression{std::vector({REAL_TOKEN("10"), DIV_TOKEN, REAL_TOKEN("5"), MULT_TOKEN, REAL_TOKEN("3"), END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(6))},
     Expression{std::vector({REAL_TOKEN("5"), PLUS_TOKEN, REAL_TOKEN("5"), MULT_TOKEN, REAL_TOKEN("5"), END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(30))}
+));
+
+
+struct TwoExpressions
+{
+    std::vector<TokenType> tokens;
+    NumType<double> res1;
+    NumType<double> res2;
+};
+class parse_two_correct_expression : public ParserTests, public ::testing::TestWithParam<TwoExpressions> {};
+TEST_P(parse_two_correct_expression, Default)
+{
+    InitParser();
+
+    for (auto token : GetParam().tokens)
+        parser->pushToken(token);
+    auto res1 = parser->parse();
+    auto res2 = parser->parse();
+
+    AssertNum(res1, GetParam().res1);
+    AssertNum(res2, GetParam().res2);
+}
+INSTANTIATE_TEST_SUITE_P(Default, parse_two_correct_expression, ::testing::Values(
+    TwoExpressions{std::vector({REAL_TOKEN("5.1"), END_OF_INPUT_TOKEN, REAL_TOKEN("3"), END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(5.1)), NumType<double>(Real<double>(3))},
+    TwoExpressions{std::vector({REAL_TOKEN("5"), END_OF_INPUT_TOKEN, REAL_TOKEN("3"), PLUS_TOKEN, IMAG_TOKEN("2.1"), END_OF_INPUT_TOKEN}), NumType<double>(Real<double>(5)), NumType<double>(Complex<double>(3, 2.1))}
+));
+
+
+struct InvalidExpression
+{
+    std::vector<TokenType> tokens;
+};
+class parse_invalid_expression : public ParserTests, public ::testing::TestWithParam<InvalidExpression> {};
+TEST_P(parse_invalid_expression, Default)
+{
+    InitParser();
+
+    for (auto token : GetParam().tokens)
+        parser->pushToken(token);
+    ASSERT_THROW(parser->parse(), std::runtime_error);
+}
+INSTANTIATE_TEST_SUITE_P(Default, parse_invalid_expression, ::testing::Values(
+    InvalidExpression{std::vector({END_OF_INPUT_TOKEN})},
+    InvalidExpression{std::vector({PLUS_TOKEN, END_OF_INPUT_TOKEN})},
+    InvalidExpression{std::vector({PAREN_ROUND_OPEN_TOKEN, REAL_TOKEN("5.6"), END_OF_INPUT_TOKEN})}
 ));

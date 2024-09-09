@@ -1493,6 +1493,8 @@ namespace alg
                 namespace bison
                 {
                     // private func
+                    // this func should be declared in .cpp file
+                    // but bison doesn't provide this functionality
                     parser::symbol_type yylex ();
                     void setParseResult(const NumType<double>& parse_result);
 
@@ -1506,7 +1508,7 @@ namespace alg
     } // namespace calc
 } // namespace alg
 
-#line 1510 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
+#line 1512 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
 
 
 #endif // !YY_YY_HOME_SCIENTIST73_PROJECTS_ALGEBRA_CALC_PARS_PARSER_INCLUDE_PARSER_IMPL_BISON_BISONPARSERGENERATED_H_INCLUDED

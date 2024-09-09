@@ -39,6 +39,8 @@ namespace alg
                 namespace bison
                 {
                     // private func
+                    // this func should be declared in .cpp file
+                    // but bison doesn't provide this functionality
                     parser::symbol_type yylex ();
                     void setParseResult(const NumType<double>& parse_result);
 
@@ -73,6 +75,7 @@ namespace alg
 %%
 %left "+" "-";
 %left "*" "/";
+
 
 input: exp { setParseResult($1); }
   ;
@@ -183,6 +186,7 @@ NumType<double> alg::calc::pars::impl::bison::getParseResult()
 }
 
 
-void parser::error(const std::string& err_mes) {
-  std::cerr << err_mes << std::endl;
+void parser::error(const std::string& err_mes) 
+{
+    throw std::runtime_error(err_mes);
 }

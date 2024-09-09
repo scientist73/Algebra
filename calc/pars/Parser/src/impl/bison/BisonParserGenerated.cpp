@@ -538,43 +538,43 @@ namespace alg { namespace calc { namespace pars { namespace impl { namespace bis
           switch (yyn)
             {
   case 2: // input: exp
-#line 77 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 80 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
            { setParseResult(yystack_[0].value.as < NumType<double> > ()); }
 #line 544 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/BisonParserGenerated.cpp"
     break;
 
   case 3: // exp: "number"
-#line 80 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 83 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
      { yylhs.value.as < NumType<double> > () = yystack_[0].value.as < NumType<double> > (); }
 #line 550 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/BisonParserGenerated.cpp"
     break;
 
   case 4: // exp: exp "+" exp
-#line 81 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 84 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
                 { yylhs.value.as < NumType<double> > () = yystack_[2].value.as < NumType<double> > () + yystack_[0].value.as < NumType<double> > (); }
 #line 556 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/BisonParserGenerated.cpp"
     break;
 
   case 5: // exp: exp "-" exp
-#line 82 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 85 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
                 { yylhs.value.as < NumType<double> > () = yystack_[2].value.as < NumType<double> > () - yystack_[0].value.as < NumType<double> > (); }
 #line 562 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/BisonParserGenerated.cpp"
     break;
 
   case 6: // exp: exp "*" exp
-#line 83 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 86 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
                 { yylhs.value.as < NumType<double> > () = yystack_[2].value.as < NumType<double> > () * yystack_[0].value.as < NumType<double> > (); }
 #line 568 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/BisonParserGenerated.cpp"
     break;
 
   case 7: // exp: exp "/" exp
-#line 84 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 87 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
                 { yylhs.value.as < NumType<double> > () = yystack_[2].value.as < NumType<double> > () / yystack_[0].value.as < NumType<double> > (); }
 #line 574 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/BisonParserGenerated.cpp"
     break;
 
   case 8: // exp: "(" exp ")"
-#line 85 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 88 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
                 { yylhs.value.as < NumType<double> > () = yystack_[1].value.as < NumType<double> > (); }
 #line 580 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/BisonParserGenerated.cpp"
     break;
@@ -850,7 +850,7 @@ namespace alg { namespace calc { namespace pars { namespace impl { namespace bis
   const signed char
   parser::yyrline_[] =
   {
-       0,    77,    77,    80,    81,    82,    83,    84,    85
+       0,    80,    80,    83,    84,    85,    86,    87,    88
   };
 
   void
@@ -885,7 +885,7 @@ namespace alg { namespace calc { namespace pars { namespace impl { namespace bis
 } } } } } // alg::calc::pars::impl::bison
 #line 887 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/BisonParserGenerated.cpp"
 
-#line 87 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 90 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
 
 
 using alg::calc::pars::impl::bison::parser;
@@ -985,6 +985,7 @@ NumType<double> alg::calc::pars::impl::bison::getParseResult()
 }
 
 
-void parser::error(const std::string& err_mes) {
-  std::cerr << err_mes << std::endl;
+void parser::error(const std::string& err_mes) 
+{
+    throw std::runtime_error(err_mes);
 }
