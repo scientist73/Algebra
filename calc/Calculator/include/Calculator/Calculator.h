@@ -16,7 +16,6 @@ namespace alg
             Calculator();
 
             void setupInputString(const std::string& str_input);
-            void closeInput();
 
             NumType<ScalarType> calculate();
 
@@ -43,11 +42,6 @@ void Calculator<ScalarType>::setupInputString(const std::string& str_input)
 {
     return lexer.setupInputString(str_input);
 }
-template<typename ScalarType>
-void Calculator<ScalarType>::closeInput()
-{
-    return lexer.closeInput();
-}
 
 template<typename ScalarType>
 NumType<ScalarType> Calculator<ScalarType>::calculate()
@@ -60,6 +54,7 @@ NumType<ScalarType> Calculator<ScalarType>::calculate()
         parser.pushToken(token);
 
     } while (token != TokenType(TerminationTokenType(TerminationTokenType::TERMINATION::END_OF_INPUT)));
+    lexer.closeInput();
     
     return parser.parse();
 }

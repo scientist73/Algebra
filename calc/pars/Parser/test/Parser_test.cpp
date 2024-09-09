@@ -27,29 +27,30 @@ using alg::calc::tok::IdentifierTokenType;
 #define END_OF_INPUT_TOKEN TokenType(TerminationTokenType(TerminationTokenType::TERMINATION::END_OF_INPUT))
 
 
+void AssertNum(const NumType<double>& l_op, const NumType<double>& r_op)
+{
+    if (l_op.getAlgebraType() == r_op.getAlgebraType())
+    {
+        switch (l_op.getAlgebraType())
+        {
+        case ALGEBRA::REAL:
+            ASSERT_DOUBLE_EQ(l_op.getReal().real(), r_op.getReal().real());
+            break;
+        case ALGEBRA::COMPLEX:
+            ASSERT_DOUBLE_EQ(l_op.getComplex().real(), r_op.getComplex().real());
+            ASSERT_DOUBLE_EQ(l_op.getComplex().imag(), r_op.getComplex().imag());
+            break;
+        }
+    }
+    else
+        FAIL();
+}
 
 class ParserTests
 {
 public:
     void InitParser() { parser.reset(new Parser<double>()); }
-    void AssertNum(const NumType<double>& l_op, const NumType<double>& r_op)
-    {
-        if (l_op.getAlgebraType() == r_op.getAlgebraType())
-        {
-            switch (l_op.getAlgebraType())
-            {
-            case ALGEBRA::REAL:
-                ASSERT_DOUBLE_EQ(l_op.getReal().real(), r_op.getReal().real());
-                break;
-            case ALGEBRA::COMPLEX:
-                ASSERT_DOUBLE_EQ(l_op.getComplex().real(), r_op.getComplex().real());
-                ASSERT_DOUBLE_EQ(l_op.getComplex().imag(), r_op.getComplex().imag());
-                break;
-            }
-        }
-        else
-            FAIL();
-    }
+
 
 protected:
     std::unique_ptr<Parser<double>> parser;
