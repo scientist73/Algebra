@@ -19,18 +19,16 @@ namespace alg
             class TokenType
             {
             public:
-                constexpr explicit TokenType() : token_t(TOKEN::EMPTY) {}
-                constexpr explicit TokenType(OperatorTokenType&& op_token) : token_t(TOKEN::OPERATOR), token(std::move(op_token)) {}
-                constexpr explicit TokenType(ParenTokenType&& paren_token) : token_t(TOKEN::PAREN), token(std::move(paren_token)) {}
-                constexpr explicit TokenType(NumTokenType&& num_token) : token_t(TOKEN::NUM), token(std::move(num_token)) {}
-                constexpr explicit TokenType(IdentifierTokenType&& id_token) : token_t(TOKEN::IDENTIFIER), token(std::move(id_token)) {}
-                constexpr explicit TokenType(TerminationTokenType&& term_token) : token_t(TOKEN::TERMINATION), token(std::move(term_token)) {}
+                constexpr explicit TokenType();
+                constexpr explicit TokenType(OperatorTokenType&& op_token);
+                constexpr explicit TokenType(ParenTokenType&& paren_token);
+                constexpr explicit TokenType(NumTokenType&& num_token);
+                constexpr explicit TokenType(IdentifierTokenType&& id_token);
+                constexpr explicit TokenType(TerminationTokenType&& term_token);
 
-                constexpr ~TokenType() = default;
-
-                constexpr TOKEN getTokenType() const { return token_t; }
+                constexpr TOKEN getTokenType() const;
                 
-                constexpr bool isEmpty() const { return token_t == TOKEN::EMPTY; }
+                constexpr bool isEmpty() const;
                 constexpr const OperatorTokenType& getOperatorToken() const;
                 constexpr const ParenTokenType& getParenToken() const;
                 constexpr const NumTokenType& getNumToken() const;
@@ -58,10 +56,36 @@ namespace alg
 
 using namespace alg::calc::tok;
 
+constexpr TokenType::TokenType() :
+    token_t(TOKEN::EMPTY)
+{}
+constexpr TokenType::TokenType(OperatorTokenType&& op_token) :
+    token_t(TOKEN::OPERATOR), token(std::move(op_token))
+{}
+constexpr TokenType::TokenType(ParenTokenType&& paren_token) :
+    token_t(TOKEN::PAREN), token(std::move(paren_token))
+{}
+constexpr TokenType::TokenType(NumTokenType&& num_token) :
+    token_t(TOKEN::NUM), token(std::move(num_token))
+{}
+constexpr TokenType::TokenType(IdentifierTokenType&& id_token) :
+    token_t(TOKEN::IDENTIFIER), token(std::move(id_token))
+{}
+constexpr TokenType::TokenType(TerminationTokenType&& term_token) :
+    token_t(TOKEN::TERMINATION), token(std::move(term_token))
+{}
+
+constexpr TOKEN TokenType::getTokenType() const
+{ 
+    return token_t;
+}
+
+constexpr bool TokenType::isEmpty() const
+{
+    return token_t == TOKEN::EMPTY;
+}
 constexpr const OperatorTokenType& TokenType::getOperatorToken() const
 {
-    constexpr OperatorTokenType hdsa{OperatorTokenType::OPERATOR::DIV};
-
     try
     { 
         return std::get<OperatorTokenType>(token.value()); 
