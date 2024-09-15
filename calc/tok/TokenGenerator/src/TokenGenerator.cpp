@@ -10,11 +10,11 @@ TokenType TokenGenerator::constructParen(ParenTokenType::PAREN paren_t)
 {
     return TokenType(ParenTokenType(paren_t));
 }
-TokenType TokenGenerator::constructNumToken(NumTokenType::NUM num_t, std::string scalar)
+TokenType TokenGenerator::constructNumToken(NumTokenType::NUM num_t, std::string_view scalar)
 {
     return TokenType(NumTokenType(num_t, scalar));
 }
-TokenType TokenGenerator::constructIdentifier(std::string id)
+TokenType TokenGenerator::constructIdentifier(std::string_view id)
 {
     return TokenType(IdentifierTokenType(id));
 }

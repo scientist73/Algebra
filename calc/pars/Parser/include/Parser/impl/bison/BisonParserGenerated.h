@@ -54,6 +54,7 @@
 
 
 using alg::num::NumType;
+using alg::calc::tok::TOKEN;
 using alg::calc::tok::TokenType;
 using alg::calc::tok::OperatorTokenType;
 using alg::calc::tok::ParenTokenType;
@@ -61,7 +62,7 @@ using alg::calc::tok::NumTokenType;
 using alg::calc::tok::IdentifierTokenType;
 using alg::calc::tok::TerminationTokenType;
 
-#line 65 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
+#line 66 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
 
 # include <cassert>
 # include <cstdlib> // std::abort
@@ -200,9 +201,9 @@ using alg::calc::tok::TerminationTokenType;
 # define YYDEBUG 1
 #endif
 
-#line 28 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 29 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
 namespace alg { namespace calc { namespace pars { namespace impl { namespace bison {
-#line 206 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
+#line 207 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
 
 
 
@@ -426,7 +427,7 @@ namespace alg { namespace calc { namespace pars { namespace impl { namespace bis
       char dummy1[sizeof (NumType<double>)];
 
       // "identifier"
-      char dummy2[sizeof (std::string)];
+      char dummy2[sizeof (std::string_view)];
     };
 
     /// The size of the largest semantic type.
@@ -555,7 +556,7 @@ namespace alg { namespace calc { namespace pars { namespace impl { namespace bis
         break;
 
       case symbol_kind::S_ID: // "identifier"
-        value.move< std::string > (std::move (that.value));
+        value.move< std::string_view > (std::move (that.value));
         break;
 
       default:
@@ -592,12 +593,12 @@ namespace alg { namespace calc { namespace pars { namespace impl { namespace bis
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, std::string&& v)
+      basic_symbol (typename Base::kind_type t, std::string_view&& v)
         : Base (t)
         , value (std::move (v))
       {}
 #else
-      basic_symbol (typename Base::kind_type t, const std::string& v)
+      basic_symbol (typename Base::kind_type t, const std::string_view& v)
         : Base (t)
         , value (v)
       {}
@@ -633,7 +634,7 @@ switch (yykind)
         break;
 
       case symbol_kind::S_ID: // "identifier"
-        value.template destroy< std::string > ();
+        value.template destroy< std::string_view > ();
         break;
 
       default:
@@ -750,10 +751,10 @@ switch (yykind)
 #endif
       }
 #if 201103L <= YY_CPLUSPLUS
-      symbol_type (int tok, std::string v)
+      symbol_type (int tok, std::string_view v)
         : super_type (token_kind_type (tok), std::move (v))
 #else
-      symbol_type (int tok, const std::string& v)
+      symbol_type (int tok, const std::string_view& v)
         : super_type (token_kind_type (tok), v)
 #endif
       {
@@ -964,14 +965,14 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
-      make_ID (std::string v)
+      make_ID (std::string_view v)
       {
         return symbol_type (token::ID, std::move (v));
       }
 #else
       static
       symbol_type
-      make_ID (const std::string& v)
+      make_ID (const std::string_view& v)
       {
         return symbol_type (token::ID, v);
       }
@@ -1367,7 +1368,7 @@ switch (yykind)
         break;
 
       case symbol_kind::S_ID: // "identifier"
-        value.copy< std::string > (YY_MOVE (that.value));
+        value.copy< std::string_view > (YY_MOVE (that.value));
         break;
 
       default:
@@ -1407,7 +1408,7 @@ switch (yykind)
         break;
 
       case symbol_kind::S_ID: // "identifier"
-        value.move< std::string > (YY_MOVE (s.value));
+        value.move< std::string_view > (YY_MOVE (s.value));
         break;
 
       default:
@@ -1474,13 +1475,13 @@ switch (yykind)
   }
 
 
-#line 28 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 29 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
 } } } } } // alg::calc::pars::impl::bison
-#line 1480 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
+#line 1481 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
 
 
 // "%code provides" blocks.
-#line 30 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 31 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
 
 namespace alg
 {
@@ -1508,7 +1509,7 @@ namespace alg
     } // namespace calc
 } // namespace alg
 
-#line 1512 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
+#line 1513 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
 
 
 #endif // !YY_YY_HOME_SCIENTIST73_PROJECTS_ALGEBRA_CALC_PARS_PARSER_INCLUDE_PARSER_IMPL_BISON_BISONPARSERGENERATED_H_INCLUDED

@@ -28,6 +28,20 @@ using alg::calc::tok::IdentifierTokenType;
 
 #define END_OF_INPUT_TOKEN TokenType(TerminationTokenType(TerminationTokenType::TERMINATION::END_OF_INPUT))
 
+
+std::ostream& operator<<(std::ostream& out, const TokenType& token)
+{
+    if (token.getTokenType() == TOKEN::IDENTIFIER)
+    {
+        std::cout << token.getIdentifierToken().getIdentifier();
+    }
+    
+    return out;
+}
+
+
+
+
 class LexerTests
 {
 public:
@@ -49,7 +63,11 @@ TEST_P(scan_single_token, Default)
     InitLexer();
 
     lexer->setupInputString(GetParam().token_str);
-    ASSERT_EQ(lexer->getNextToken(), GetParam().token);
+    auto token{lexer->getNextToken()};
+    std::cerr << token << std::endl;
+    auto x{GetParam().token};
+    ASSERT_EQ(token, GetParam().token);
+    
     lexer->closeInput();
 }
 INSTANTIATE_TEST_SUITE_P(Operators, scan_single_token, ::testing::Values(

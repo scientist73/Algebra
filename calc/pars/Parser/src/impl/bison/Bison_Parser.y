@@ -14,6 +14,7 @@
 
 
 using alg::num::NumType;
+using alg::calc::tok::TOKEN;
 using alg::calc::tok::TokenType;
 using alg::calc::tok::OperatorTokenType;
 using alg::calc::tok::ParenTokenType;
@@ -67,7 +68,7 @@ namespace alg
   PAREN_ROUND_OPEN "("
   PAREN_ROUND_CLOSE ")"
 ;
-%token <std::string> ID "identifier"
+%token <std::string_view> ID "identifier"
 %token <NumType<double>> NUM "number"
 %type <NumType<double>> exp
 
@@ -109,7 +110,7 @@ void alg::calc::pars::impl::bison::pushToken(TokenType token)
 {
     switch (token.getTokenType())
     {
-    case TokenType::TOKEN::TERMINATION:
+    case TOKEN::TERMINATION:
     {
         auto term_token = token.getTerminationToken();
         switch (term_token.getTerminationTokenType())
@@ -123,13 +124,13 @@ void alg::calc::pars::impl::bison::pushToken(TokenType token)
         }
         break;
     }
-    case TokenType::TOKEN::IDENTIFIER:
+    case TOKEN::IDENTIFIER:
     {
         auto id_token = token.getIdentifierToken();
         parser_tokens.push(parser::make_ID(id_token.getIdentifier()));
         break;
     }
-    case TokenType::TOKEN::NUM:
+    case TOKEN::NUM:
     {
         auto num_token = token.getNumToken();
         // modify code here
@@ -144,7 +145,7 @@ void alg::calc::pars::impl::bison::pushToken(TokenType token)
         }
         break;
     }
-    case TokenType::TOKEN::OPERATOR:
+    case TOKEN::OPERATOR:
     {
         auto op_token = token.getOperatorToken();
         switch (op_token.getOperatorTokenType())
@@ -164,7 +165,7 @@ void alg::calc::pars::impl::bison::pushToken(TokenType token)
         }
         break;
     }
-    case TokenType::TOKEN::PAREN:
+    case TOKEN::PAREN:
     {
         auto paren_token = token.getParenToken();
         switch (paren_token.getParenTokenType())
@@ -178,7 +179,7 @@ void alg::calc::pars::impl::bison::pushToken(TokenType token)
         }
         break;
     }
-    case TokenType::TOKEN::EMPTY:
+    case TOKEN::EMPTY:
         throw std::runtime_error("parser received empty token");
     }
 }

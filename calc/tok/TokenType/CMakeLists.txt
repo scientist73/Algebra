@@ -7,7 +7,7 @@ if (NOT TARGET TokenType)
 
     project(TokenType LANGUAGES CXX)
 
-    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_STANDARD 20)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
     set(CMAKE_CXX_COMPILER  "/usr/bin/clang++")
 
@@ -17,12 +17,11 @@ if (NOT TARGET TokenType)
         "${TokenType_SOURCE_DIR}/include/TokenType"
     )
     # TokenType's .cpp files
-    set(TokenType_src_files
-    "${TokenType_SOURCE_DIR}/src/TokenType.cpp"
+    set(TokenType_src_files 
     )
 
-    add_library(TokenType STATIC ${TokenType_src_files})
-    target_include_directories(TokenType PUBLIC ${TokenType_include_dirs})
+    add_library(TokenType INTERFACE)
+    target_include_directories(TokenType INTERFACE ${TokenType_include_dirs})
 
     ########################################################################
     #

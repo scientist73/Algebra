@@ -1,4 +1,10 @@
 #pragma once
+#include "ITokenType.h"
+#include "IdentifierTokenType.h"
+#include "NumTokenType.h"
+#include "OperatorTokenType.h"
+#include "ParenTokenType.h"
+#include "TerminationTokenType.h"
 #include <optional>
 #include <string>
 #include <stdexcept>
@@ -10,100 +16,9 @@ namespace alg
     {
         namespace tok
         {
-            struct NumTokenType
-            {
-            public:
-                enum class NUM
-                {
-                    REAL,
-                    IMAG,
-                };
-
-                explicit NumTokenType(NUM num_t, std::string scalar) : num_t(num_t), scalar(scalar) {}
-
-                NUM getNumTokenType() const { return num_t; }
-                std::string getScalar() const { return scalar; }
-
-            private:
-                NUM num_t;
-                std::string scalar;
-            };
-            struct OperatorTokenType
-            {
-            public:
-                enum class OPERATOR
-                {
-                    PLUS,
-                    MINUS,
-                    MULT,
-                    DIV,
-                };
-
-                constexpr explicit OperatorTokenType(OPERATOR operator_t) : operator_t(operator_t) {}
-
-                OPERATOR getOperatorTokenType() const { return operator_t; }
-            private:
-                OPERATOR operator_t;
-            };
-            struct ParenTokenType
-            {
-            public:
-                enum class PAREN
-                {
-                    ROUND_OPEN,
-                    ROUND_CLOSE,
-                };
-
-                constexpr explicit ParenTokenType(PAREN paren_t) : paren_t(paren_t) {}
-
-                PAREN getParenTokenType() const { return paren_t; }
-            private:
-                PAREN paren_t;
-            };
-            struct IdentifierTokenType
-            {
-            public:
-                explicit IdentifierTokenType(std::string id) : id(id) {}
-            
-                std::string getIdentifier() const { return id; }
-            private:
-                std::string id;
-            };
-            struct TerminationTokenType
-            {
-            public:
-                enum class TERMINATION
-                {
-                    END_OF_INPUT,
-                    END_OF_LINE
-                };
-                constexpr explicit TerminationTokenType(TERMINATION term_t) : term_t(term_t) {}
-
-                TERMINATION getTerminationTokenType() const { return term_t; }
-            private:
-                TERMINATION term_t;
-            };
-
-            bool operator==(const NumTokenType& l_op, const NumTokenType& r_op);
-            bool operator==(const OperatorTokenType& l_op, const OperatorTokenType& r_op);
-            bool operator==(const ParenTokenType& l_op, const ParenTokenType& r_op);
-            bool operator==(const IdentifierTokenType& l_op, const IdentifierTokenType& r_op);
-            bool operator==(const TerminationTokenType& l_op, const TerminationTokenType& r_op);
-
-
             struct TokenType
             {
             public:
-                enum class TOKEN
-                {
-                    OPERATOR,
-                    PAREN,
-                    NUM,
-                    IDENTIFIER,
-                    TERMINATION,
-                    EMPTY,
-                };
-
                 constexpr explicit TokenType() : token_t(TOKEN::EMPTY) {}
                 constexpr explicit TokenType(OperatorTokenType&& op) : token_t(TOKEN::OPERATOR), token(std::move(op)) {}
                 constexpr explicit TokenType(ParenTokenType&& paren) : token_t(TOKEN::PAREN), token(std::move(paren)) {}
@@ -111,22 +26,112 @@ namespace alg
                 constexpr explicit TokenType(IdentifierTokenType&& id) : token_t(TOKEN::IDENTIFIER), token(std::move(id)) {}
                 constexpr explicit TokenType(TerminationTokenType&& term) : token_t(TOKEN::TERMINATION), token(std::move(term)) {}
 
-                TOKEN getTokenType() const { return token_t; }
+                //constexpr explicit TokenType(const TokenType& other);
+
+                constexpr TOKEN getTokenType() const { return token_t; }
                 
-                bool isEmpty() const { return token_t == TOKEN::EMPTY; }
-                OperatorTokenType getOperatorToken() const;
-                ParenTokenType getParenToken() const;
-                NumTokenType getNumToken() const;
-                IdentifierTokenType getIdentifierToken() const;
-                TerminationTokenType getTerminationToken() const;
+                constexpr bool isEmpty() const { return token_t == TOKEN::EMPTY; }
+                constexpr const OperatorTokenType& getOperatorToken() const;
+                constexpr const ParenTokenType& getParenToken() const;
+                constexpr const NumTokenType& getNumToken() const;
+                constexpr const IdentifierTokenType& getIdentifierToken() const;
+                constexpr const TerminationTokenType& getTerminationToken() const;
 
             private:
                 TOKEN token_t;
                 std::optional<std::variant<OperatorTokenType, ParenTokenType, NumTokenType, IdentifierTokenType, TerminationTokenType>> token;
             };
-            bool operator==(const TokenType& l_op, const TokenType& r_op);
-            bool operator!=(const TokenType& l_op, const TokenType& r_op);
+
+            constexpr bool operator==(const TokenType& l_op, const TokenType& r_op);
+            constexpr bool operator!=(const TokenType& l_op, const TokenType& r_op);
 
         } // namespace tok
     } // namespace calc
 } // namespace alg
+
+
+using namespace alg::calc::tok;
+
+constexpr const OperatorTokenType& TokenType::getOperatorToken() const
+{
+    try
+    { 
+        return std::get<OperatorTokenType>(token.value()); 
+    } 
+    catch(std::bad_variant_access& ex) 
+    { 
+        throw std::runtime_error("getOperatorToken"); 
+    }
+}
+constexpr const ParenTokenType& TokenType::getParenToken() const
+{
+    try
+    { 
+        return std::get<ParenTokenType>(token.value()); 
+    } 
+    catch(std::bad_variant_access& ex) 
+    { 
+        throw std::runtime_error("getParamToken"); 
+    }
+}
+constexpr const NumTokenType& TokenType::getNumToken() const
+{
+    try
+    { 
+        return std::get<NumTokenType>(token.value()); 
+    } 
+    catch(std::bad_variant_access& ex) 
+    { 
+        throw std::runtime_error("getNumToken"); 
+    }
+}
+constexpr const IdentifierTokenType& TokenType::getIdentifierToken() const
+{
+    try
+    { 
+        return std::get<IdentifierTokenType>(token.value()); 
+    } 
+    catch(std::bad_variant_access& ex) 
+    { 
+        throw std::runtime_error("getIdentifierToken"); 
+    }
+}
+constexpr const TerminationTokenType& TokenType::getTerminationToken() const
+{
+    try
+    { 
+        return std::get<TerminationTokenType>(token.value()); 
+    } 
+    catch(std::bad_variant_access& ex) 
+    { 
+        throw std::runtime_error("getTerminationToken"); 
+    }
+}
+
+constexpr bool alg::calc::tok::operator==(const TokenType& l_op, const TokenType& r_op)
+{
+    if (l_op.getTokenType() == r_op.getTokenType())
+    {
+        switch (l_op.getTokenType())
+        {
+        case TOKEN::IDENTIFIER:
+            return l_op.getIdentifierToken() == r_op.getIdentifierToken();
+        case TOKEN::NUM:
+            return l_op.getNumToken() == r_op.getNumToken();
+        case TOKEN::OPERATOR:
+            return l_op.getOperatorToken() == r_op.getOperatorToken();
+        case TOKEN::TERMINATION:
+            return l_op.getTerminationToken() == r_op.getTerminationToken();
+        case TOKEN::PAREN:
+            return l_op.getParenToken() == r_op.getParenToken();
+        case TOKEN::EMPTY:
+            return true;
+        }
+    }
+    else
+        return false;
+}
+constexpr bool alg::calc::tok::operator!=(const TokenType& l_op, const TokenType& r_op)
+{
+    return !(l_op == r_op);
+}
