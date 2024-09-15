@@ -146,14 +146,7 @@ int main()
 ```
 TokenType(OperatorTokenType(OperatorTokenType::OPERATOR::PLUS));
 TokenType(NumTokenType(NumTokenType::NUM::REAL, "5"));
-```
-
-#### TokenGenerator
-Вспомогательный модуль для создания токенов. Пример:
-
-```
-TokenGenerator::constructParam(ParamTokenType::PARAM::ROUND_OPEN);
-TokenGenerator::constructTermination(TerminationTokenType::TERMINATION::END_OF_LINE);
+auto token = makeOperatorToken(OPERATOR::DIV);
 ```
 
 ### lex

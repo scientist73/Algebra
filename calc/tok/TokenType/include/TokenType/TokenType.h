@@ -16,17 +16,17 @@ namespace alg
     {
         namespace tok
         {
-            struct TokenType
+            class TokenType
             {
             public:
                 constexpr explicit TokenType() : token_t(TOKEN::EMPTY) {}
-                constexpr explicit TokenType(OperatorTokenType&& op) : token_t(TOKEN::OPERATOR), token(std::move(op)) {}
-                constexpr explicit TokenType(ParenTokenType&& paren) : token_t(TOKEN::PAREN), token(std::move(paren)) {}
-                constexpr explicit TokenType(NumTokenType&& num) : token_t(TOKEN::NUM), token(std::move(num)) {}
-                constexpr explicit TokenType(IdentifierTokenType&& id) : token_t(TOKEN::IDENTIFIER), token(std::move(id)) {}
-                constexpr explicit TokenType(TerminationTokenType&& term) : token_t(TOKEN::TERMINATION), token(std::move(term)) {}
+                constexpr explicit TokenType(OperatorTokenType&& op_token) : token_t(TOKEN::OPERATOR), token(std::move(op_token)) {}
+                constexpr explicit TokenType(ParenTokenType&& paren_token) : token_t(TOKEN::PAREN), token(std::move(paren_token)) {}
+                constexpr explicit TokenType(NumTokenType&& num_token) : token_t(TOKEN::NUM), token(std::move(num_token)) {}
+                constexpr explicit TokenType(IdentifierTokenType&& id_token) : token_t(TOKEN::IDENTIFIER), token(std::move(id_token)) {}
+                constexpr explicit TokenType(TerminationTokenType&& term_token) : token_t(TOKEN::TERMINATION), token(std::move(term_token)) {}
 
-                //constexpr explicit TokenType(const TokenType& other);
+                constexpr ~TokenType() = default;
 
                 constexpr TOKEN getTokenType() const { return token_t; }
                 
@@ -45,6 +45,12 @@ namespace alg
             constexpr bool operator==(const TokenType& l_op, const TokenType& r_op);
             constexpr bool operator!=(const TokenType& l_op, const TokenType& r_op);
 
+            constexpr TokenType makeIdentifierToken(std::string_view id);
+            constexpr TokenType makeNumToken(NumTokenType::NUM num_t, std::string_view scalar);
+            constexpr TokenType makeOperatorToken(OperatorTokenType::OPERATOR operator_t);
+            constexpr TokenType makeParenToken(ParenTokenType::PAREN paren_t);
+            constexpr TokenType makeTerminationToken(TerminationTokenType::TERMINATION term_t);
+
         } // namespace tok
     } // namespace calc
 } // namespace alg
@@ -54,6 +60,8 @@ using namespace alg::calc::tok;
 
 constexpr const OperatorTokenType& TokenType::getOperatorToken() const
 {
+    constexpr OperatorTokenType hdsa{OperatorTokenType::OPERATOR::DIV};
+
     try
     { 
         return std::get<OperatorTokenType>(token.value()); 
@@ -134,4 +142,25 @@ constexpr bool alg::calc::tok::operator==(const TokenType& l_op, const TokenType
 constexpr bool alg::calc::tok::operator!=(const TokenType& l_op, const TokenType& r_op)
 {
     return !(l_op == r_op);
+}
+
+constexpr TokenType alg::calc::tok::makeIdentifierToken(std::string_view id)
+{
+    return TokenType(IdentifierTokenType(id));
+}
+constexpr TokenType alg::calc::tok::makeNumToken(NumTokenType::NUM num_t, std::string_view scalar)
+{
+    return TokenType(NumTokenType(num_t, scalar));
+}
+constexpr TokenType alg::calc::tok::makeOperatorToken(OperatorTokenType::OPERATOR operator_t)
+{
+    return TokenType(OperatorTokenType(operator_t));
+}
+constexpr TokenType alg::calc::tok::makeParenToken(ParenTokenType::PAREN paren_t)
+{
+    return TokenType(ParenTokenType(paren_t));
+}
+constexpr TokenType alg::calc::tok::makeTerminationToken(TerminationTokenType::TERMINATION term_t)
+{
+    return TokenType(TerminationTokenType(term_t));
 }

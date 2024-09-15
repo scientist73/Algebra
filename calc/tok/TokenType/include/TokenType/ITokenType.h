@@ -6,7 +6,6 @@ namespace alg
     {
         namespace tok
         {
-
             enum class TOKEN
             {
                 OPERATOR,
@@ -20,7 +19,6 @@ namespace alg
             class ITokenType
             {
             public:
-                virtual ~ITokenType() = default;
                 virtual constexpr TOKEN getTokenType() const = 0;
             };
         } // namespace tok

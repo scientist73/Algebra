@@ -2,12 +2,22 @@
 #include <stdexcept>
 #include <string>
 #include "Flex_Lexer.h"
-#include "TokenGenerator.h"
+#include "TokenType.h"
 
 
 using alg::calc::lex::impl::flex::Flex_Lexer;
+
+using alg::calc::tok::makeIdentifierToken;
+using alg::calc::tok::makeNumToken;
+using NUM = alg::calc::tok::NumTokenType::NUM;
+using alg::calc::tok::makeOperatorToken;
+using OPERATOR = alg::calc::tok::OperatorTokenType::OPERATOR;
+using alg::calc::tok::makeParenToken;
+using PAREN = alg::calc::tok::ParenTokenType::PAREN;
+using alg::calc::tok::makeTerminationToken;
+using TERMINATION = alg::calc::tok::TerminationTokenType::TERMINATION;
+
 using alg::calc::tok::TokenType;
-using alg::calc::tok::TokenGenerator;
 using alg::calc::tok::OperatorTokenType;
 using alg::calc::tok::ParenTokenType;
 using alg::calc::tok::NumTokenType;
@@ -27,7 +37,7 @@ if (getInputType() == INPUT::END_OF_INPUT)\
 else\
 {\
     input_t = INPUT::END_OF_INPUT;\
-    return TokenGenerator::constructTermination(TerminationTokenType::TERMINATION::END_OF_INPUT);\
+    return makeTerminationToken(TERMINATION::END_OF_INPUT);\
 }
 %}
 
@@ -46,25 +56,25 @@ ID          [_a-zA-Z][_a-zA-Z0-9]*
 
 %%
 {blank}+
-{new_line} return TokenGenerator::constructTermination(TerminationTokenType::TERMINATION::END_OF_LINE);
+{new_line} return makeTerminationToken(TERMINATION::END_OF_LINE);
 
-{MINUS} return TokenGenerator::constructOperator(OperatorTokenType::OPERATOR::MINUS);
-{PLUS} return TokenGenerator::constructOperator(OperatorTokenType::OPERATOR::PLUS);
-{MULT} return TokenGenerator::constructOperator(OperatorTokenType::OPERATOR::MULT);
-{DIV} return TokenGenerator::constructOperator(OperatorTokenType::OPERATOR::DIV);
+{MINUS} return makeOperatorToken(OPERATOR::MINUS);
+{PLUS} return makeOperatorToken(OPERATOR::PLUS);
+{MULT} return makeOperatorToken(OPERATOR::MULT);
+{DIV} return makeOperatorToken(OPERATOR::DIV);
 
-{PAREN_ROUND_OPEN} return TokenGenerator::constructParen(ParenTokenType::PAREN::ROUND_OPEN);
-{PAREN_ROUND_CLOSE} return TokenGenerator::constructParen(ParenTokenType::PAREN::ROUND_CLOSE);
+{PAREN_ROUND_OPEN} return makeParenToken(PAREN::ROUND_OPEN);
+{PAREN_ROUND_CLOSE} return makeParenToken(PAREN::ROUND_CLOSE);
 
 
-{REAL} return TokenGenerator::constructNumToken(NumTokenType::NUM::REAL, yytext);
-{IMAG} return TokenGenerator::constructNumToken(NumTokenType::NUM::IMAG, "1");
+{REAL} return makeNumToken(NUM::REAL, yytext);
+{IMAG} return makeNumToken(NUM::IMAG, "1");
 {REAL}{IMAG} {
     yytext[strlen(yytext)-1] = '\0';
-    return TokenGenerator::constructNumToken(NumTokenType::NUM::IMAG, yytext);
+    return makeNumToken(NUM::IMAG, yytext);
 }
 
-{ID} return TokenGenerator::constructIdentifier(yytext);
+{ID} return makeIdentifierToken(yytext);
 
 . { throw std::runtime_error("some error"); }
 <<EOF>> yyterminate()
