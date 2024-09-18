@@ -1,7 +1,7 @@
 #pragma once
-#include <memory>
+#include <variant>
+#include <optional>
 #include <string>
-#include "ALGEBRA.h"
 #include "Real.h"
 #include "Complex.h"
 #include "INumType.h"
@@ -24,12 +24,8 @@ namespace alg
             constexpr NumType(const Complex<ScalarType>& complex_num);
             constexpr NumType(Complex<ScalarType>&& complex_num);
 
-            constexpr NumType(const NumType<ScalarType>& num);
-            constexpr NumType(NumType<ScalarType>&& num);
-            ~NumType() = default;
-
             std::string getString() const;
-            constexpr ALGEBRA getAlgebraType() const;
+            constexpr NUM getNumType() const;
 
             constexpr Real<ScalarType> getReal() const;
             constexpr Complex<ScalarType> getComplex() const;
@@ -38,9 +34,6 @@ namespace alg
             constexpr NumType<ScalarType>& operator=(Real<ScalarType>&& real_num);
             constexpr NumType<ScalarType>& operator=(const Complex<ScalarType>& complex_num);
             constexpr NumType<ScalarType>& operator=(Complex<ScalarType>&& complex_num);
-
-            constexpr NumType<ScalarType>& operator=(const NumType& num);
-            constexpr NumType<ScalarType>& operator=(NumType&& num);
 
             constexpr NumType<ScalarType>& operator+=(const NumType& right_op);
             constexpr NumType<ScalarType>& operator-=(const NumType& right_op);
@@ -60,7 +53,8 @@ namespace alg
 
             constexpr bool is_valid() const;
 
-            std::unique_ptr<INumType<ScalarType>> value;
+            std::optional<NUM> num_t;
+            std::optional<std::variant<Real_NumType<ScalarType>, Complex_NumType<ScalarType>>> value;
         };
 
         template<typename ScalarType>
@@ -78,42 +72,26 @@ using namespace alg::num;
 
 template<typename ScalarType>
 constexpr NumType<ScalarType>::NumType() :
-    value(nullptr)
+    value()
 {}
 
 template<typename ScalarType>
 constexpr NumType<ScalarType>::NumType(const Real<ScalarType>& real_num) :
-    value(new Real_NumType<ScalarType>(real_num))
+    NumType(Real_NumType<double>(real_num))
 {}
 template<typename ScalarType>
 constexpr NumType<ScalarType>::NumType(Real<ScalarType>&& real_num) :
-    value(new Real_NumType<ScalarType>(std::move(real_num)))
+    NumType(Real_NumType<double>(std::move(real_num)))
 {}
 template<typename ScalarType>
 constexpr NumType<ScalarType>::NumType(const Complex<ScalarType>& complex_num) :
-    value(new Complex_NumType<ScalarType>(complex_num))
+    NumType(Complex_NumType<double>(complex_num))
 {}
 template<typename ScalarType>
 constexpr NumType<ScalarType>::NumType(Complex<ScalarType>&& complex_num) :
-    value(new Complex_NumType<ScalarType>(std::move(complex_num)))
+    NumType(Complex_NumType<double>(std::move(complex_num)))
 {}
 
-template<typename ScalarType>
-constexpr NumType<ScalarType>::NumType(const NumType<ScalarType>& num) :
-    value(nullptr)
-{
-    if (!num.is_valid())
-        throw std::runtime_error("NumType<ScalarType>::NumType(const NumType<ScalarType>& num) error: num doesn't contain a value");
-    value.reset(num.value->getCopy());
-}
-template<typename ScalarType>
-constexpr NumType<ScalarType>::NumType(NumType<ScalarType>&& num) :
-    value(nullptr)
-{
-    if (!num.is_valid())
-        throw std::runtime_error("NumType<ScalarType>::NumType(const NumType<ScalarType>& num) error: num doesn't contain a value");
-    this->value.swap(num.value);
-}
 
 template<typename ScalarType>
 std::string NumType<ScalarType>::getString() const
@@ -123,11 +101,11 @@ std::string NumType<ScalarType>::getString() const
     return value->getString();
 }
 template<typename ScalarType>
-constexpr ALGEBRA NumType<ScalarType>::getAlgebraType() const
+constexpr NUM NumType<ScalarType>::getNumType() const
 {
     if (!is_valid())
-        throw std::runtime_error("NumType<ScalarType>::getAlgebraType() error: NumType doesn't contain a value");
-    return value->getAlgebraType();
+        throw std::runtime_error("NumType<ScalarType>::getNumType() error: NumType doesn't contain a value");
+    return this->num_t.value();
 }
 
 template<typename ScalarType>
@@ -135,64 +113,49 @@ constexpr Real<ScalarType> NumType<ScalarType>::getReal() const
 {
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::getReal() error: NumType doesn't contain a value");
-
-    if (auto real_num = dynamic_cast<const Real_NumType<ScalarType>*>(value.get()))
-        return real_num->getReal();
-    else
-        throw std::runtime_error("NumType<ScalarType>::getReal() error: NumType is not a Real type");
+    return std::get<Real_NumType<ScalarType>>(value.value()).getReal();
 }
 template<typename ScalarType>
 constexpr Complex<ScalarType> NumType<ScalarType>::getComplex() const
 {
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::getComplex() error: NumType doesn't contain a value");
+    return std::get<Complex_NumType<ScalarType>>(value.value()).getComplex();
 
+/*
     if (auto complex_num = dynamic_cast<const Complex_NumType<ScalarType>*>(value.get()))
         return complex_num->getComplex();
     else
         throw std::runtime_error("NumType<ScalarType>::getComplex error: NumType is not a Complex type");
+*/
 }
 
 template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(const Real<ScalarType>& real_num)
 {
+    num_t = NUM::REAL;
     value.reset(new Real<ScalarType>(real_num));
     return *this;
 }
 template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(Real<ScalarType>&& real_num)
 {
-    value.reset(new Real_NumType<ScalarType>(std::move(real_num)));
+    num_t = NUM::REAL;
+    value = Real_NumType<ScalarType>(std::move(real_num));
     return *this;
 }
 template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(const Complex<ScalarType>& complex_num)
 {
-    value.reset(new Complex_NumType<ScalarType>(complex_num));
+    num_t = NUM::COMPLEX;
+    value = Complex_NumType<ScalarType>(complex_num);
     return *this;
 }
 template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(Complex<ScalarType>&& complex_num)
 {
-    value.reset(new Complex_NumType<ScalarType>(std::move(complex_num)));
-    return *this;
-}
-
-template<typename ScalarType>
-constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(const NumType& num)
-{
-    
-    if (!num.is_valid())
-        throw std::runtime_error("NumType<ScalarType>::operator=(const NumType& num) error: num doesn't contain a value");
-    value.reset(num.value->getCopy());
-    return *this;
-}
-template<typename ScalarType>
-constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(NumType&& num)
-{
-    if (!num.is_valid())
-        throw std::runtime_error("constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(NumType&& num): num doesn't contain a value");
-    value.swap(num.value);
+    num_t = NUM::COMPLEX;
+    value = Complex_NumType<ScalarType>(std::move(complex_num));
     return *this;
 }
 
@@ -202,24 +165,25 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator+=(const NumType& ri
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator+= error: NumType doesn't contain a value");
 
-    switch (value->getAlgebraType())
+    switch (value->getNumType())
     {
-    case ALGEBRA::REAL:
-        if (auto l_op = dynamic_cast<impl::Real_NumType<ScalarType>*>(this->value.get()))
+    case NUM::REAL:
+        if (auto l_op = std::get_if<impl::Real_NumType<ScalarType>>(&this->value.value()))
         {
-            switch (right_op.getAlgebraType())
+            switch (right_op.getNumType())
             {
-            case ALGEBRA::REAL:
-                if (auto r_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::REAL:
+                if (auto r_op = std::get_if<impl::Real_NumType<ScalarType>>(&right_op.value.value()))
                 {
                     *l_op += *r_op;
                     return *this;
                 }
                 break;
-            case ALGEBRA::COMPLEX:
-                if (auto r_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::COMPLEX:
+                if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                 {
-                    this->value.reset(new Complex_NumType(*l_op + *r_op));
+                    this->value = Complex_NumType(*l_op + *r_op);
+                    this->num_t = NUM::COMPLEX;
                     return *this;
                 }
                 break;
@@ -227,20 +191,20 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator+=(const NumType& ri
         }
         break;
     
-    case ALGEBRA::COMPLEX:
-        if (auto l_op = dynamic_cast<impl::Complex_NumType<ScalarType>*>(this->value.get()))
+    case NUM::COMPLEX:
+        if (auto l_op = std::get_if<impl::Complex_NumType<ScalarType>>(&this->value.value()))
         {
-            switch (right_op.getAlgebraType())
+            switch (right_op.getNumType())
             {
-            case ALGEBRA::REAL:
-                if (auto r_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::REAL:
+                if (auto r_op = std::get_if<impl::Real_NumType<ScalarType>>(&right_op.value.value()))
                 {
                     *l_op += *r_op;
                     return *this;
                 }
                 break;
-            case ALGEBRA::COMPLEX:
-                if (auto r_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::COMPLEX:
+                if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                 {
                     *l_op += *r_op;
                     return *this;                    
@@ -259,24 +223,25 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator-=(const NumType& ri
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator-= error: NumType doesn't contain a value");
 
-    switch (value->getAlgebraType())
+    switch (value->getNumType())
     {
-    case ALGEBRA::REAL:
-        if (auto l_op = dynamic_cast<impl::Real_NumType<ScalarType>*>(this->value.get()))
+    case NUM::REAL:
+        if (auto l_op = std::get_if<impl::Real_NumType<ScalarType>>(&this->value.value()))
         {
-            switch (right_op.getAlgebraType())
+            switch (right_op.getNumType())
             {
-            case ALGEBRA::REAL:
-                if (auto r_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::REAL:
+                if (auto r_op = std::get_if<impl::Real_NumType<ScalarType>>(&right_op.value.value()))
                 {
                     *l_op -= *r_op;
                     return *this;
                 }
                 break;
-            case ALGEBRA::COMPLEX:
-                if (auto r_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::COMPLEX:
+                if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                 {
-                    this->value.reset(new Complex_NumType(*l_op - *r_op));
+                    this->value = Complex_NumType(*l_op - *r_op);
+                    this->num_t = NUM::COMPLEX;
                     return *this;
                 }
                 break;
@@ -284,20 +249,20 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator-=(const NumType& ri
         }
         break;
     
-    case ALGEBRA::COMPLEX:
-        if (auto l_op = dynamic_cast<impl::Complex_NumType<ScalarType>*>(this->value.get()))
+    case NUM::COMPLEX:
+        if (auto l_op = std::get_if<impl::Complex_NumType<ScalarType>>(&this->value.value()))
         {
-            switch (right_op.getAlgebraType())
+            switch (right_op.getNumType())
             {
-            case ALGEBRA::REAL:
-                if (auto r_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::REAL:
+                if (auto r_op = std::get_if<impl::Real_NumType<ScalarType>>(&right_op.value.value()))
                 {
                     *l_op -= *r_op;
                     return *this;
                 }
                 break;
-            case ALGEBRA::COMPLEX:
-                if (auto r_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::COMPLEX:
+                if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                 {
                     *l_op -= *r_op;
                     return *this;                    
@@ -316,24 +281,25 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator*=(const NumType& ri
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator*= error: NumType doesn't contain a value");
 
-    switch (value->getAlgebraType())
+    switch (value->getNumType())
     {
-    case ALGEBRA::REAL:
-        if (auto l_op = dynamic_cast<impl::Real_NumType<ScalarType>*>(this->value.get()))
+    case NUM::REAL:
+        if (auto l_op = std::get_if<impl::Real_NumType<ScalarType>>(&this->value.value()))
         {
-            switch (right_op.getAlgebraType())
+            switch (right_op.getNumType())
             {
-            case ALGEBRA::REAL:
-                if (auto r_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::REAL:
+                if (auto r_op = std::get_if<impl::Real_NumType<ScalarType>>(&right_op.value.value()))
                 {
                     *l_op *= *r_op;
                     return *this;
                 }
                 break;
-            case ALGEBRA::COMPLEX:
-                if (auto r_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::COMPLEX:
+                if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                 {
-                    this->value.reset(new Complex_NumType(*l_op * *r_op));
+                    this->value = Complex_NumType(*l_op * *r_op);
+                    this->num_t = NUM::COMPLEX;
                     return *this;
                 }
                 break;
@@ -341,20 +307,20 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator*=(const NumType& ri
         }
         break;
     
-    case ALGEBRA::COMPLEX:
-        if (auto l_op = dynamic_cast<impl::Complex_NumType<ScalarType>*>(this->value.get()))
+    case NUM::COMPLEX:
+        if (auto l_op = std::get_if<impl::Complex_NumType<ScalarType>>(&this->value.value()))
         {
-            switch (right_op.getAlgebraType())
+            switch (right_op.getNumType())
             {
-            case ALGEBRA::REAL:
-                if (auto r_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::REAL:
+                if (auto r_op = std::get_if<impl::Real_NumType<ScalarType>>(&right_op.value.value()))
                 {
                     *l_op *= *r_op;
                     return *this;
                 }
                 break;
-            case ALGEBRA::COMPLEX:
-                if (auto r_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::COMPLEX:
+                if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                 {
                     *l_op *= *r_op;
                     return *this;                    
@@ -373,24 +339,25 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator/=(const NumType& ri
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator/= error: NumType doesn't contain a value");
 
-    switch (value->getAlgebraType())
+    switch (value->getNumType())
     {
-    case ALGEBRA::REAL:
-        if (auto l_op = dynamic_cast<impl::Real_NumType<ScalarType>*>(this->value.get()))
+    case NUM::REAL:
+        if (auto l_op = std::get_if<impl::Real_NumType<ScalarType>>(&this->value.value()))
         {
-            switch (right_op.getAlgebraType())
+            switch (right_op.getNumType())
             {
-            case ALGEBRA::REAL:
-                if (auto r_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::REAL:
+                if (auto r_op = std::get_if<impl::Real_NumType<ScalarType>>(&right_op.value.value()))
                 {
                     *l_op /= *r_op;
                     return *this;
                 }
                 break;
-            case ALGEBRA::COMPLEX:
-                if (auto r_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::COMPLEX:
+                if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                 {
-                    this->value.reset(new Complex_NumType(*l_op / *r_op));
+                    this->value = Complex_NumType(*l_op / *r_op);
+                    this->num_t = NUM::COMPLEX;
                     return *this;
                 }
                 break;
@@ -398,20 +365,20 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator/=(const NumType& ri
         }
         break;
     
-    case ALGEBRA::COMPLEX:
-        if (auto l_op = dynamic_cast<impl::Complex_NumType<ScalarType>*>(this->value.get()))
+    case NUM::COMPLEX:
+        if (auto l_op = std::get_if<impl::Complex_NumType<ScalarType>>(&this->value.value()))
         {
-            switch (right_op.getAlgebraType())
+            switch (right_op.getNumType())
             {
-            case ALGEBRA::REAL:
-                if (auto r_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::REAL:
+                if (auto r_op = std::get_if<impl::Real_NumType<ScalarType>>(&right_op.value.value()))
                 {
                     *l_op /= *r_op;
                     return *this;
                 }
                 break;
-            case ALGEBRA::COMPLEX:
-                if (auto r_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::COMPLEX:
+                if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                 {
                     *l_op /= *r_op;
                     return *this;                    
@@ -431,36 +398,36 @@ constexpr NumType<ScalarType> NumType<ScalarType>::operator+(const NumType& righ
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator+ error: NumType doesn't contain a value");
 
-    switch (value->getAlgebraType())
+    switch (this->getNumType())
     {
-    case ALGEBRA::REAL:
-        if (auto l_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(this->value.get()))
+    case NUM::REAL:
+        if (auto l_op = std::get_if<impl::Real_NumType<ScalarType>>(&this->value.value()))
         {
-            switch (right_op.getAlgebraType())
+            switch (right_op.getNumType())
             {
-            case ALGEBRA::REAL:
-                if (auto r_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::REAL:
+                if (auto r_op = std::get_if<impl::Real_NumType<ScalarType>>(&right_op.value.value()))
                     return NumType<ScalarType>(*l_op + *r_op);
                 break;
-            case ALGEBRA::COMPLEX:
-                if (auto r_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::COMPLEX:
+                if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                     return NumType<ScalarType>(*l_op + *r_op);
                 break;
             }
         }
         break;
     
-    case ALGEBRA::COMPLEX:
-        if (auto l_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(this->value.get()))
+    case NUM::COMPLEX:
+        if (auto l_op = std::get_if<impl::Complex_NumType<ScalarType>>(&this->value.value()))
         {
-            switch (right_op.getAlgebraType())
+            switch (right_op.getNumType())
             {
-            case ALGEBRA::REAL:
-                if (auto r_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::REAL:
+                if (auto r_op = std::get_if<impl::Real_NumType<ScalarType>>(&right_op.value.value()))
                     return NumType<ScalarType>(*l_op + *r_op);
                 break;
-            case ALGEBRA::COMPLEX:
-                if (auto r_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::COMPLEX:
+                if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                     return NumType<ScalarType>(*l_op + *r_op);
                 break;         
             }
@@ -476,36 +443,36 @@ constexpr NumType<ScalarType> NumType<ScalarType>::operator-(const NumType& righ
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator- error: NumType doesn't contain a value");
 
-    switch (value->getAlgebraType())
+    switch (this->getNumType())
     {
-    case ALGEBRA::REAL:
-        if (auto l_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(this->value.get()))
+    case NUM::REAL:
+        if (auto l_op = std::get_if<impl::Real_NumType<ScalarType>>(&this->value.value()))
         {
-            switch (right_op.getAlgebraType())
+            switch (right_op.getNumType())
             {
-            case ALGEBRA::REAL:
-                if (auto r_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::REAL:
+                if (auto r_op = std::get_if<impl::Real_NumType<ScalarType>>(&right_op.value.value()))
                     return NumType<ScalarType>(*l_op - *r_op);
                 break;
-            case ALGEBRA::COMPLEX:
-                if (auto r_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::COMPLEX:
+                if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                     return NumType<ScalarType>(*l_op - *r_op);
                 break;
             }
         }
         break;
     
-    case ALGEBRA::COMPLEX:
-        if (auto l_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(this->value.get()))
+    case NUM::COMPLEX:
+        if (auto l_op = std::get_if<impl::Complex_NumType<ScalarType>>(&this->value.value()))
         {
-            switch (right_op.getAlgebraType())
+            switch (right_op.getNumType())
             {
-            case ALGEBRA::REAL:
-                if (auto r_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::REAL:
+                if (auto r_op = std::get_if<impl::Real_NumType<ScalarType>>(&right_op.value.value()))
                     return NumType<ScalarType>(*l_op - *r_op);
                 break;
-            case ALGEBRA::COMPLEX:
-                if (auto r_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::COMPLEX:
+                if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                     return NumType<ScalarType>(*l_op - *r_op);
                 break;         
             }
@@ -521,36 +488,36 @@ constexpr NumType<ScalarType> NumType<ScalarType>::operator*(const NumType& righ
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator* error: NumType doesn't contain a value");
 
-    switch (value->getAlgebraType())
+    switch (this->getNumType())
     {
-    case ALGEBRA::REAL:
-        if (auto l_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(this->value.get()))
+    case NUM::REAL:
+        if (auto l_op = std::get_if<impl::Real_NumType<ScalarType>>(&this->value.value()))
         {
-            switch (right_op.getAlgebraType())
+            switch (right_op.getNumType())
             {
-            case ALGEBRA::REAL:
-                if (auto r_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::REAL:
+                if (auto r_op = std::get_if<impl::Real_NumType<ScalarType>>(&right_op.value.value()))
                     return NumType<ScalarType>(*l_op * *r_op);
                 break;
-            case ALGEBRA::COMPLEX:
-                if (auto r_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::COMPLEX:
+                if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                     return NumType<ScalarType>(*l_op * *r_op);
                 break;
             }
         }
         break;
     
-    case ALGEBRA::COMPLEX:
-        if (auto l_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(this->value.get()))
+    case NUM::COMPLEX:
+        if (auto l_op = std::get_if<impl::Complex_NumType<ScalarType>>(&this->value.value()))
         {
-            switch (right_op.getAlgebraType())
+            switch (right_op.getNumType())
             {
-            case ALGEBRA::REAL:
-                if (auto r_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::REAL:
+                if (auto r_op = std::get_if<impl::Real_NumType<ScalarType>>(&right_op.value.value()))
                     return NumType<ScalarType>(*l_op * *r_op);
                 break;
-            case ALGEBRA::COMPLEX:
-                if (auto r_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::COMPLEX:
+                if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                     return NumType<ScalarType>(*l_op * *r_op);
                 break;         
             }
@@ -566,36 +533,36 @@ constexpr NumType<ScalarType> NumType<ScalarType>::operator/(const NumType& righ
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator/ error: NumType doesn't contain a value");
 
-    switch (value->getAlgebraType())
+    switch (this->getNumType())
     {
-    case ALGEBRA::REAL:
-        if (auto l_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(this->value.get()))
+    case NUM::REAL:
+        if (auto l_op = std::get_if<impl::Real_NumType<ScalarType>>(&this->value.value()))
         {
-            switch (right_op.getAlgebraType())
+            switch (right_op.getNumType())
             {
-            case ALGEBRA::REAL:
-                if (auto r_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::REAL:
+                if (auto r_op = std::get_if<impl::Real_NumType<ScalarType>>(&right_op.value.value()))
                     return NumType<ScalarType>(*l_op / *r_op);
                 break;
-            case ALGEBRA::COMPLEX:
-                if (auto r_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::COMPLEX:
+                if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                     return NumType<ScalarType>(*l_op / *r_op);
                 break;
             }
         }
         break;
     
-    case ALGEBRA::COMPLEX:
-        if (auto l_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(this->value.get()))
+    case NUM::COMPLEX:
+        if (auto l_op = std::get_if<impl::Complex_NumType<ScalarType>>(&this->value.value()))
         {
-            switch (right_op.getAlgebraType())
+            switch (right_op.getNumType())
             {
-            case ALGEBRA::REAL:
-                if (auto r_op = dynamic_cast<const impl::Real_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::REAL:
+                if (auto r_op = std::get_if<impl::Real_NumType<ScalarType>>(&right_op.value.value()))
                     return NumType<ScalarType>(*l_op / *r_op);
                 break;
-            case ALGEBRA::COMPLEX:
-                if (auto r_op = dynamic_cast<const impl::Complex_NumType<ScalarType>*>(right_op.value.get()))
+            case NUM::COMPLEX:
+                if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                     return NumType<ScalarType>(*l_op / *r_op);
                 break;         
             }
@@ -609,45 +576,42 @@ constexpr NumType<ScalarType> NumType<ScalarType>::operator/(const NumType& righ
 
 template<typename ScalarType>
 constexpr NumType<ScalarType>::NumType(const Real_NumType<ScalarType>& real_num) :
-    value(new Real_NumType(real_num))
+    value(Real_NumType(real_num)), num_t(NUM::REAL)
 {}
 template<typename ScalarType>
 constexpr NumType<ScalarType>::NumType(Real_NumType<ScalarType>&& real_num) :
-    value(new Real_NumType(std::move(real_num)))
+    value(Real_NumType(std::move(real_num))), num_t(NUM::REAL)
 {}
 template<typename ScalarType>
 constexpr NumType<ScalarType>::NumType(const Complex_NumType<ScalarType>& complex_num) :
-    value(new Complex_NumType(complex_num))
+    value(Complex_NumType(complex_num)), num_t(NUM::COMPLEX)
 {}
 template<typename ScalarType>
 constexpr NumType<ScalarType>::NumType(Complex_NumType<ScalarType>&& complex_num) :
-    value(new Complex_NumType(std::move(complex_num)))
+    value(Complex_NumType(std::move(complex_num))), num_t(NUM::COMPLEX)
 {}
 
 template<typename ScalarType>
 inline constexpr bool NumType<ScalarType>::is_valid() const
 {
-    return bool(value);
+    return value.has_value();
 }
 
 template<typename ScalarType>
 constexpr bool alg::num::operator==(const NumType<ScalarType>& left_op, const NumType<ScalarType>& right_op)
 {
-    if (left_op.getAlgebraType() == right_op.getAlgebraType())
+    if (left_op.getNumType() == right_op.getNumType())
     {
-        auto alg_t = left_op.getAlgebraType();
+        auto alg_t = left_op.getNumType();
 
         switch (alg_t)
         {
-        case ALGEBRA::REAL:
+        case NUM::REAL:
             return right_op.getReal() == left_op.getReal();
-        case ALGEBRA::COMPLEX:
+        case NUM::COMPLEX:
             return right_op.getComplex() == left_op.getComplex();
         }
     }
     else
         return false;
-    
-
-    
 }

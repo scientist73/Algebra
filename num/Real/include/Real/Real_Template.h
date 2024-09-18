@@ -11,16 +11,10 @@ namespace alg
         public:
             constexpr Real(const ScalarType& value = ScalarType()) : value(value) {}
 
-            constexpr Real(const Real& other) = default;
-            constexpr Real(Real&& other) = default;
-
             constexpr ScalarType real() const;
             constexpr void real(const ScalarType& value);
 
             constexpr operator bool() const;
-
-            constexpr Real<ScalarType>& operator=(const Real& other) = default;
-            constexpr Real<ScalarType>& operator=(Real&& other) = default;
 
             constexpr Real<ScalarType>& operator=(const ScalarType& value);
 

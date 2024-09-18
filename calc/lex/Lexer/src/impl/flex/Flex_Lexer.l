@@ -7,6 +7,13 @@
 
 using alg::calc::lex::impl::flex::Flex_Lexer;
 
+using alg::calc::tok::TokenType;
+using alg::calc::tok::OperatorTokenType;
+using alg::calc::tok::ParenTokenType;
+using alg::calc::tok::NumTokenType;
+using alg::calc::tok::IdentifierTokenType;
+using alg::calc::tok::TerminationTokenType;
+
 using alg::calc::tok::makeIdentifierToken;
 using alg::calc::tok::makeNumToken;
 using NUM = alg::calc::tok::NumTokenType::NUM;
@@ -16,13 +23,6 @@ using alg::calc::tok::makeParenToken;
 using PAREN = alg::calc::tok::ParenTokenType::PAREN;
 using alg::calc::tok::makeTerminationToken;
 using TERMINATION = alg::calc::tok::TerminationTokenType::TERMINATION;
-
-using alg::calc::tok::TokenType;
-using alg::calc::tok::OperatorTokenType;
-using alg::calc::tok::ParenTokenType;
-using alg::calc::tok::NumTokenType;
-using alg::calc::tok::IdentifierTokenType;
-using alg::calc::tok::TerminationTokenType;
 %}
 
 %option noyywrap

@@ -23,13 +23,13 @@ protected:
 
 class sum_of_two_real_numbers : public RealTests {};
 
-TEST_P(sum_of_two_real_numbers, Default)
+TEST_P(sum_of_two_real_numbers, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
     Real<double> res = l_op + r_op;
 
-    EXPECT_DOUBLE_EQ(res.real(), GetParam().res);
+    ASSERT_DOUBLE_EQ(res.real(), GetParam().res);
 }
 INSTANTIATE_TEST_SUITE_P(Default, sum_of_two_real_numbers, ::testing::Values(
     Operation{1,1,2}, 
@@ -41,13 +41,13 @@ INSTANTIATE_TEST_SUITE_P(Default, sum_of_two_real_numbers, ::testing::Values(
 
 class sub_of_two_real_numbers : public RealTests {};
 
-TEST_P(sub_of_two_real_numbers, Default)
+TEST_P(sub_of_two_real_numbers, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
     Real<double> res = l_op - r_op;
 
-    EXPECT_DOUBLE_EQ(res.real(), GetParam().res);
+    ASSERT_DOUBLE_EQ(res.real(), GetParam().res);
 }
 INSTANTIATE_TEST_SUITE_P(Default, sub_of_two_real_numbers, ::testing::Values(
     Operation{1,1,0}, 
@@ -59,13 +59,13 @@ INSTANTIATE_TEST_SUITE_P(Default, sub_of_two_real_numbers, ::testing::Values(
 
 class mul_of_two_real_numbers : public RealTests {};
 
-TEST_P(mul_of_two_real_numbers, Default)
+TEST_P(mul_of_two_real_numbers, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
     Real<double> res = l_op * r_op;
 
-    EXPECT_DOUBLE_EQ(res.real(), GetParam().res);
+    ASSERT_DOUBLE_EQ(res.real(), GetParam().res);
 }
 
 INSTANTIATE_TEST_SUITE_P(Default, mul_of_two_real_numbers, ::testing::Values(Operation{1,1,1}, Operation{3,4,12}, Operation{34.2,56.1,1918.62}));
@@ -74,13 +74,13 @@ INSTANTIATE_TEST_SUITE_P(Default, mul_of_two_real_numbers, ::testing::Values(Ope
 
 class div_of_two_real_numbers : public RealTests {};
 
-TEST_P(div_of_two_real_numbers, Default)
+TEST_P(div_of_two_real_numbers, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
     Real<double> res = l_op / r_op;
 
-    EXPECT_DOUBLE_EQ(res.real(), GetParam().res);
+    ASSERT_DOUBLE_EQ(res.real(), GetParam().res);
 }
 
 INSTANTIATE_TEST_SUITE_P(Default, div_of_two_real_numbers, ::testing::Values(Operation{1,1,1}, Operation{3,4,0.75}, Operation{34,16,2.125}));

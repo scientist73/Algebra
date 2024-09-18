@@ -1,6 +1,5 @@
 #pragma once
 #include <type_traits>
-#include "ALGEBRA.h"
 #include "INumType.h"
 #include "Real.h"
 
@@ -19,18 +18,11 @@ namespace alg
                 constexpr Real_NumType(const Real<ScalarType>& value);
                 constexpr Real_NumType(Real<ScalarType>&& value);
 
-                constexpr Real_NumType(const Real_NumType& num) = default;
-                constexpr Real_NumType(Real_NumType&& num) = default;
-                ~Real_NumType() override = default;
-
                 std::string getString() const override;
-                constexpr ALGEBRA getAlgebraType() const override;
+                constexpr NUM getNumType() const override;
                 constexpr INumType<ScalarType>* getCopy() const override;
 
                 constexpr const Real<ScalarType>& getReal() const;
-
-                constexpr Real_NumType<ScalarType>& operator=(const Real_NumType<ScalarType>& num) = delete;
-                constexpr Real_NumType<ScalarType>& operator=(Real_NumType<ScalarType>&& num) = delete;
 
                 constexpr Real_NumType<ScalarType>& operator+=(const Real_NumType<ScalarType>& right_op);
                 constexpr Real_NumType<ScalarType>& operator-=(const Real_NumType<ScalarType>& right_op);
@@ -67,9 +59,9 @@ std::string Real_NumType<ScalarType>::getString() const
         return value.real().getString();
 }
 template<typename ScalarType>
-constexpr ALGEBRA Real_NumType<ScalarType>::getAlgebraType() const
+constexpr NUM Real_NumType<ScalarType>::getNumType() const
 {
-    return ALGEBRA::REAL;
+    return NUM::REAL;
 }
 template<typename ScalarType>
 constexpr INumType<ScalarType>* Real_NumType<ScalarType>::getCopy() const

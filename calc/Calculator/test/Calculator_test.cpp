@@ -8,14 +8,14 @@ using alg::calc::Calculator;
 
 void AssertNum(const NumType<double>& l_op, const NumType<double>& r_op)
 {
-    if (l_op.getAlgebraType() == r_op.getAlgebraType())
+    if (l_op.getNumType() == r_op.getNumType())
     {
-        switch (l_op.getAlgebraType())
+        switch (l_op.getNumType())
         {
-        case ALGEBRA::REAL:
+        case NUM::REAL:
             ASSERT_DOUBLE_EQ(l_op.getReal().real(), r_op.getReal().real());
             break;
-        case ALGEBRA::COMPLEX:
+        case NUM::COMPLEX:
             ASSERT_DOUBLE_EQ(l_op.getComplex().real(), r_op.getComplex().real());
             ASSERT_DOUBLE_EQ(l_op.getComplex().imag(), r_op.getComplex().imag());
             break;

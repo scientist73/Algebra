@@ -1,6 +1,5 @@
 #pragma once
 #include <type_traits>
-#include "ALGEBRA.h"
 #include "INumType.h"
 #include "Complex.h"
 #include "Real_NumType.h"
@@ -17,21 +16,14 @@ namespace alg
             public:
                 constexpr Complex_NumType(const Complex<ScalarType>& value);
                 constexpr Complex_NumType(Complex<ScalarType>&& value);
-
-                constexpr Complex_NumType(const Complex_NumType<ScalarType>& num) = default;
-                constexpr Complex_NumType(Complex_NumType<ScalarType>&& num) = default;
                 constexpr Complex_NumType(const Real_NumType<ScalarType>& num);
                 constexpr Complex_NumType(Real_NumType<ScalarType>&& num);
-                ~Complex_NumType() override = default;
 
                 std::string getString() const override;
-                constexpr ALGEBRA getAlgebraType() const override;
+                constexpr NUM getNumType() const override;
                 constexpr INumType<ScalarType>* getCopy() const override;
 
                 constexpr const Complex<ScalarType>& getComplex() const;
-
-                constexpr Complex_NumType<ScalarType>& operator=(const Complex_NumType<ScalarType>& num) = delete;
-                constexpr Complex_NumType<ScalarType>& operator=(Complex_NumType<ScalarType>&& num) = delete;
 
                 constexpr Complex_NumType<ScalarType>& operator+=(const Real_NumType<ScalarType>& right_op);
                 constexpr Complex_NumType<ScalarType>& operator-=(const Real_NumType<ScalarType>& right_op);
@@ -93,9 +85,9 @@ std::string Complex_NumType<ScalarType>::getString() const
     }
 }
 template<typename ScalarType>
-constexpr ALGEBRA Complex_NumType<ScalarType>::getAlgebraType() const
+constexpr NUM Complex_NumType<ScalarType>::getNumType() const
 {
-    return ALGEBRA::COMPLEX;
+    return NUM::COMPLEX;
 }
 template<typename ScalarType>
 constexpr INumType<ScalarType>* Complex_NumType<ScalarType>::getCopy() const

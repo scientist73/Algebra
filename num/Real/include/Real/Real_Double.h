@@ -12,17 +12,11 @@ namespace alg
         public:
             constexpr Real(double value = double()) noexcept : value(value) {}
 
-            constexpr Real(const Real& other) noexcept = default;
-            constexpr Real(Real&& other) noexcept = default;
-
             constexpr double real() const noexcept;
             constexpr void real(double value) noexcept;
 
             constexpr operator bool() const noexcept;
             constexpr operator double() const noexcept;
-
-            constexpr Real<double>& operator=(const Real& other) noexcept = default;
-            constexpr Real<double>& operator=(Real&& other) noexcept = default;
 
             constexpr Real<double>& operator=(double value) noexcept;
 
