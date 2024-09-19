@@ -22,7 +22,6 @@ protected:
 //*************************************************************SUM*************************************************************//
 
 class sum_of_two_real_numbers : public RealTests {};
-
 TEST_P(sum_of_two_real_numbers, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
@@ -30,6 +29,14 @@ TEST_P(sum_of_two_real_numbers, Double)
     Real<double> res = l_op + r_op;
 
     ASSERT_DOUBLE_EQ(res.real(), GetParam().res);
+}
+TEST_P(sum_of_two_real_numbers, Double_with_assignment)
+{
+    InitOperands(GetParam().l_op, GetParam().r_op);
+
+    l_op += r_op;
+
+    ASSERT_DOUBLE_EQ(l_op.real(), GetParam().res);
 }
 INSTANTIATE_TEST_SUITE_P(Default, sum_of_two_real_numbers, ::testing::Values(
     Operation{1,1,2}, 
@@ -40,7 +47,6 @@ INSTANTIATE_TEST_SUITE_P(Default, sum_of_two_real_numbers, ::testing::Values(
 //*************************************************************SUB*************************************************************//
 
 class sub_of_two_real_numbers : public RealTests {};
-
 TEST_P(sub_of_two_real_numbers, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
@@ -48,6 +54,14 @@ TEST_P(sub_of_two_real_numbers, Double)
     Real<double> res = l_op - r_op;
 
     ASSERT_DOUBLE_EQ(res.real(), GetParam().res);
+}
+TEST_P(sub_of_two_real_numbers, Double_with_assignment)
+{
+    InitOperands(GetParam().l_op, GetParam().r_op);
+
+    l_op -= r_op;
+
+    ASSERT_DOUBLE_EQ(l_op.real(), GetParam().res);
 }
 INSTANTIATE_TEST_SUITE_P(Default, sub_of_two_real_numbers, ::testing::Values(
     Operation{1,1,0}, 
@@ -58,7 +72,6 @@ INSTANTIATE_TEST_SUITE_P(Default, sub_of_two_real_numbers, ::testing::Values(
 //*************************************************************MUL*************************************************************//
 
 class mul_of_two_real_numbers : public RealTests {};
-
 TEST_P(mul_of_two_real_numbers, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
@@ -67,13 +80,19 @@ TEST_P(mul_of_two_real_numbers, Double)
 
     ASSERT_DOUBLE_EQ(res.real(), GetParam().res);
 }
+TEST_P(mul_of_two_real_numbers, Double_with_assignment)
+{
+    InitOperands(GetParam().l_op, GetParam().r_op);
 
+    l_op *= r_op;
+
+    ASSERT_DOUBLE_EQ(l_op.real(), GetParam().res);
+}
 INSTANTIATE_TEST_SUITE_P(Default, mul_of_two_real_numbers, ::testing::Values(Operation{1,1,1}, Operation{3,4,12}, Operation{34.2,56.1,1918.62}));
 
 //*************************************************************DIV*************************************************************//
 
 class div_of_two_real_numbers : public RealTests {};
-
 TEST_P(div_of_two_real_numbers, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
@@ -82,5 +101,12 @@ TEST_P(div_of_two_real_numbers, Double)
 
     ASSERT_DOUBLE_EQ(res.real(), GetParam().res);
 }
+TEST_P(div_of_two_real_numbers, Double_with_assignment)
+{
+    InitOperands(GetParam().l_op, GetParam().r_op);
 
+    l_op /= r_op;
+
+    ASSERT_DOUBLE_EQ(l_op.real(), GetParam().res);
+}
 INSTANTIATE_TEST_SUITE_P(Default, div_of_two_real_numbers, ::testing::Values(Operation{1,1,1}, Operation{3,4,0.75}, Operation{34,16,2.125}));
