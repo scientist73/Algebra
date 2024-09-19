@@ -36,7 +36,6 @@ namespace alg
                 constexpr const TerminationTokenType& getTerminationToken() const;
 
             private:
-                TOKEN token_t;
                 std::optional<std::variant<OperatorTokenType, ParenTokenType, NumTokenType, IdentifierTokenType, TerminationTokenType>> token;
             };
 
@@ -56,33 +55,52 @@ namespace alg
 
 using namespace alg::calc::tok;
 
-constexpr TokenType::TokenType() :
-    token_t(TOKEN::EMPTY)
+constexpr TokenType::TokenType()
 {}
 constexpr TokenType::TokenType(OperatorTokenType&& op_token) :
-    token_t(TOKEN::OPERATOR), token(std::move(op_token))
+    token(std::move(op_token))
 {}
 constexpr TokenType::TokenType(ParenTokenType&& paren_token) :
-    token_t(TOKEN::PAREN), token(std::move(paren_token))
+    token(std::move(paren_token))
 {}
 constexpr TokenType::TokenType(NumTokenType&& num_token) :
-    token_t(TOKEN::NUM), token(std::move(num_token))
+    token(std::move(num_token))
 {}
 constexpr TokenType::TokenType(IdentifierTokenType&& id_token) :
-    token_t(TOKEN::IDENTIFIER), token(std::move(id_token))
+    token(std::move(id_token))
 {}
 constexpr TokenType::TokenType(TerminationTokenType&& term_token) :
-    token_t(TOKEN::TERMINATION), token(std::move(term_token))
+    token(std::move(term_token))
 {}
 
 constexpr TOKEN TokenType::getTokenType() const
 { 
-    return token_t;
+    if (token.has_value())
+    {
+        switch (token.value().index())
+        {
+        case 0:
+            return TOKEN::OPERATOR;
+        case 1:
+            return TOKEN::PAREN;
+        case 2:
+            return TOKEN::NUM;
+        case 3:
+            return TOKEN::IDENTIFIER;
+        case 4:
+            return TOKEN::TERMINATION;
+        default:
+            throw std::runtime_error("");
+        }
+    }
+    else
+        return TOKEN::EMPTY;
+
 }
 
 constexpr bool TokenType::isEmpty() const
 {
-    return token_t == TOKEN::EMPTY;
+    return getTokenType() == TOKEN::EMPTY;
 }
 constexpr const OperatorTokenType& TokenType::getOperatorToken() const
 {
