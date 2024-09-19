@@ -42,7 +42,7 @@ protected:
 /* ---------------------------------------------------SUM--------------------------------------------------- */
 
 class real_plus_real_test : public Num_R_R_Tests {};
-TEST_P(real_plus_real_test, Default)
+TEST_P(real_plus_real_test, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -50,7 +50,7 @@ TEST_P(real_plus_real_test, Default)
 
     EXPECT_DOUBLE_EQ(res.getReal().real(), GetParam().res.real);
 }
-TEST_P(real_plus_real_test, with_assignment)
+TEST_P(real_plus_real_test, Double_with_assignment)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -63,7 +63,7 @@ INSTANTIATE_TEST_SUITE_P(Default, real_plus_real_test, ::testing::Values(
     R_R_Operation{RealDS{0}, RealDS{5}, RealDS{5}}
 ));
 
-TEST(real_plus_real_constexpr_test, Default)
+TEST(real_plus_real_constexpr_test, Double)
 {
     constexpr auto l_op = makeRealNum(RealDS{3.5});
     constexpr auto r_op = makeRealNum(RealDS{5.8});
@@ -76,7 +76,7 @@ TEST(real_plus_real_constexpr_test, Default)
 /* ---------------------------------------------------SUB--------------------------------------------------- */
 
 class real_minus_real_test : public Num_R_R_Tests {};
-TEST_P(real_minus_real_test, Default)
+TEST_P(real_minus_real_test, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -84,7 +84,7 @@ TEST_P(real_minus_real_test, Default)
 
     EXPECT_DOUBLE_EQ(res.getReal().real(), GetParam().res.real);
 }
-TEST_P(real_minus_real_test, with_assignment)
+TEST_P(real_minus_real_test, Double_with_assignment)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -97,7 +97,7 @@ INSTANTIATE_TEST_SUITE_P(Default, real_minus_real_test, ::testing::Values(
     R_R_Operation{RealDS{6}, RealDS{2.4}, RealDS{3.6}}
 ));
 
-TEST(real_minus_real_constexpr_test, Default)
+TEST(real_minus_real_constexpr_test, Double)
 {
     constexpr auto l_op = makeRealNum(RealDS{3.5});
     constexpr auto r_op = makeRealNum(RealDS{5.8});
@@ -110,7 +110,7 @@ TEST(real_minus_real_constexpr_test, Default)
 /* ---------------------------------------------------MULT--------------------------------------------------- */
 
 class real_mult_real_test : public Num_R_R_Tests {};
-TEST_P(real_mult_real_test, Default)
+TEST_P(real_mult_real_test, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -118,7 +118,7 @@ TEST_P(real_mult_real_test, Default)
 
     EXPECT_DOUBLE_EQ(res.getReal().real(), GetParam().res.real);
 }
-TEST_P(real_mult_real_test, with_assignment)
+TEST_P(real_mult_real_test, Double_with_assignment)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -131,7 +131,7 @@ INSTANTIATE_TEST_SUITE_P(Default, real_mult_real_test, ::testing::Values(
     R_R_Operation{RealDS{-6}, RealDS{2.4}, RealDS{-14.4}}
 ));
 
-TEST(real_mult_real_constexpr_test, Default)
+TEST(real_mult_real_constexpr_test, Double)
 {
     constexpr auto l_op = makeRealNum(RealDS{5});
     constexpr auto r_op = makeRealNum(RealDS{3.2});
@@ -144,7 +144,7 @@ TEST(real_mult_real_constexpr_test, Default)
 /* ---------------------------------------------------DIV--------------------------------------------------- */
 
 class real_div_real_test : public Num_R_R_Tests {};
-TEST_P(real_div_real_test, Default)
+TEST_P(real_div_real_test, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -152,7 +152,7 @@ TEST_P(real_div_real_test, Default)
 
     EXPECT_DOUBLE_EQ(res.getReal().real(), GetParam().res.real);
 }
-TEST_P(real_div_real_test, with_assignment)
+TEST_P(real_div_real_test, Double_with_assignment)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -165,7 +165,7 @@ INSTANTIATE_TEST_SUITE_P(Default, real_div_real_test, ::testing::Values(
     R_R_Operation{RealDS{-12}, RealDS{8}, RealDS{-1.5}}
 ));
 
-TEST(real_div_real_constexpr_test, Default)
+TEST(real_div_real_constexpr_test, Double)
 {
     constexpr auto l_op = makeRealNum(RealDS{10});
     constexpr auto r_op = makeRealNum(RealDS{2});
@@ -193,7 +193,7 @@ protected:
 /* ---------------------------------------------------SUM--------------------------------------------------- */
 
 class real_plus_complex_test : public Num_R_C_Tests {};
-TEST_P(real_plus_complex_test, Default)
+TEST_P(real_plus_complex_test, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -202,7 +202,7 @@ TEST_P(real_plus_complex_test, Default)
     EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
     EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
 }
-TEST_P(real_plus_complex_test, with_assignment)
+TEST_P(real_plus_complex_test, Double_with_assignment)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -216,7 +216,7 @@ INSTANTIATE_TEST_SUITE_P(Default, real_plus_complex_test, ::testing::Values(
     R_C_Operation{RealDS{3.2}, ComplexDS{-7, -1}, ComplexDS{-3.8, -1}}
 ));
 
-TEST(DISABLED_real_plus_complex_constexpr_test, Default)
+TEST(DISABLED_real_plus_complex_constexpr_test, Double)
 {
     FAIL();
 
@@ -233,7 +233,7 @@ TEST(DISABLED_real_plus_complex_constexpr_test, Default)
 /* ---------------------------------------------------SUB--------------------------------------------------- */
 
 class real_minus_complex_test : public Num_R_C_Tests {};
-TEST_P(real_minus_complex_test, Default)
+TEST_P(real_minus_complex_test, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -242,7 +242,7 @@ TEST_P(real_minus_complex_test, Default)
     EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
     EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
 }
-TEST_P(real_minus_complex_test, with_assignment)
+TEST_P(real_minus_complex_test, Double_with_assignment)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -256,7 +256,7 @@ INSTANTIATE_TEST_SUITE_P(Default, real_minus_complex_test, ::testing::Values(
     R_C_Operation{RealDS{3.2}, ComplexDS{-7, -1}, ComplexDS{10.2, 1}}
 ));
 
-TEST(DISABLED_real_minus_complex_constexpr_test, Default)
+TEST(DISABLED_real_minus_complex_constexpr_test, Double)
 {
     FAIL();
 
@@ -273,7 +273,7 @@ TEST(DISABLED_real_minus_complex_constexpr_test, Default)
 /* ---------------------------------------------------MULT--------------------------------------------------- */
 
 class real_mult_complex_test : public Num_R_C_Tests {};
-TEST_P(real_mult_complex_test, Default)
+TEST_P(real_mult_complex_test, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -282,7 +282,7 @@ TEST_P(real_mult_complex_test, Default)
     EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
     EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
 }
-TEST_P(real_mult_complex_test, with_assignment)
+TEST_P(real_mult_complex_test, Double_with_assignment)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -296,7 +296,7 @@ INSTANTIATE_TEST_SUITE_P(Default, real_mult_complex_test, ::testing::Values(
     R_C_Operation{RealDS{3.2}, ComplexDS{-7, -1}, ComplexDS{-22.4, -3.2}}
 ));
 
-TEST(DISABLED_real_mult_complex_constexpr_test, Default)
+TEST(DISABLED_real_mult_complex_constexpr_test, Double)
 {
     FAIL();
 
@@ -313,7 +313,7 @@ TEST(DISABLED_real_mult_complex_constexpr_test, Default)
 /* ---------------------------------------------------DIV--------------------------------------------------- */
 
 class real_div_complex_test : public Num_R_C_Tests {};
-TEST_P(real_div_complex_test, Default)
+TEST_P(real_div_complex_test, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -322,7 +322,7 @@ TEST_P(real_div_complex_test, Default)
     EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
     EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
 }
-TEST_P(real_div_complex_test, with_assignment)
+TEST_P(real_div_complex_test, Double_with_assignment)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -336,7 +336,7 @@ INSTANTIATE_TEST_SUITE_P(Default, real_div_complex_test, ::testing::Values(
     R_C_Operation{RealDS{2}, ComplexDS{10, 5}, ComplexDS{0.16, -0.08}}
 ));
 
-TEST(DISABLED_real_div_complex_constexpr_test, Default)
+TEST(DISABLED_real_div_complex_constexpr_test, Double)
 {
     FAIL();
 
@@ -368,7 +368,7 @@ protected:
 /* ---------------------------------------------------SUM--------------------------------------------------- */
 
 class complex_plus_real_test : public Num_C_R_Tests {};
-TEST_P(complex_plus_real_test, Default)
+TEST_P(complex_plus_real_test, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -377,7 +377,7 @@ TEST_P(complex_plus_real_test, Default)
     EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
     EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
 }
-TEST_P(complex_plus_real_test, with_assignment)
+TEST_P(complex_plus_real_test, Double_with_assignment)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -391,7 +391,7 @@ INSTANTIATE_TEST_SUITE_P(Default, complex_plus_real_test, ::testing::Values(
     C_R_Operation{ComplexDS{3.2, -1}, RealDS{-7}, ComplexDS{-3.8, -1}}
 ));
 
-TEST(DISABLED_complex_plus_real_constexpr_test, Default)
+TEST(DISABLED_complex_plus_real_constexpr_test, Double)
 {
     FAIL();
 
@@ -408,7 +408,7 @@ TEST(DISABLED_complex_plus_real_constexpr_test, Default)
 /* ---------------------------------------------------SUB--------------------------------------------------- */
 
 class complex_minus_real_test : public Num_C_R_Tests {};
-TEST_P(complex_minus_real_test, Default)
+TEST_P(complex_minus_real_test, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -417,7 +417,7 @@ TEST_P(complex_minus_real_test, Default)
     EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
     EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
 }
-TEST_P(complex_minus_real_test, with_assignment)
+TEST_P(complex_minus_real_test, Double_with_assignment)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -431,7 +431,7 @@ INSTANTIATE_TEST_SUITE_P(Default, complex_minus_real_test, ::testing::Values(
     C_R_Operation{ComplexDS{3.2, -1}, RealDS{-7}, ComplexDS{10.2, -1}}
 ));
 
-TEST(DISABLED_complex_minus_real_constexpr_test, Default)
+TEST(DISABLED_complex_minus_real_constexpr_test, Double)
 {
     FAIL();
 
@@ -448,7 +448,7 @@ TEST(DISABLED_complex_minus_real_constexpr_test, Default)
 /* ---------------------------------------------------MULT--------------------------------------------------- */
 
 class complex_mult_real_test : public Num_C_R_Tests {};
-TEST_P(complex_mult_real_test, Default)
+TEST_P(complex_mult_real_test, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -457,7 +457,7 @@ TEST_P(complex_mult_real_test, Default)
     EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
     EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
 }
-TEST_P(complex_mult_real_test, with_assignment)
+TEST_P(complex_mult_real_test, Double_with_assignment)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -471,7 +471,7 @@ INSTANTIATE_TEST_SUITE_P(Default, complex_mult_real_test, ::testing::Values(
     C_R_Operation{ComplexDS{3.2, -1}, RealDS{-7}, ComplexDS{-22.4, 7}}
 ));
 
-TEST(DISABLED_complex_mult_real_constexpr_test, Default)
+TEST(DISABLED_complex_mult_real_constexpr_test, Double)
 {
     FAIL();
 
@@ -488,7 +488,7 @@ TEST(DISABLED_complex_mult_real_constexpr_test, Default)
 /* ---------------------------------------------------DIV--------------------------------------------------- */
 
 class complex_div_real_test : public Num_C_R_Tests {};
-TEST_P(complex_div_real_test, Default)
+TEST_P(complex_div_real_test, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -497,7 +497,7 @@ TEST_P(complex_div_real_test, Default)
     EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
     EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
 }
-TEST_P(complex_div_real_test, with_assignment)
+TEST_P(complex_div_real_test, Double_with_assignment)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -511,7 +511,7 @@ INSTANTIATE_TEST_SUITE_P(Default, complex_div_real_test, ::testing::Values(
     C_R_Operation{ComplexDS{15, -2}, RealDS{-5}, ComplexDS{-3, 0.4}}
 ));
 
-TEST(DISABLED_complex_div_real_constexpr_test, Default)
+TEST(DISABLED_complex_div_real_constexpr_test, Double)
 {
     FAIL();
 
@@ -543,7 +543,7 @@ protected:
 /* ---------------------------------------------------SUM--------------------------------------------------- */
 
 class complex_plus_complex_test : public Num_C_C_Tests {};
-TEST_P(complex_plus_complex_test, Default)
+TEST_P(complex_plus_complex_test, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -552,7 +552,7 @@ TEST_P(complex_plus_complex_test, Default)
     EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
     EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
 }
-TEST_P(complex_plus_complex_test, with_assignment)
+TEST_P(complex_plus_complex_test, Double_with_assignment)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -566,7 +566,7 @@ INSTANTIATE_TEST_SUITE_P(Default, complex_plus_complex_test, ::testing::Values(
     C_C_Operation{ComplexDS{3.2, -1}, ComplexDS{-7, 3}, ComplexDS{-3.8, 2}}
 ));
 
-TEST(DISABLED_complex_plus_complex_constexpr_test, Default)
+TEST(DISABLED_complex_plus_complex_constexpr_test, Double)
 {
     FAIL();
 
@@ -583,7 +583,7 @@ TEST(DISABLED_complex_plus_complex_constexpr_test, Default)
 /* ---------------------------------------------------SUB--------------------------------------------------- */
 
 class complex_minus_complex_test : public Num_C_C_Tests {};
-TEST_P(complex_minus_complex_test, Default)
+TEST_P(complex_minus_complex_test, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -592,7 +592,7 @@ TEST_P(complex_minus_complex_test, Default)
     EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
     EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
 }
-TEST_P(complex_minus_complex_test, with_assignment)
+TEST_P(complex_minus_complex_test, Double_with_assignment)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -606,7 +606,7 @@ INSTANTIATE_TEST_SUITE_P(Default, complex_minus_complex_test, ::testing::Values(
     C_C_Operation{ComplexDS{3.2, -1}, ComplexDS{-7, 3}, ComplexDS{10.2, -4}}
 ));
 
-TEST(DISABLED_complex_minus_complex_constexpr_test, Default)
+TEST(DISABLED_complex_minus_complex_constexpr_test, Double)
 {
     FAIL();
 
@@ -623,7 +623,7 @@ TEST(DISABLED_complex_minus_complex_constexpr_test, Default)
 /* ---------------------------------------------------MULT--------------------------------------------------- */
 
 class complex_mult_complex_test : public Num_C_C_Tests {};
-TEST_P(complex_mult_complex_test, Default)
+TEST_P(complex_mult_complex_test, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -632,7 +632,7 @@ TEST_P(complex_mult_complex_test, Default)
     EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
     EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
 }
-TEST_P(complex_mult_complex_test, with_assignment)
+TEST_P(complex_mult_complex_test, Double_with_assignment)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -646,7 +646,7 @@ INSTANTIATE_TEST_SUITE_P(Default, complex_mult_complex_test, ::testing::Values(
     C_C_Operation{ComplexDS{3.2, -1}, ComplexDS{-7, 3}, ComplexDS{-19.4, 16.6}}
 ));
 
-TEST(DISABLED_complex_mult_complex_constexpr_test, Default)
+TEST(DISABLED_complex_mult_complex_constexpr_test, Double)
 {
     FAIL();
 
@@ -663,7 +663,7 @@ TEST(DISABLED_complex_mult_complex_constexpr_test, Default)
 /* ---------------------------------------------------DIV--------------------------------------------------- */
 
 class complex_div_complex_test : public Num_C_C_Tests {};
-TEST_P(complex_div_complex_test, Default)
+TEST_P(complex_div_complex_test, Double)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -672,7 +672,7 @@ TEST_P(complex_div_complex_test, Default)
     EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
     EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
 }
-TEST_P(complex_div_complex_test, with_assignment)
+TEST_P(complex_div_complex_test, Double_with_assignment)
 {
     InitOperands(GetParam().l_op, GetParam().r_op);
 
@@ -686,7 +686,7 @@ INSTANTIATE_TEST_SUITE_P(Default, complex_div_complex_test, ::testing::Values(
     C_C_Operation{ComplexDS{6, 9}, ComplexDS{10, 5}, ComplexDS{0.84, 0.48}}
 ));
 
-TEST(DISABLED_complex_div_complex_constexpr_test, Default)
+TEST(DISABLED_complex_div_complex_constexpr_test, Double)
 {
     FAIL();
 
