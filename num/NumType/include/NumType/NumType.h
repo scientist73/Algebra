@@ -165,7 +165,7 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator+=(const NumType& ri
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator+= error: NumType doesn't contain a value");
 
-    switch (value->getNumType())
+    switch (this->getNumType())
     {
     case NUM::REAL:
         if (auto l_op = std::get_if<impl::Real_NumType<ScalarType>>(&this->value.value()))
@@ -223,7 +223,7 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator-=(const NumType& ri
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator-= error: NumType doesn't contain a value");
 
-    switch (value->getNumType())
+    switch (this->getNumType())
     {
     case NUM::REAL:
         if (auto l_op = std::get_if<impl::Real_NumType<ScalarType>>(&this->value.value()))
@@ -281,7 +281,7 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator*=(const NumType& ri
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator*= error: NumType doesn't contain a value");
 
-    switch (value->getNumType())
+    switch (this->getNumType())
     {
     case NUM::REAL:
         if (auto l_op = std::get_if<impl::Real_NumType<ScalarType>>(&this->value.value()))
@@ -339,7 +339,7 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator/=(const NumType& ri
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::operator/= error: NumType doesn't contain a value");
 
-    switch (value->getNumType())
+    switch (this->getNumType())
     {
     case NUM::REAL:
         if (auto l_op = std::get_if<impl::Real_NumType<ScalarType>>(&this->value.value()))

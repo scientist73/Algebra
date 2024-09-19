@@ -117,12 +117,14 @@ template<typename ScalarType>
 constexpr Complex_NumType<ScalarType>& Complex_NumType<ScalarType>::operator*=(const Real_NumType<ScalarType>& right_op)
 {
     this->value.real(this->value.real() * right_op.getReal().real());
+    this->value.imag(this->value.imag() * right_op.getReal().real());
     return *this;
 }
 template<typename ScalarType>
 constexpr Complex_NumType<ScalarType>& Complex_NumType<ScalarType>::operator/=(const Real_NumType<ScalarType>& right_op)
 {
     this->value.real(this->value.real() / right_op.getReal().real());
+    this->value.imag(this->value.imag() / right_op.getReal().real());
     return *this;
 }
 
