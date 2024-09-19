@@ -53,7 +53,6 @@ namespace alg
 
             constexpr bool is_valid() const;
 
-            std::optional<NUM> num_t;
             std::optional<std::variant<Real_NumType<ScalarType>, Complex_NumType<ScalarType>>> value;
         };
 
@@ -105,7 +104,16 @@ constexpr NUM NumType<ScalarType>::getNumType() const
 {
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::getNumType() error: NumType doesn't contain a value");
-    return this->num_t.value();
+
+    switch(this->value.value().index())
+    {
+    case 0:
+        return NUM::REAL;
+    case 1:
+        return NUM::COMPLEX;
+    default:
+        throw std::runtime_error("");
+    }
 }
 
 template<typename ScalarType>
@@ -133,28 +141,24 @@ constexpr Complex<ScalarType> NumType<ScalarType>::getComplex() const
 template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(const Real<ScalarType>& real_num)
 {
-    num_t = NUM::REAL;
     value.reset(new Real<ScalarType>(real_num));
     return *this;
 }
 template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(Real<ScalarType>&& real_num)
 {
-    num_t = NUM::REAL;
     value = Real_NumType<ScalarType>(std::move(real_num));
     return *this;
 }
 template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(const Complex<ScalarType>& complex_num)
 {
-    num_t = NUM::COMPLEX;
     value = Complex_NumType<ScalarType>(complex_num);
     return *this;
 }
 template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(Complex<ScalarType>&& complex_num)
 {
-    num_t = NUM::COMPLEX;
     value = Complex_NumType<ScalarType>(std::move(complex_num));
     return *this;
 }
@@ -183,7 +187,6 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator+=(const NumType& ri
                 if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                 {
                     this->value = Complex_NumType(*l_op + *r_op);
-                    this->num_t = NUM::COMPLEX;
                     return *this;
                 }
                 break;
@@ -241,7 +244,6 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator-=(const NumType& ri
                 if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                 {
                     this->value = Complex_NumType(*l_op - *r_op);
-                    this->num_t = NUM::COMPLEX;
                     return *this;
                 }
                 break;
@@ -299,7 +301,6 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator*=(const NumType& ri
                 if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                 {
                     this->value = Complex_NumType(*l_op * *r_op);
-                    this->num_t = NUM::COMPLEX;
                     return *this;
                 }
                 break;
@@ -357,7 +358,6 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator/=(const NumType& ri
                 if (auto r_op = std::get_if<impl::Complex_NumType<ScalarType>>(&right_op.value.value()))
                 {
                     this->value = Complex_NumType(*l_op / *r_op);
-                    this->num_t = NUM::COMPLEX;
                     return *this;
                 }
                 break;
@@ -576,19 +576,19 @@ constexpr NumType<ScalarType> NumType<ScalarType>::operator/(const NumType& righ
 
 template<typename ScalarType>
 constexpr NumType<ScalarType>::NumType(const Real_NumType<ScalarType>& real_num) :
-    value(Real_NumType(real_num)), num_t(NUM::REAL)
+    value(Real_NumType(real_num))
 {}
 template<typename ScalarType>
 constexpr NumType<ScalarType>::NumType(Real_NumType<ScalarType>&& real_num) :
-    value(Real_NumType(std::move(real_num))), num_t(NUM::REAL)
+    value(Real_NumType(std::move(real_num)))
 {}
 template<typename ScalarType>
 constexpr NumType<ScalarType>::NumType(const Complex_NumType<ScalarType>& complex_num) :
-    value(Complex_NumType(complex_num)), num_t(NUM::COMPLEX)
+    value(Complex_NumType(complex_num))
 {}
 template<typename ScalarType>
 constexpr NumType<ScalarType>::NumType(Complex_NumType<ScalarType>&& complex_num) :
-    value(Complex_NumType(std::move(complex_num))), num_t(NUM::COMPLEX)
+    value(Complex_NumType(std::move(complex_num)))
 {}
 
 template<typename ScalarType>
