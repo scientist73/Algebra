@@ -112,7 +112,7 @@
 #define YYERROR         goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
-#line 29 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 30 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
 namespace alg { namespace calc { namespace pars { namespace impl { namespace bison {
 #line 118 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/BisonParserGenerated.cpp"
 
@@ -538,43 +538,43 @@ namespace alg { namespace calc { namespace pars { namespace impl { namespace bis
           switch (yyn)
             {
   case 2: // input: exp
-#line 81 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 82 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
            { setParseResult(yystack_[0].value.as < NumType<double> > ()); }
 #line 544 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/BisonParserGenerated.cpp"
     break;
 
   case 3: // exp: "number"
-#line 84 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 85 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
      { yylhs.value.as < NumType<double> > () = yystack_[0].value.as < NumType<double> > (); }
 #line 550 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/BisonParserGenerated.cpp"
     break;
 
   case 4: // exp: exp "+" exp
-#line 85 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 86 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
                 { yylhs.value.as < NumType<double> > () = yystack_[2].value.as < NumType<double> > () + yystack_[0].value.as < NumType<double> > (); }
 #line 556 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/BisonParserGenerated.cpp"
     break;
 
   case 5: // exp: exp "-" exp
-#line 86 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 87 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
                 { yylhs.value.as < NumType<double> > () = yystack_[2].value.as < NumType<double> > () - yystack_[0].value.as < NumType<double> > (); }
 #line 562 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/BisonParserGenerated.cpp"
     break;
 
   case 6: // exp: exp "*" exp
-#line 87 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 88 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
                 { yylhs.value.as < NumType<double> > () = yystack_[2].value.as < NumType<double> > () * yystack_[0].value.as < NumType<double> > (); }
 #line 568 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/BisonParserGenerated.cpp"
     break;
 
   case 7: // exp: exp "/" exp
-#line 88 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 89 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
                 { yylhs.value.as < NumType<double> > () = yystack_[2].value.as < NumType<double> > () / yystack_[0].value.as < NumType<double> > (); }
 #line 574 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/BisonParserGenerated.cpp"
     break;
 
   case 8: // exp: "(" exp ")"
-#line 89 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 90 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
                 { yylhs.value.as < NumType<double> > () = yystack_[1].value.as < NumType<double> > (); }
 #line 580 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/BisonParserGenerated.cpp"
     break;
@@ -850,7 +850,7 @@ namespace alg { namespace calc { namespace pars { namespace impl { namespace bis
   const signed char
   parser::yyrline_[] =
   {
-       0,    81,    81,    84,    85,    86,    87,    88,    89
+       0,    82,    82,    85,    86,    87,    88,    89,    90
   };
 
   void
@@ -881,11 +881,11 @@ namespace alg { namespace calc { namespace pars { namespace impl { namespace bis
 #endif // YYDEBUG
 
 
-#line 29 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 30 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
 } } } } } // alg::calc::pars::impl::bison
 #line 887 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/BisonParserGenerated.cpp"
 
-#line 91 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 92 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
 
 
 using alg::calc::pars::impl::bison::parser;
@@ -910,7 +910,7 @@ void alg::calc::pars::impl::bison::pushToken(TokenType token)
     {
     case TOKEN::TERMINATION:
     {
-        auto term_token = token.getTerminationToken();
+        auto term_token = get<TerminationTokenType>(token);
         switch (term_token.getTerminationTokenType())
         {
         case TerminationTokenType::TERMINATION::END_OF_INPUT:
@@ -924,13 +924,13 @@ void alg::calc::pars::impl::bison::pushToken(TokenType token)
     }
     case TOKEN::IDENTIFIER:
     {
-        auto id_token = token.getIdentifierToken();
+        auto id_token = get<IdentifierTokenType>(token);
         parser_tokens.push(parser::make_ID(id_token.getIdentifier()));
         break;
     }
     case TOKEN::NUM:
     {
-        auto num_token = token.getNumToken();
+        auto num_token = get<NumTokenType>(token);
         // modify code here
         switch (num_token.getNumTokenType())
         {
@@ -945,7 +945,7 @@ void alg::calc::pars::impl::bison::pushToken(TokenType token)
     }
     case TOKEN::OPERATOR:
     {
-        auto op_token = token.getOperatorToken();
+        auto op_token = get<OperatorTokenType>(token);
         switch (op_token.getOperatorTokenType())
         {
         case OperatorTokenType::OPERATOR::PLUS:
@@ -965,7 +965,7 @@ void alg::calc::pars::impl::bison::pushToken(TokenType token)
     }
     case TOKEN::PAREN:
     {
-        auto paren_token = token.getParenToken();
+        auto paren_token = get<ParenTokenType>(token);
         switch (paren_token.getParenTokenType())
         {
         case ParenTokenType::PAREN::ROUND_CLOSE:

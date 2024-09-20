@@ -1,11 +1,13 @@
 %{
 #include <stdexcept>
-#include <string>
+#include <string_view>
 #include "Flex_Lexer.h"
 #include "TokenType.h"
 
 
 using alg::calc::lex::impl::flex::Flex_Lexer;
+
+using alg::calc::tok::make;
 
 using alg::calc::tok::TokenType;
 using alg::calc::tok::OperatorTokenType;
@@ -14,14 +16,9 @@ using alg::calc::tok::NumTokenType;
 using alg::calc::tok::IdentifierTokenType;
 using alg::calc::tok::TerminationTokenType;
 
-using alg::calc::tok::makeIdentifierToken;
-using alg::calc::tok::makeNumToken;
 using NUM = alg::calc::tok::NumTokenType::NUM;
-using alg::calc::tok::makeOperatorToken;
 using OPERATOR = alg::calc::tok::OperatorTokenType::OPERATOR;
-using alg::calc::tok::makeParenToken;
 using PAREN = alg::calc::tok::ParenTokenType::PAREN;
-using alg::calc::tok::makeTerminationToken;
 using TERMINATION = alg::calc::tok::TerminationTokenType::TERMINATION;
 %}
 
@@ -37,7 +34,7 @@ if (getInputType() == INPUT::END_OF_INPUT)\
 else\
 {\
     input_t = INPUT::END_OF_INPUT;\
-    return makeTerminationToken(TERMINATION::END_OF_INPUT);\
+    return make<TerminationTokenType>(TERMINATION::END_OF_INPUT);\
 }
 %}
 
@@ -56,25 +53,25 @@ ID          [_a-zA-Z][_a-zA-Z0-9]*
 
 %%
 {blank}+
-{new_line} return makeTerminationToken(TERMINATION::END_OF_LINE);
+{new_line} return make<TerminationTokenType>(TERMINATION::END_OF_LINE);
 
-{MINUS} return makeOperatorToken(OPERATOR::MINUS);
-{PLUS} return makeOperatorToken(OPERATOR::PLUS);
-{MULT} return makeOperatorToken(OPERATOR::MULT);
-{DIV} return makeOperatorToken(OPERATOR::DIV);
+{MINUS} return make<OperatorTokenType>(OPERATOR::MINUS);
+{PLUS} return make<OperatorTokenType>(OPERATOR::PLUS);
+{MULT} return make<OperatorTokenType>(OPERATOR::MULT);
+{DIV} return make<OperatorTokenType>(OPERATOR::DIV);
 
-{PAREN_ROUND_OPEN} return makeParenToken(PAREN::ROUND_OPEN);
-{PAREN_ROUND_CLOSE} return makeParenToken(PAREN::ROUND_CLOSE);
+{PAREN_ROUND_OPEN} return make<ParenTokenType>(PAREN::ROUND_OPEN);
+{PAREN_ROUND_CLOSE} return make<ParenTokenType>(PAREN::ROUND_CLOSE);
 
 
-{REAL} return makeNumToken(NUM::REAL, yytext);
-{IMAG} return makeNumToken(NUM::IMAG, "1");
+{REAL} return make<NumTokenType>(NUM::REAL, yytext);
+{IMAG} return make<NumTokenType>(NUM::IMAG, "1");
 {REAL}{IMAG} {
     yytext[strlen(yytext)-1] = '\0';
-    return makeNumToken(NUM::IMAG, yytext);
+    return make<NumTokenType>(NUM::IMAG, yytext);
 }
 
-{ID} return makeIdentifierToken(yytext);
+{ID} return make<IdentifierTokenType>(yytext);
 
 . { throw std::runtime_error("some error"); }
 <<EOF>> yyterminate()

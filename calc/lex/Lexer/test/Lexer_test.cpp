@@ -5,12 +5,14 @@
 #include <vector>
 #include <string_view>
 
+
 using alg::calc::lex::Lexer;
 using alg::calc::tok::NumTokenType;
 using alg::calc::tok::OperatorTokenType;
 using alg::calc::tok::ParenTokenType;
 using alg::calc::tok::TerminationTokenType;
 using alg::calc::tok::IdentifierTokenType;
+using alg::calc::tok::get;
 
 
 #define PLUS_TOKEN TokenType(OperatorTokenType(OperatorTokenType::OPERATOR::PLUS))
@@ -33,7 +35,7 @@ std::ostream& operator<<(std::ostream& out, const TokenType& token)
 {
     if (token.getTokenType() == TOKEN::IDENTIFIER)
     {
-        std::cout << token.getIdentifierToken().getIdentifier();
+        std::cout << get<IdentifierTokenType>(token).getIdentifier();
     }
     
     return out;

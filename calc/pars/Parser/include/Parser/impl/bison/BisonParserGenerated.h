@@ -54,6 +54,7 @@
 
 
 using alg::num::NumType;
+using alg::calc::tok::get;
 using alg::calc::tok::TOKEN;
 using alg::calc::tok::TokenType;
 using alg::calc::tok::OperatorTokenType;
@@ -62,7 +63,7 @@ using alg::calc::tok::NumTokenType;
 using alg::calc::tok::IdentifierTokenType;
 using alg::calc::tok::TerminationTokenType;
 
-#line 66 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
+#line 67 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
 
 # include <cassert>
 # include <cstdlib> // std::abort
@@ -201,9 +202,9 @@ using alg::calc::tok::TerminationTokenType;
 # define YYDEBUG 1
 #endif
 
-#line 29 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 30 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
 namespace alg { namespace calc { namespace pars { namespace impl { namespace bison {
-#line 207 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
+#line 208 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
 
 
 
@@ -1475,13 +1476,13 @@ switch (yykind)
   }
 
 
-#line 29 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 30 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
 } } } } } // alg::calc::pars::impl::bison
-#line 1481 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
+#line 1482 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
 
 
 // "%code provides" blocks.
-#line 31 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
+#line 32 "/home/scientist73/projects/Algebra/calc/pars/Parser/src/impl/bison/Bison_Parser.y"
 
 namespace alg
 {
@@ -1509,7 +1510,7 @@ namespace alg
     } // namespace calc
 } // namespace alg
 
-#line 1513 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
+#line 1514 "/home/scientist73/projects/Algebra/calc/pars/Parser/include/Parser/impl/bison/BisonParserGenerated.h"
 
 
 #endif // !YY_YY_HOME_SCIENTIST73_PROJECTS_ALGEBRA_CALC_PARS_PARSER_INCLUDE_PARSER_IMPL_BISON_BISONPARSERGENERATED_H_INCLUDED
