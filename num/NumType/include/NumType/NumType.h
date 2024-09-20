@@ -7,7 +7,7 @@
 #include "INumType.h"
 #include "Real_NumType.h"
 #include "Complex_NumType.h"
-
+#include <cassert>
 
 namespace alg
 {
@@ -18,11 +18,8 @@ namespace alg
         {
         public:
             constexpr NumType();
-
-            constexpr NumType(const Real<ScalarType>& real_num);
-            constexpr NumType(Real<ScalarType>&& real_num);
-            constexpr NumType(const Complex<ScalarType>& complex_num);
-            constexpr NumType(Complex<ScalarType>&& complex_num);
+            template<typename SpecificNumType> requires std::is_same<SpecificNumType, Real<ScalarType>>::value || std::is_same<SpecificNumType, Complex<ScalarType>>::value
+            constexpr NumType(SpecificNumType&& specific_num);
 
             std::string getString() const;
             constexpr NUM getNumType() const;
@@ -30,10 +27,8 @@ namespace alg
             constexpr Real<ScalarType> getReal() const;
             constexpr Complex<ScalarType> getComplex() const;
 
-            constexpr NumType<ScalarType>& operator=(const Real<ScalarType>& real_num);
-            constexpr NumType<ScalarType>& operator=(Real<ScalarType>&& real_num);
-            constexpr NumType<ScalarType>& operator=(const Complex<ScalarType>& complex_num);
-            constexpr NumType<ScalarType>& operator=(Complex<ScalarType>&& complex_num);
+            template<typename SpecificNumType> requires std::is_same<SpecificNumType, Real<ScalarType>>::value || std::is_same<SpecificNumType, Complex<ScalarType>>::value
+            constexpr NumType<ScalarType>& operator=(SpecificNumType&& specific_num);
 
             constexpr NumType<ScalarType>& operator+=(const NumType& right_op);
             constexpr NumType<ScalarType>& operator-=(const NumType& right_op);
@@ -46,10 +41,8 @@ namespace alg
             constexpr NumType<ScalarType> operator/(const NumType& right_op) const;
 
         private:
-            constexpr NumType(const Real_NumType<ScalarType>& real_num);
-            constexpr NumType(Real_NumType<ScalarType>&& real_num);
-            constexpr NumType(const Complex_NumType<ScalarType>& complex_num);
-            constexpr NumType(Complex_NumType<ScalarType>&& complex_num);
+            template<typename SpecificNumType> requires std::is_same<SpecificNumType, Real_NumType<ScalarType>>::value || std::is_same<SpecificNumType, Complex_NumType<ScalarType>>::value
+            constexpr NumType(SpecificNumType&& specific_num);
 
             constexpr bool is_valid() const;
 
@@ -75,20 +68,10 @@ constexpr NumType<ScalarType>::NumType() :
 {}
 
 template<typename ScalarType>
-constexpr NumType<ScalarType>::NumType(const Real<ScalarType>& real_num) :
-    NumType(Real_NumType<double>(real_num))
-{}
-template<typename ScalarType>
-constexpr NumType<ScalarType>::NumType(Real<ScalarType>&& real_num) :
-    NumType(Real_NumType<double>(std::move(real_num)))
-{}
-template<typename ScalarType>
-constexpr NumType<ScalarType>::NumType(const Complex<ScalarType>& complex_num) :
-    NumType(Complex_NumType<double>(complex_num))
-{}
-template<typename ScalarType>
-constexpr NumType<ScalarType>::NumType(Complex<ScalarType>&& complex_num) :
-    NumType(Complex_NumType<double>(std::move(complex_num)))
+template<typename SpecificNumType> 
+    requires std::is_same<SpecificNumType, Real<ScalarType>>::value || std::is_same<SpecificNumType, Complex<ScalarType>>::value
+constexpr NumType<ScalarType>::NumType(SpecificNumType&& specific_num) :
+    value(SpecificNumType(std::forward<SpecificNumType>(specific_num)))
 {}
 
 
@@ -129,39 +112,17 @@ constexpr Complex<ScalarType> NumType<ScalarType>::getComplex() const
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::getComplex() error: NumType doesn't contain a value");
     return std::get<Complex_NumType<ScalarType>>(value.value()).getComplex();
-
-/*
-    if (auto complex_num = dynamic_cast<const Complex_NumType<ScalarType>*>(value.get()))
-        return complex_num->getComplex();
-    else
-        throw std::runtime_error("NumType<ScalarType>::getComplex error: NumType is not a Complex type");
-*/
 }
 
 template<typename ScalarType>
-constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(const Real<ScalarType>& real_num)
+template<typename SpecificNumType> 
+    requires std::is_same<SpecificNumType, Real<ScalarType>>::value || std::is_same<SpecificNumType, Complex<ScalarType>>::value
+constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(SpecificNumType&& specific_num)
 {
-    value.reset(new Real<ScalarType>(real_num));
+    value = SpecificNumType(std::forward<SpecificNumType>(specific_num));
     return *this;
 }
-template<typename ScalarType>
-constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(Real<ScalarType>&& real_num)
-{
-    value = Real_NumType<ScalarType>(std::move(real_num));
-    return *this;
-}
-template<typename ScalarType>
-constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(const Complex<ScalarType>& complex_num)
-{
-    value = Complex_NumType<ScalarType>(complex_num);
-    return *this;
-}
-template<typename ScalarType>
-constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(Complex<ScalarType>&& complex_num)
-{
-    value = Complex_NumType<ScalarType>(std::move(complex_num));
-    return *this;
-}
+
 
 template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator+=(const NumType& right_op)
@@ -573,22 +534,11 @@ constexpr NumType<ScalarType> NumType<ScalarType>::operator/(const NumType& righ
     throw std::runtime_error("NumType<ScalarType>::operator/ error");
 }
 
-
 template<typename ScalarType>
-constexpr NumType<ScalarType>::NumType(const Real_NumType<ScalarType>& real_num) :
-    value(Real_NumType(real_num))
-{}
-template<typename ScalarType>
-constexpr NumType<ScalarType>::NumType(Real_NumType<ScalarType>&& real_num) :
-    value(Real_NumType(std::move(real_num)))
-{}
-template<typename ScalarType>
-constexpr NumType<ScalarType>::NumType(const Complex_NumType<ScalarType>& complex_num) :
-    value(Complex_NumType(complex_num))
-{}
-template<typename ScalarType>
-constexpr NumType<ScalarType>::NumType(Complex_NumType<ScalarType>&& complex_num) :
-    value(Complex_NumType(std::move(complex_num)))
+template<typename SpecificNumType> 
+    requires std::is_same<SpecificNumType, Real_NumType<ScalarType>>::value || std::is_same<SpecificNumType, Complex_NumType<ScalarType>>::value
+constexpr NumType<ScalarType>::NumType(SpecificNumType&& specific_num) :
+    value(SpecificNumType(std::forward<SpecificNumType>(specific_num)))
 {}
 
 template<typename ScalarType>
