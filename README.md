@@ -148,7 +148,7 @@ int main()
 ```
 TokenType(OperatorTokenType(OperatorTokenType::OPERATOR::PLUS));
 TokenType(NumTokenType(NumTokenType::NUM::REAL, "5"));
-auto token = makeOperatorToken(OPERATOR::DIV);
+auto token = make<OperatorTokenType>(OPERATOR::DIV);
 ```
 
 ### lex
