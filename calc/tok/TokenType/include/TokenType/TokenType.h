@@ -16,14 +16,22 @@ namespace alg
     {
         namespace tok
         {
+            template<typename SpecificTokenType>
+            concept IsSpecificTokenType = 
+                std::is_same<SpecificTokenType, OperatorTokenType>::value ||
+                std::is_same<SpecificTokenType, ParenTokenType>::value ||
+                std::is_same<SpecificTokenType, NumTokenType>::value ||
+                std::is_same<SpecificTokenType, IdentifierTokenType>::value ||
+                std::is_same<SpecificTokenType, TerminationTokenType>::value;
+                
             class TokenType
             {
             public:
                 constexpr explicit TokenType();
-                template<typename SpecificTokenType>
+                template<typename SpecificTokenType> requires IsSpecificTokenType<SpecificTokenType>
                 constexpr explicit TokenType(SpecificTokenType&& op_token);
 
-                template<typename SpecificTokenType>
+                template<typename SpecificTokenType> requires IsSpecificTokenType<SpecificTokenType>
                 friend constexpr const SpecificTokenType& get(const TokenType& token);
                 constexpr TOKEN getTokenType() const;
                 constexpr bool isEmpty() const;
@@ -32,9 +40,9 @@ namespace alg
                 std::optional<std::variant<OperatorTokenType, ParenTokenType, NumTokenType, IdentifierTokenType, TerminationTokenType>> token;
             };
 
-            template<typename SpecificTokenType>
+            template<typename SpecificTokenType> requires IsSpecificTokenType<SpecificTokenType>
             constexpr const SpecificTokenType& get(const TokenType& token);
-            template<typename SpecificTokenType, typename... Args>
+            template<typename SpecificTokenType, typename... Args> requires IsSpecificTokenType<SpecificTokenType>
             constexpr TokenType make(Args&&... args);
 
             constexpr bool operator==(const TokenType& l_op, const TokenType& r_op);
@@ -49,7 +57,7 @@ using namespace alg::calc::tok;
 
 constexpr TokenType::TokenType()
 {}
-template<typename SpecificTokenType>
+template<typename SpecificTokenType> requires IsSpecificTokenType<SpecificTokenType>
 constexpr TokenType::TokenType(SpecificTokenType&& specific_token) :
     token(std::forward<SpecificTokenType>(specific_token))
 {}
@@ -84,7 +92,7 @@ constexpr bool TokenType::isEmpty() const
     return getTokenType() == TOKEN::EMPTY;
 }
 
-template<typename SpecificTokenType>
+template<typename SpecificTokenType> requires IsSpecificTokenType<SpecificTokenType>
 constexpr const SpecificTokenType& alg::calc::tok::get(const TokenType& token)
 {
     try
@@ -96,7 +104,7 @@ constexpr const SpecificTokenType& alg::calc::tok::get(const TokenType& token)
         throw std::runtime_error("get" + std::string(typeid(SpecificTokenType).name())); 
     }
 }
-template<typename SpecificTokenType, typename... Args>
+template<typename SpecificTokenType, typename... Args> requires IsSpecificTokenType<SpecificTokenType>
 constexpr TokenType alg::calc::tok::make(Args&&... args)
 {
     return TokenType(SpecificTokenType(args...));
