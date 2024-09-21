@@ -13,12 +13,25 @@ namespace alg
 {
     namespace num
     {
+        namespace impl
+        {
+            template<typename SpecificNumType, typename ScalarType>
+            concept IsSpecificNumType = 
+                std::is_same<SpecificNumType, Real_NumType<ScalarType>>::value || 
+                std::is_same<SpecificNumType, Complex_NumType<ScalarType>>::value;
+        }
+
+        template<typename SpecificNumType, typename ScalarType>
+        concept IsSpecificNumType = 
+            std::is_same<SpecificNumType, Real<ScalarType>>::value || 
+            std::is_same<SpecificNumType, Complex<ScalarType>>::value;
+
         template<typename ScalarType>
         class NumType
         {
         public:
             constexpr NumType();
-            template<typename SpecificNumType> requires std::is_same<SpecificNumType, Real<ScalarType>>::value || std::is_same<SpecificNumType, Complex<ScalarType>>::value
+            template<typename SpecificNumType> requires IsSpecificNumType<SpecificNumType, ScalarType>
             constexpr NumType(SpecificNumType&& specific_num);
 
             std::string getString() const;
@@ -27,7 +40,7 @@ namespace alg
             constexpr Real<ScalarType> getReal() const;
             constexpr Complex<ScalarType> getComplex() const;
 
-            template<typename SpecificNumType> requires std::is_same<SpecificNumType, Real<ScalarType>>::value || std::is_same<SpecificNumType, Complex<ScalarType>>::value
+            template<typename SpecificNumType> requires IsSpecificNumType<SpecificNumType, ScalarType>
             constexpr NumType<ScalarType>& operator=(SpecificNumType&& specific_num);
 
             constexpr NumType<ScalarType>& operator+=(const NumType& right_op);
@@ -41,7 +54,7 @@ namespace alg
             constexpr NumType<ScalarType> operator/(const NumType& right_op) const;
 
         private:
-            template<typename SpecificNumType> requires std::is_same<SpecificNumType, Real_NumType<ScalarType>>::value || std::is_same<SpecificNumType, Complex_NumType<ScalarType>>::value
+            template<typename SpecificNumType> requires impl::IsSpecificNumType<SpecificNumType, ScalarType>
             constexpr NumType(SpecificNumType&& specific_num);
 
             constexpr bool is_valid() const;
@@ -68,8 +81,7 @@ constexpr NumType<ScalarType>::NumType() :
 {}
 
 template<typename ScalarType>
-template<typename SpecificNumType> 
-    requires std::is_same<SpecificNumType, Real<ScalarType>>::value || std::is_same<SpecificNumType, Complex<ScalarType>>::value
+template<typename SpecificNumType> requires alg::num::IsSpecificNumType<SpecificNumType, ScalarType>
 constexpr NumType<ScalarType>::NumType(SpecificNumType&& specific_num) :
     value(SpecificNumType(std::forward<SpecificNumType>(specific_num)))
 {}
@@ -116,7 +128,7 @@ constexpr Complex<ScalarType> NumType<ScalarType>::getComplex() const
 
 template<typename ScalarType>
 template<typename SpecificNumType> 
-    requires std::is_same<SpecificNumType, Real<ScalarType>>::value || std::is_same<SpecificNumType, Complex<ScalarType>>::value
+    requires alg::num::IsSpecificNumType<SpecificNumType, ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(SpecificNumType&& specific_num)
 {
     value = SpecificNumType(std::forward<SpecificNumType>(specific_num));
@@ -535,8 +547,7 @@ constexpr NumType<ScalarType> NumType<ScalarType>::operator/(const NumType& righ
 }
 
 template<typename ScalarType>
-template<typename SpecificNumType> 
-    requires std::is_same<SpecificNumType, Real_NumType<ScalarType>>::value || std::is_same<SpecificNumType, Complex_NumType<ScalarType>>::value
+template<typename SpecificNumType> requires impl::IsSpecificNumType<SpecificNumType, ScalarType>
 constexpr NumType<ScalarType>::NumType(SpecificNumType&& specific_num) :
     value(SpecificNumType(std::forward<SpecificNumType>(specific_num)))
 {}
