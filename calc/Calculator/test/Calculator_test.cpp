@@ -13,7 +13,7 @@ void AssertNum(const NumType<double>& l_op, const NumType<double>& r_op)
         switch (l_op.getNumType())
         {
         case NUM::REAL:
-            ASSERT_DOUBLE_EQ(l_op.getReal().real(), r_op.getReal().real());
+            ASSERT_DOUBLE_EQ(get_num<Real<double>>(l_op).real(), get_num<Real<double>>(r_op).real());
             break;
         case NUM::COMPLEX:
             ASSERT_DOUBLE_EQ(l_op.getComplex().real(), r_op.getComplex().real());

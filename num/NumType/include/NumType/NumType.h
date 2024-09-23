@@ -37,8 +37,10 @@ namespace alg
             std::string getString() const;
             constexpr NUM getNumType() const;
 
-            constexpr Real<ScalarType> getReal() const;
             constexpr Complex<ScalarType> getComplex() const;
+
+            template<typename SpecificNumType, typename _ScalarType> requires IsSpecificNumType<SpecificNumType, _ScalarType>
+            friend constexpr const SpecificNumType& get_num(const NumType<_ScalarType>& num);
 
             template<typename SpecificNumType> requires IsSpecificNumType<SpecificNumType, ScalarType>
             constexpr NumType<ScalarType>& operator=(SpecificNumType&& specific_num);
@@ -61,6 +63,10 @@ namespace alg
 
             std::optional<std::variant<Real_NumType<ScalarType>, Complex_NumType<ScalarType>>> value;
         };
+
+        template<typename SpecificNumType, typename ScalarType> requires IsSpecificNumType<SpecificNumType, ScalarType>
+        constexpr const SpecificNumType& get_num(const NumType<ScalarType>& num);
+
 
         template<typename ScalarType>
         constexpr bool operator==(const NumType<ScalarType>& left_op, const NumType<ScalarType>& right_op);
@@ -112,18 +118,25 @@ constexpr NUM NumType<ScalarType>::getNumType() const
 }
 
 template<typename ScalarType>
-constexpr Real<ScalarType> NumType<ScalarType>::getReal() const
-{
-    if (!is_valid())
-        throw std::runtime_error("NumType<ScalarType>::getReal() error: NumType doesn't contain a value");
-    return std::get<Real_NumType<ScalarType>>(value.value()).getReal();
-}
-template<typename ScalarType>
 constexpr Complex<ScalarType> NumType<ScalarType>::getComplex() const
 {
     if (!is_valid())
         throw std::runtime_error("NumType<ScalarType>::getComplex() error: NumType doesn't contain a value");
     return std::get<Complex_NumType<ScalarType>>(value.value()).getComplex();
+}
+
+template<typename SpecificNumType, typename ScalarType> requires alg::num::IsSpecificNumType<SpecificNumType, ScalarType>
+constexpr const SpecificNumType& alg::num::get_num(const NumType<ScalarType>& num)
+{
+    if (!num.is_valid())
+        throw std::runtime_error("NumType<ScalarType>::getReal() error: NumType doesn't contain a value");
+
+    if constexpr (std::is_same<SpecificNumType, Real<ScalarType>>::value)
+        return std::get<Real_NumType<ScalarType>>(num.value.value()).getReal();
+    else if constexpr (std::is_same<SpecificNumType, Real<ScalarType>>::value)
+        return std::get<Complex_NumType<ScalarType>>(num.value.value()).getComplex();
+    else
+        throw std::runtime_error("");
 }
 
 template<typename ScalarType>
@@ -557,6 +570,7 @@ inline constexpr bool NumType<ScalarType>::is_valid() const
 {
     return value.has_value();
 }
+
 
 template<typename ScalarType>
 constexpr bool alg::num::operator==(const NumType<ScalarType>& left_op, const NumType<ScalarType>& right_op)

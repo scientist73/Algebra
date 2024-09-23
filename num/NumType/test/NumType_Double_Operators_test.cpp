@@ -4,6 +4,7 @@
 #include "gtest/gtest.h"
 
 using alg::num::NumType;
+using alg::num::get_num;
 
 
 struct RealDS
@@ -44,8 +45,8 @@ TEST_P(real_plus_real_test, Double)
     InitOperands(GetParam().l_op, GetParam().r_op);
 
     NumType<double> res = l_op + r_op;
-
-    EXPECT_DOUBLE_EQ(res.getReal().real(), GetParam().res.real);
+    
+    EXPECT_DOUBLE_EQ(get_num<Real<double>>(res).real(), GetParam().res.real);
 }
 TEST_P(real_plus_real_test, Double_with_assignment)
 {
@@ -53,7 +54,7 @@ TEST_P(real_plus_real_test, Double_with_assignment)
 
     l_op += r_op;
 
-    EXPECT_DOUBLE_EQ(l_op.getReal().real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Real<double>>(l_op), GetParam().res.real);
 }
 INSTANTIATE_TEST_SUITE_P(Default, real_plus_real_test, ::testing::Values(
     R_R_Operation{RealDS{3.5}, RealDS{5.8}, RealDS{9.3}},
@@ -67,7 +68,7 @@ TEST(real_plus_real_constexpr_test, Double)
 
     constexpr auto res = l_op + r_op;
 
-    EXPECT_DOUBLE_EQ(res.getReal().real(), RealDS{9.3}.real);
+    EXPECT_DOUBLE_EQ(get_num<Real<double>>(res).real(), RealDS{9.3}.real);
 }
 
 /* ---------------------------------------------------SUB--------------------------------------------------- */
@@ -79,7 +80,7 @@ TEST_P(real_minus_real_test, Double)
 
     NumType<double> res = l_op - r_op;
 
-    EXPECT_DOUBLE_EQ(res.getReal().real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Real<double>>(res).real(), GetParam().res.real);
 }
 TEST_P(real_minus_real_test, Double_with_assignment)
 {
@@ -87,7 +88,7 @@ TEST_P(real_minus_real_test, Double_with_assignment)
 
     l_op -= r_op;
 
-    EXPECT_DOUBLE_EQ(l_op.getReal().real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Real<double>>(l_op).real(), GetParam().res.real);
 }
 INSTANTIATE_TEST_SUITE_P(Default, real_minus_real_test, ::testing::Values(
     R_R_Operation{RealDS{3.5}, RealDS{5.8}, RealDS{-2.3}},
@@ -101,7 +102,7 @@ TEST(real_minus_real_constexpr_test, Double)
 
     constexpr auto res = l_op - r_op;
 
-    EXPECT_DOUBLE_EQ(res.getReal().real(), RealDS{-2.3}.real);
+    EXPECT_DOUBLE_EQ(get_num<Real<double>>(res).real(), RealDS{-2.3}.real);
 }
 
 /* ---------------------------------------------------MULT--------------------------------------------------- */
@@ -113,7 +114,7 @@ TEST_P(real_mult_real_test, Double)
 
     NumType<double> res = l_op * r_op;
 
-    EXPECT_DOUBLE_EQ(res.getReal().real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Real<double>>(res).real(), GetParam().res.real);
 }
 TEST_P(real_mult_real_test, Double_with_assignment)
 {
@@ -121,7 +122,7 @@ TEST_P(real_mult_real_test, Double_with_assignment)
 
     l_op *= r_op;
 
-    EXPECT_DOUBLE_EQ(l_op.getReal().real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Real<double>>(l_op).real(), GetParam().res.real);
 }
 INSTANTIATE_TEST_SUITE_P(Default, real_mult_real_test, ::testing::Values(
     R_R_Operation{RealDS{5}, RealDS{3.2}, RealDS{16}},
@@ -135,7 +136,7 @@ TEST(real_mult_real_constexpr_test, Double)
 
     constexpr auto res = l_op * r_op;
 
-    EXPECT_DOUBLE_EQ(res.getReal().real(), RealDS{16}.real);
+    EXPECT_DOUBLE_EQ(get_num<Real<double>>(res).real(), RealDS{16}.real);
 }
 
 /* ---------------------------------------------------DIV--------------------------------------------------- */
@@ -147,7 +148,7 @@ TEST_P(real_div_real_test, Double)
 
     NumType<double> res = l_op / r_op;
 
-    EXPECT_DOUBLE_EQ(res.getReal().real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Real<double>>(res).real(), GetParam().res.real);
 }
 TEST_P(real_div_real_test, Double_with_assignment)
 {
@@ -155,7 +156,7 @@ TEST_P(real_div_real_test, Double_with_assignment)
 
     l_op /= r_op;
 
-    EXPECT_DOUBLE_EQ(l_op.getReal().real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Real<double>>(l_op).real(), GetParam().res.real);
 }
 INSTANTIATE_TEST_SUITE_P(Default, real_div_real_test, ::testing::Values(
     R_R_Operation{RealDS{10}, RealDS{2}, RealDS{5}},
@@ -169,7 +170,7 @@ TEST(real_div_real_constexpr_test, Double)
 
     constexpr auto res = l_op / r_op;
 
-    EXPECT_DOUBLE_EQ(res.getReal().real(), RealDS{5}.real);
+    EXPECT_DOUBLE_EQ(get_num<Real<double>>(res).real(), RealDS{5}.real);
 }
 
 /* ===================================================Real_Complex_Tests===================================================*/
