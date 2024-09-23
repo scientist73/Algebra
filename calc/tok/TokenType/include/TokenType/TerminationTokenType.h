@@ -19,7 +19,6 @@ namespace alg
 
                 constexpr explicit TerminationTokenType(TERMINATION term_t);
 
-                constexpr TOKEN getTokenType() const override;
                 constexpr TERMINATION getTerminationTokenType() const;
             private:
                 TERMINATION term_t;
@@ -37,10 +36,6 @@ constexpr TerminationTokenType::TerminationTokenType(TERMINATION term_t) :
     term_t(term_t)
 {}
 
-constexpr TOKEN TerminationTokenType::getTokenType() const
-{
-    return TOKEN::TERMINATION;
-}
 constexpr TerminationTokenType::TERMINATION TerminationTokenType::getTerminationTokenType() const
 {
     return term_t;

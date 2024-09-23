@@ -18,7 +18,6 @@ namespace alg
 
                 constexpr explicit ParenTokenType(PAREN paren_t);
 
-                constexpr TOKEN getTokenType() const override;
                 constexpr PAREN getParenTokenType() const;
             
             private:
@@ -37,10 +36,6 @@ constexpr ParenTokenType::ParenTokenType(PAREN paren_t) :
     paren_t(paren_t)
 {}
 
-constexpr TOKEN ParenTokenType::getTokenType() const
-{
-    return TOKEN::PAREN;
-}
 constexpr ParenTokenType::PAREN ParenTokenType::getParenTokenType() const
 {
     return paren_t;

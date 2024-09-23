@@ -19,7 +19,6 @@ namespace alg
 
                 constexpr explicit NumTokenType(NUM num_t, std::string_view scalar);
 
-                constexpr TOKEN getTokenType() const override;
                 constexpr NUM getNumTokenType() const;
                 constexpr std::string_view getScalar() const;
 
@@ -40,10 +39,6 @@ constexpr NumTokenType::NumTokenType(NUM num_t, std::string_view scalar) :
     num_t(num_t), scalar(scalar)
 {}
 
-constexpr TOKEN NumTokenType::getTokenType() const
-{
-    return TOKEN::NUM;
-}
 constexpr NumTokenType::NUM NumTokenType::getNumTokenType() const
 {
     return num_t;

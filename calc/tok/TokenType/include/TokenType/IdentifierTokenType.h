@@ -12,7 +12,6 @@ namespace alg
             public:
                 constexpr explicit IdentifierTokenType(std::string_view identifier);
 
-                constexpr TOKEN getTokenType() const override;
                 constexpr std::string_view getIdentifier() const;
 
             private:
@@ -32,10 +31,6 @@ constexpr IdentifierTokenType::IdentifierTokenType(std::string_view identifier) 
     identifier(identifier)
 {}
 
-constexpr TOKEN IdentifierTokenType::getTokenType() const
-{
-    return TOKEN::IDENTIFIER;
-}
 constexpr std::string_view IdentifierTokenType::getIdentifier() const
 {
     return identifier;

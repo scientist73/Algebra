@@ -20,7 +20,6 @@ namespace alg
 
                 constexpr explicit OperatorTokenType(OPERATOR operator_t);
 
-                constexpr TOKEN getTokenType() const override;
                 constexpr OPERATOR getOperatorTokenType() const;
                 
             private:
@@ -39,10 +38,6 @@ constexpr OperatorTokenType::OperatorTokenType(OPERATOR operator_t) :
     operator_t(operator_t)
 {}
 
-constexpr TOKEN OperatorTokenType::getTokenType() const
-{
-    return TOKEN::OPERATOR;
-}
 constexpr OperatorTokenType::OPERATOR OperatorTokenType::getOperatorTokenType() const
 {
     return operator_t;

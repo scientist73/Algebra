@@ -16,11 +16,7 @@ namespace alg
                 EMPTY,
             };
 
-            class ITokenType
-            {
-            public:
-                virtual constexpr TOKEN getTokenType() const = 0;
-            };
+            class ITokenType {};
         } // namespace tok
     } // namespace calc
 } // namespace alg
