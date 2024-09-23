@@ -34,7 +34,6 @@ namespace alg
             template<typename SpecificNumType> requires IsSpecificNumType<SpecificNumType, ScalarType>
             constexpr NumType(SpecificNumType&& specific_num);
 
-            std::string getString() const;
             constexpr NUM getNumType() const;
 
             template<typename SpecificNumType, typename _ScalarType> requires IsSpecificNumType<SpecificNumType, _ScalarType>
@@ -90,14 +89,6 @@ constexpr NumType<ScalarType>::NumType(SpecificNumType&& specific_num) :
     value(SpecificNumType(std::forward<SpecificNumType>(specific_num)))
 {}
 
-
-template<typename ScalarType>
-std::string NumType<ScalarType>::getString() const
-{
-    if (!is_valid())
-        throw std::runtime_error("NumType<ScalarType>::getString() error: NumType doesn't contain a value");
-    return value->getString();
-}
 template<typename ScalarType>
 constexpr NUM NumType<ScalarType>::getNumType() const
 {
