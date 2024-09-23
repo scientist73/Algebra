@@ -37,8 +37,6 @@ namespace alg
             std::string getString() const;
             constexpr NUM getNumType() const;
 
-            constexpr Complex<ScalarType> getComplex() const;
-
             template<typename SpecificNumType, typename _ScalarType> requires IsSpecificNumType<SpecificNumType, _ScalarType>
             friend constexpr const SpecificNumType& get_num(const NumType<_ScalarType>& num);
 
@@ -117,14 +115,6 @@ constexpr NUM NumType<ScalarType>::getNumType() const
     }
 }
 
-template<typename ScalarType>
-constexpr Complex<ScalarType> NumType<ScalarType>::getComplex() const
-{
-    if (!is_valid())
-        throw std::runtime_error("NumType<ScalarType>::getComplex() error: NumType doesn't contain a value");
-    return std::get<Complex_NumType<ScalarType>>(value.value()).getComplex();
-}
-
 template<typename SpecificNumType, typename ScalarType> requires alg::num::IsSpecificNumType<SpecificNumType, ScalarType>
 constexpr const SpecificNumType& alg::num::get_num(const NumType<ScalarType>& num)
 {
@@ -133,7 +123,7 @@ constexpr const SpecificNumType& alg::num::get_num(const NumType<ScalarType>& nu
 
     if constexpr (std::is_same<SpecificNumType, Real<ScalarType>>::value)
         return std::get<Real_NumType<ScalarType>>(num.value.value()).getReal();
-    else if constexpr (std::is_same<SpecificNumType, Real<ScalarType>>::value)
+    else if constexpr (std::is_same<SpecificNumType, Complex<ScalarType>>::value)
         return std::get<Complex_NumType<ScalarType>>(num.value.value()).getComplex();
     else
         throw std::runtime_error("");

@@ -197,8 +197,8 @@ TEST_P(real_plus_complex_test, Double)
 
     NumType<double> res = l_op + r_op;
 
-    EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), GetParam().res.imag);
 }
 TEST_P(real_plus_complex_test, Double_with_assignment)
 {
@@ -206,8 +206,8 @@ TEST_P(real_plus_complex_test, Double_with_assignment)
 
     l_op += r_op;
 
-    EXPECT_DOUBLE_EQ(l_op.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(l_op.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).imag(), GetParam().res.imag);
 }
 INSTANTIATE_TEST_SUITE_P(Default, real_plus_complex_test, ::testing::Values(
     R_C_Operation{RealDS{6.7}, ComplexDS{2, 4}, ComplexDS{8.7, 4}},
@@ -224,8 +224,8 @@ TEST(DISABLED_real_plus_complex_constexpr_test, Double)
     // fail to complile: operator+ for Complex<double> is not constexpr
     //constexpr auto res = l_op + r_op;
 
-    //EXPECT_DOUBLE_EQ(res.getComplex().real(), (ComplexDS{8.7, 4}).real);
-    //EXPECT_DOUBLE_EQ(res.getComplex().imag(), (ComplexDS{8.7, 4}).imag);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), (ComplexDS{8.7, 4}).real);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), (ComplexDS{8.7, 4}).imag);
 }
 
 /* ---------------------------------------------------SUB--------------------------------------------------- */
@@ -237,8 +237,8 @@ TEST_P(real_minus_complex_test, Double)
 
     NumType<double> res = l_op - r_op;
 
-    EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), GetParam().res.imag);
 }
 TEST_P(real_minus_complex_test, Double_with_assignment)
 {
@@ -246,8 +246,8 @@ TEST_P(real_minus_complex_test, Double_with_assignment)
 
     l_op -= r_op;
 
-    EXPECT_DOUBLE_EQ(l_op.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(l_op.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).imag(), GetParam().res.imag);
 }
 INSTANTIATE_TEST_SUITE_P(Default, real_minus_complex_test, ::testing::Values(
     R_C_Operation{RealDS{6.7}, ComplexDS{2, 4}, ComplexDS{4.7, -4}},
@@ -264,8 +264,8 @@ TEST(DISABLED_real_minus_complex_constexpr_test, Double)
     // fail to complile: operator- for Complex<double> is not constexpr
     //constexpr auto res = l_op - r_op;
 
-    //EXPECT_DOUBLE_EQ(res.getComplex().real(), (ComplexDS{4.7, -4}).real);
-    //EXPECT_DOUBLE_EQ(res.getComplex().imag(), (ComplexDS{4.7, -4}).imag);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), (ComplexDS{4.7, -4}).real);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), (ComplexDS{4.7, -4}).imag);
 }
 
 /* ---------------------------------------------------MULT--------------------------------------------------- */
@@ -277,8 +277,8 @@ TEST_P(real_mult_complex_test, Double)
 
     NumType<double> res = l_op * r_op;
 
-    EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), GetParam().res.imag);
 }
 TEST_P(real_mult_complex_test, Double_with_assignment)
 {
@@ -286,8 +286,8 @@ TEST_P(real_mult_complex_test, Double_with_assignment)
 
     l_op *= r_op;
 
-    EXPECT_DOUBLE_EQ(l_op.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(l_op.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).imag(), GetParam().res.imag);
 }
 INSTANTIATE_TEST_SUITE_P(Default, real_mult_complex_test, ::testing::Values(
     R_C_Operation{RealDS{6.7}, ComplexDS{2, 4}, ComplexDS{13.4, 26.8}},
@@ -304,8 +304,8 @@ TEST(DISABLED_real_mult_complex_constexpr_test, Double)
     // fail to complile: operator* for Complex<double> is not constexpr
     //constexpr auto res = l_op * r_op;
 
-    //EXPECT_DOUBLE_EQ(res.getComplex().real(), (ComplexDS{13.4, 26.8}).real);
-    //EXPECT_DOUBLE_EQ(res.getComplex().imag(), (ComplexDS{13.4, 26.8}).imag);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), (ComplexDS{13.4, 26.8}).real);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), (ComplexDS{13.4, 26.8}).imag);
 }
 
 /* ---------------------------------------------------DIV--------------------------------------------------- */
@@ -317,8 +317,8 @@ TEST_P(real_div_complex_test, Double)
 
     NumType<double> res = l_op / r_op;
 
-    EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), GetParam().res.imag);
 }
 TEST_P(real_div_complex_test, Double_with_assignment)
 {
@@ -326,8 +326,8 @@ TEST_P(real_div_complex_test, Double_with_assignment)
 
     l_op /= r_op;
 
-    EXPECT_DOUBLE_EQ(l_op.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(l_op.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).imag(), GetParam().res.imag);
 }
 INSTANTIATE_TEST_SUITE_P(Default, real_div_complex_test, ::testing::Values(
     R_C_Operation{RealDS{3}, ComplexDS{5, 5}, ComplexDS{0.3, -0.3}},
@@ -344,8 +344,8 @@ TEST(DISABLED_real_div_complex_constexpr_test, Double)
     // fail to complile: operator/ for Complex<double> is not constexpr
     //constexpr auto res = l_op / r_op;
 
-    //EXPECT_DOUBLE_EQ(res.getComplex().real(), (ComplexDS{0.3, -0.3}).real);
-    //EXPECT_DOUBLE_EQ(res.getComplex().imag(), (ComplexDS{0.3, -0.3}).imag);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), (ComplexDS{0.3, -0.3}).real);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), (ComplexDS{0.3, -0.3}).imag);
 }
 
 /* ===================================================Complex_Real_Tests===================================================*/
@@ -372,8 +372,8 @@ TEST_P(complex_plus_real_test, Double)
 
     NumType<double> res = l_op + r_op;
 
-    EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), GetParam().res.imag);
 }
 TEST_P(complex_plus_real_test, Double_with_assignment)
 {
@@ -381,8 +381,8 @@ TEST_P(complex_plus_real_test, Double_with_assignment)
 
     l_op += r_op;
 
-    EXPECT_DOUBLE_EQ(l_op.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(l_op.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).imag(), GetParam().res.imag);
 }
 INSTANTIATE_TEST_SUITE_P(Default, complex_plus_real_test, ::testing::Values(
     C_R_Operation{ComplexDS{3, 4}, RealDS{2}, ComplexDS{5, 4}},
@@ -399,8 +399,8 @@ TEST(DISABLED_complex_plus_real_constexpr_test, Double)
     // fail to complile: operator+ for Complex<double> is not constexpr
     //constexpr auto res = l_op + r_op;
 
-    //EXPECT_DOUBLE_EQ(res.getComplex().real(), (ComplexDS{5, 4}).real);
-    //EXPECT_DOUBLE_EQ(res.getComplex().imag(), (ComplexDS{5, 4}).imag);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), (ComplexDS{5, 4}).real);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), (ComplexDS{5, 4}).imag);
 }
 
 /* ---------------------------------------------------SUB--------------------------------------------------- */
@@ -412,8 +412,8 @@ TEST_P(complex_minus_real_test, Double)
 
     NumType<double> res = l_op - r_op;
 
-    EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), GetParam().res.imag);
 }
 TEST_P(complex_minus_real_test, Double_with_assignment)
 {
@@ -421,8 +421,8 @@ TEST_P(complex_minus_real_test, Double_with_assignment)
 
     l_op -= r_op;
 
-    EXPECT_DOUBLE_EQ(l_op.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(l_op.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).imag(), GetParam().res.imag);
 }
 INSTANTIATE_TEST_SUITE_P(Default, complex_minus_real_test, ::testing::Values(
     C_R_Operation{ComplexDS{3, 4}, RealDS{2}, ComplexDS{1, 4}},
@@ -439,8 +439,8 @@ TEST(DISABLED_complex_minus_real_constexpr_test, Double)
     // fail to complile: operator- for Complex<double> is not constexpr
     //constexpr auto res = l_op - r_op;
 
-    //EXPECT_DOUBLE_EQ(res.getComplex().real(), (ComplexDS{1, 4}).real);
-    //EXPECT_DOUBLE_EQ(res.getComplex().imag(), (ComplexDS{1, 4}).imag);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), (ComplexDS{1, 4}).real);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), (ComplexDS{1, 4}).imag);
 }
 
 /* ---------------------------------------------------MULT--------------------------------------------------- */
@@ -452,8 +452,8 @@ TEST_P(complex_mult_real_test, Double)
 
     NumType<double> res = l_op * r_op;
 
-    EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), GetParam().res.imag);
 }
 TEST_P(complex_mult_real_test, Double_with_assignment)
 {
@@ -461,8 +461,8 @@ TEST_P(complex_mult_real_test, Double_with_assignment)
 
     l_op *= r_op;
 
-    EXPECT_DOUBLE_EQ(l_op.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(l_op.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).imag(), GetParam().res.imag);
 }
 INSTANTIATE_TEST_SUITE_P(Default, complex_mult_real_test, ::testing::Values(
     C_R_Operation{ComplexDS{3, 4}, RealDS{2}, ComplexDS{6, 8}},
@@ -479,8 +479,8 @@ TEST(DISABLED_complex_mult_real_constexpr_test, Double)
     // fail to complile: operator* for Complex<double> is not constexpr
     //constexpr auto res = l_op * r_op;
 
-    //EXPECT_DOUBLE_EQ(res.getComplex().real(), (ComplexDS{6, 8}).real);
-    //EXPECT_DOUBLE_EQ(res.getComplex().imag(), (ComplexDS{6, 8}).imag);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), (ComplexDS{6, 8}).real);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), (ComplexDS{6, 8}).imag);
 }
 
 /* ---------------------------------------------------DIV--------------------------------------------------- */
@@ -492,8 +492,8 @@ TEST_P(complex_div_real_test, Double)
 
     NumType<double> res = l_op / r_op;
 
-    EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), GetParam().res.imag);
 }
 TEST_P(complex_div_real_test, Double_with_assignment)
 {
@@ -501,8 +501,8 @@ TEST_P(complex_div_real_test, Double_with_assignment)
 
     l_op /= r_op;
 
-    EXPECT_DOUBLE_EQ(l_op.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(l_op.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).imag(), GetParam().res.imag);
 }
 INSTANTIATE_TEST_SUITE_P(Default, complex_div_real_test, ::testing::Values(
     C_R_Operation{ComplexDS{3, 4}, RealDS{2}, ComplexDS{1.5, 2}},
@@ -519,8 +519,8 @@ TEST(DISABLED_complex_div_real_constexpr_test, Double)
     // fail to complile: operator/ for Complex<double> is not constexpr
     //constexpr auto res = l_op / r_op;
 
-    //EXPECT_DOUBLE_EQ(res.getComplex().real(), (ComplexDS{1.5, 2}).real);
-    //EXPECT_DOUBLE_EQ(res.getComplex().imag(), (ComplexDS{1.5, 2}).imag);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), (ComplexDS{1.5, 2}).real);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), (ComplexDS{1.5, 2}).imag);
 }
 
 /* ===================================================Complex_Complex_Tests===================================================*/
@@ -547,8 +547,8 @@ TEST_P(complex_plus_complex_test, Double)
 
     NumType<double> res = l_op + r_op;
 
-    EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), GetParam().res.imag);
 }
 TEST_P(complex_plus_complex_test, Double_with_assignment)
 {
@@ -556,8 +556,8 @@ TEST_P(complex_plus_complex_test, Double_with_assignment)
 
     l_op += r_op;
 
-    EXPECT_DOUBLE_EQ(l_op.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(l_op.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).imag(), GetParam().res.imag);
 }
 INSTANTIATE_TEST_SUITE_P(Default, complex_plus_complex_test, ::testing::Values(
     C_C_Operation{ComplexDS{3, 4}, ComplexDS{2, 2}, ComplexDS{5, 6}},
@@ -574,8 +574,8 @@ TEST(DISABLED_complex_plus_complex_constexpr_test, Double)
     // fail to complile: operator+ for Complex<double> is not constexpr
     //constexpr auto res = l_op + r_op;
 
-    //EXPECT_DOUBLE_EQ(res.getComplex().real(), (ComplexDS{5, 6}).real);
-    //EXPECT_DOUBLE_EQ(res.getComplex().imag(), (ComplexDS{5, 6}).imag);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), (ComplexDS{5, 6}).real);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), (ComplexDS{5, 6}).imag);
 }
 
 /* ---------------------------------------------------SUB--------------------------------------------------- */
@@ -587,8 +587,8 @@ TEST_P(complex_minus_complex_test, Double)
 
     NumType<double> res = l_op - r_op;
 
-    EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), GetParam().res.imag);
 }
 TEST_P(complex_minus_complex_test, Double_with_assignment)
 {
@@ -596,8 +596,8 @@ TEST_P(complex_minus_complex_test, Double_with_assignment)
 
     l_op -= r_op;
 
-    EXPECT_DOUBLE_EQ(l_op.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(l_op.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).imag(), GetParam().res.imag);
 }
 INSTANTIATE_TEST_SUITE_P(Default, complex_minus_complex_test, ::testing::Values(
     C_C_Operation{ComplexDS{3, 4}, ComplexDS{2, 2}, ComplexDS{1, 2}},
@@ -614,8 +614,8 @@ TEST(DISABLED_complex_minus_complex_constexpr_test, Double)
     // fail to complile: operator- for Complex<double> is not constexpr
     //constexpr auto res = l_op - r_op;
 
-    //EXPECT_DOUBLE_EQ(res.getComplex().real(), (ComplexDS{1, 2}).real);
-    //EXPECT_DOUBLE_EQ(res.getComplex().imag(), (ComplexDS{1, 2}).imag);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), (ComplexDS{1, 2}).real);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), (ComplexDS{1, 2}).imag);
 }
 
 /* ---------------------------------------------------MULT--------------------------------------------------- */
@@ -627,8 +627,8 @@ TEST_P(complex_mult_complex_test, Double)
 
     NumType<double> res = l_op * r_op;
 
-    EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), GetParam().res.imag);
 }
 TEST_P(complex_mult_complex_test, Double_with_assignment)
 {
@@ -636,8 +636,8 @@ TEST_P(complex_mult_complex_test, Double_with_assignment)
 
     l_op *= r_op;
 
-    EXPECT_DOUBLE_EQ(l_op.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(l_op.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).imag(), GetParam().res.imag);
 }
 INSTANTIATE_TEST_SUITE_P(Default, complex_mult_complex_test, ::testing::Values(
     C_C_Operation{ComplexDS{3, 4}, ComplexDS{2, 2}, ComplexDS{-2, 14}},
@@ -654,8 +654,8 @@ TEST(DISABLED_complex_mult_complex_constexpr_test, Double)
     // fail to complile: operator* for Complex<double> is not constexpr
     //constexpr auto res = l_op * r_op;
 
-    //EXPECT_DOUBLE_EQ(res.getComplex().real(), (ComplexDS{-2, 14}).real);
-    //EXPECT_DOUBLE_EQ(res.getComplex().imag(), (ComplexDS{-2, 14}).imag);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), (ComplexDS{-2, 14}).real);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), (ComplexDS{-2, 14}).imag);
 }
 
 /* ---------------------------------------------------DIV--------------------------------------------------- */
@@ -667,8 +667,8 @@ TEST_P(complex_div_complex_test, Double)
 
     NumType<double> res = l_op / r_op;
 
-    EXPECT_DOUBLE_EQ(res.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(res.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), GetParam().res.imag);
 }
 TEST_P(complex_div_complex_test, Double_with_assignment)
 {
@@ -676,8 +676,8 @@ TEST_P(complex_div_complex_test, Double_with_assignment)
 
     l_op /= r_op;
 
-    EXPECT_DOUBLE_EQ(l_op.getComplex().real(), GetParam().res.real);
-    EXPECT_DOUBLE_EQ(l_op.getComplex().imag(), GetParam().res.imag);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).real(), GetParam().res.real);
+    EXPECT_DOUBLE_EQ(get_num<Complex<double>>(l_op).imag(), GetParam().res.imag);
 }
 INSTANTIATE_TEST_SUITE_P(Default, complex_div_complex_test, ::testing::Values(
     C_C_Operation{ComplexDS{3, 4}, ComplexDS{2, 2}, ComplexDS{1.75, 0.25}},
@@ -694,6 +694,6 @@ TEST(DISABLED_complex_div_complex_constexpr_test, Double)
     // fail to complile: operator/ for Complex<double> is not constexpr
     //constexpr auto res = l_op / r_op;
 
-    //EXPECT_DOUBLE_EQ(res.getComplex().real(), (ComplexDS{1.75, 0.25}).real);
-    //EXPECT_DOUBLE_EQ(res.getComplex().imag(), (ComplexDS{1.75, 0.25}).imag);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).real(), (ComplexDS{1.75, 0.25}).real);
+    //EXPECT_DOUBLE_EQ(get_num<Complex<double>>(res).imag(), (ComplexDS{1.75, 0.25}).imag);
 }

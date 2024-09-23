@@ -40,8 +40,8 @@ void AssertNum(const NumType<double>& l_op, const NumType<double>& r_op)
             ASSERT_DOUBLE_EQ(get_num<Real<double>>(l_op).real(), get_num<Real<double>>(r_op).real());
             break;
         case NUM::COMPLEX:
-            ASSERT_DOUBLE_EQ(l_op.getComplex().real(), r_op.getComplex().real());
-            ASSERT_DOUBLE_EQ(l_op.getComplex().imag(), r_op.getComplex().imag());
+            ASSERT_DOUBLE_EQ(get_num<Complex<double>>(l_op).real(), get_num<Complex<double>>(r_op).real());
+            ASSERT_DOUBLE_EQ(get_num<Complex<double>>(l_op).imag(), get_num<Complex<double>>(r_op).imag());
             break;
         }
     }
