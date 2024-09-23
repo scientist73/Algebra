@@ -32,7 +32,7 @@ namespace alg
                 constexpr explicit TokenType(SpecificTokenType&& op_token);
 
                 template<typename SpecificTokenType> requires IsSpecificTokenType<SpecificTokenType>
-                friend constexpr const SpecificTokenType& get(const TokenType& token);
+                friend constexpr const SpecificTokenType& get_token(const TokenType& token);
                 constexpr TOKEN getTokenType() const;
                 constexpr bool isEmpty() const;
 
@@ -41,7 +41,7 @@ namespace alg
             };
 
             template<typename SpecificTokenType> requires IsSpecificTokenType<SpecificTokenType>
-            constexpr const SpecificTokenType& get(const TokenType& token);
+            constexpr const SpecificTokenType& get_token(const TokenType& token);
             template<typename SpecificTokenType, typename... Args> requires IsSpecificTokenType<SpecificTokenType>
             constexpr TokenType make_token(Args&&... args);
 
@@ -93,7 +93,7 @@ constexpr bool TokenType::isEmpty() const
 }
 
 template<typename SpecificTokenType> requires IsSpecificTokenType<SpecificTokenType>
-constexpr const SpecificTokenType& alg::calc::tok::get(const TokenType& token)
+constexpr const SpecificTokenType& alg::calc::tok::get_token(const TokenType& token)
 {
     try
     { 
@@ -118,15 +118,15 @@ constexpr bool alg::calc::tok::operator==(const TokenType& l_op, const TokenType
         switch (l_op.getTokenType())
         {
         case TOKEN::IDENTIFIER:
-            return get<IdentifierTokenType>(l_op) == get<IdentifierTokenType>(r_op);
+            return get_token<IdentifierTokenType>(l_op) == get_token<IdentifierTokenType>(r_op);
         case TOKEN::NUM:
-            return get<NumTokenType>(l_op) == get<NumTokenType>(r_op);
+            return get_token<NumTokenType>(l_op) == get_token<NumTokenType>(r_op);
         case TOKEN::OPERATOR:
-            return get<OperatorTokenType>(l_op) == get<OperatorTokenType>(r_op);
+            return get_token<OperatorTokenType>(l_op) == get_token<OperatorTokenType>(r_op);
         case TOKEN::TERMINATION:
-            return get<TerminationTokenType>(l_op) == get<TerminationTokenType>(r_op);
+            return get_token<TerminationTokenType>(l_op) == get_token<TerminationTokenType>(r_op);
         case TOKEN::PAREN:
-            return get<ParenTokenType>(l_op) == get<ParenTokenType>(r_op);
+            return get_token<ParenTokenType>(l_op) == get_token<ParenTokenType>(r_op);
         case TOKEN::EMPTY:
             return true;
         }

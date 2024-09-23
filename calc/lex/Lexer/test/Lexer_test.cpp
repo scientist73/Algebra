@@ -12,7 +12,7 @@ using alg::calc::tok::OperatorTokenType;
 using alg::calc::tok::ParenTokenType;
 using alg::calc::tok::TerminationTokenType;
 using alg::calc::tok::IdentifierTokenType;
-using alg::calc::tok::get;
+using alg::calc::tok::get_token;
 
 
 #define PLUS_TOKEN TokenType(OperatorTokenType(OperatorTokenType::OPERATOR::PLUS))
@@ -35,7 +35,7 @@ std::ostream& operator<<(std::ostream& out, const TokenType& token)
 {
     if (token.getTokenType() == TOKEN::IDENTIFIER)
     {
-        std::cout << get<IdentifierTokenType>(token).getIdentifier();
+        std::cout << get_token<IdentifierTokenType>(token).getIdentifier();
     }
     
     return out;

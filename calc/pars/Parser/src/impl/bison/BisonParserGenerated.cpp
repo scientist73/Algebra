@@ -910,7 +910,7 @@ void alg::calc::pars::impl::bison::pushToken(TokenType token)
     {
     case TOKEN::TERMINATION:
     {
-        auto term_token = get<TerminationTokenType>(token);
+        auto term_token = get_token<TerminationTokenType>(token);
         switch (term_token.getTerminationTokenType())
         {
         case TerminationTokenType::TERMINATION::END_OF_INPUT:
@@ -924,13 +924,13 @@ void alg::calc::pars::impl::bison::pushToken(TokenType token)
     }
     case TOKEN::IDENTIFIER:
     {
-        auto id_token = get<IdentifierTokenType>(token);
+        auto id_token = get_token<IdentifierTokenType>(token);
         parser_tokens.push(parser::make_ID(id_token.getIdentifier()));
         break;
     }
     case TOKEN::NUM:
     {
-        auto num_token = get<NumTokenType>(token);
+        auto num_token = get_token<NumTokenType>(token);
         // modify code here
         switch (num_token.getNumTokenType())
         {
@@ -945,7 +945,7 @@ void alg::calc::pars::impl::bison::pushToken(TokenType token)
     }
     case TOKEN::OPERATOR:
     {
-        auto op_token = get<OperatorTokenType>(token);
+        auto op_token = get_token<OperatorTokenType>(token);
         switch (op_token.getOperatorTokenType())
         {
         case OperatorTokenType::OPERATOR::PLUS:
@@ -965,7 +965,7 @@ void alg::calc::pars::impl::bison::pushToken(TokenType token)
     }
     case TOKEN::PAREN:
     {
-        auto paren_token = get<ParenTokenType>(token);
+        auto paren_token = get_token<ParenTokenType>(token);
         switch (paren_token.getParenTokenType())
         {
         case ParenTokenType::PAREN::ROUND_CLOSE:

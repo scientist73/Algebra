@@ -54,7 +54,7 @@
 
 
 using alg::num::NumType;
-using alg::calc::tok::get;
+using alg::calc::tok::get_token;
 using alg::calc::tok::TOKEN;
 using alg::calc::tok::TokenType;
 using alg::calc::tok::OperatorTokenType;
