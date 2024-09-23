@@ -13,12 +13,6 @@ namespace alg
         };
 
         template<typename ScalarType>
-        class INumType
-        {
-        public:
-            virtual std::string getString() const = 0;
-            virtual NUM getNumType() const = 0;
-            virtual INumType<ScalarType>* getCopy() const = 0;
-        };
+        class INumType {};
     } // namespace num
 } // namespace alg

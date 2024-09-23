@@ -19,10 +19,6 @@ namespace alg
                 constexpr Complex_NumType(const Real_NumType<ScalarType>& num);
                 constexpr Complex_NumType(Real_NumType<ScalarType>&& num);
 
-                std::string getString() const override;
-                constexpr NUM getNumType() const override;
-                constexpr INumType<ScalarType>* getCopy() const override;
-
                 constexpr const Complex<ScalarType>& getComplex() const;
 
                 constexpr Complex_NumType<ScalarType>& operator+=(const Real_NumType<ScalarType>& right_op);
@@ -66,34 +62,6 @@ constexpr Complex_NumType<ScalarType>::Complex_NumType(Real_NumType<ScalarType>&
     value(std::move(num.getReal().real()), 0)
 {}
 
-template<typename ScalarType>
-std::string Complex_NumType<ScalarType>::getString() const
-{
-    if constexpr (std::is_same_v<ScalarType, double>)
-    {
-        if (value.imag() >= 0)
-            return std::to_string(value.real()) + " + " + std::to_string(value.imag()) + "i";
-        else
-            return std::to_string(value.real()) + " + " + "(" + std::to_string(value.imag()) + "i" + ")";
-    }
-    else
-    {
-        if (value.imag() >= 0)
-            return value.real().getString() + " + " + std::to_string(value.imag()) + "i";
-        else
-            return value.real().getString() + " + " + "(" + value.imag().getString() + "i" + ")";
-    }
-}
-template<typename ScalarType>
-constexpr NUM Complex_NumType<ScalarType>::getNumType() const
-{
-    return NUM::COMPLEX;
-}
-template<typename ScalarType>
-constexpr INumType<ScalarType>* Complex_NumType<ScalarType>::getCopy() const
-{
-    return new Complex_NumType<ScalarType>(this->value);
-}
 
 template<typename ScalarType>
 constexpr const Complex<ScalarType>& Complex_NumType<ScalarType>::getComplex() const
