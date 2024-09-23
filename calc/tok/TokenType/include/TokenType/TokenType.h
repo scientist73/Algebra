@@ -43,7 +43,7 @@ namespace alg
             template<typename SpecificTokenType> requires IsSpecificTokenType<SpecificTokenType>
             constexpr const SpecificTokenType& get(const TokenType& token);
             template<typename SpecificTokenType, typename... Args> requires IsSpecificTokenType<SpecificTokenType>
-            constexpr TokenType make(Args&&... args);
+            constexpr TokenType make_token(Args&&... args);
 
             constexpr bool operator==(const TokenType& l_op, const TokenType& r_op);
             constexpr bool operator!=(const TokenType& l_op, const TokenType& r_op);
@@ -105,7 +105,7 @@ constexpr const SpecificTokenType& alg::calc::tok::get(const TokenType& token)
     }
 }
 template<typename SpecificTokenType, typename... Args> requires IsSpecificTokenType<SpecificTokenType>
-constexpr TokenType alg::calc::tok::make(Args&&... args)
+constexpr TokenType alg::calc::tok::make_token(Args&&... args)
 {
     return TokenType(SpecificTokenType(args...));
 }

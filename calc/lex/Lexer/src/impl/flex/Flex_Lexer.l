@@ -7,7 +7,7 @@
 
 using alg::calc::lex::impl::flex::Flex_Lexer;
 
-using alg::calc::tok::make;
+using alg::calc::tok::make_token;
 
 using alg::calc::tok::TokenType;
 using alg::calc::tok::OperatorTokenType;
@@ -34,7 +34,7 @@ if (getInputType() == INPUT::END_OF_INPUT)\
 else\
 {\
     input_t = INPUT::END_OF_INPUT;\
-    return make<TerminationTokenType>(TERMINATION::END_OF_INPUT);\
+    return make_token<TerminationTokenType>(TERMINATION::END_OF_INPUT);\
 }
 %}
 
@@ -53,25 +53,25 @@ ID          [_a-zA-Z][_a-zA-Z0-9]*
 
 %%
 {blank}+
-{new_line} return make<TerminationTokenType>(TERMINATION::END_OF_LINE);
+{new_line} return make_token<TerminationTokenType>(TERMINATION::END_OF_LINE);
 
-{MINUS} return make<OperatorTokenType>(OPERATOR::MINUS);
-{PLUS} return make<OperatorTokenType>(OPERATOR::PLUS);
-{MULT} return make<OperatorTokenType>(OPERATOR::MULT);
-{DIV} return make<OperatorTokenType>(OPERATOR::DIV);
+{MINUS} return make_token<OperatorTokenType>(OPERATOR::MINUS);
+{PLUS} return make_token<OperatorTokenType>(OPERATOR::PLUS);
+{MULT} return make_token<OperatorTokenType>(OPERATOR::MULT);
+{DIV} return make_token<OperatorTokenType>(OPERATOR::DIV);
 
-{PAREN_ROUND_OPEN} return make<ParenTokenType>(PAREN::ROUND_OPEN);
-{PAREN_ROUND_CLOSE} return make<ParenTokenType>(PAREN::ROUND_CLOSE);
+{PAREN_ROUND_OPEN} return make_token<ParenTokenType>(PAREN::ROUND_OPEN);
+{PAREN_ROUND_CLOSE} return make_token<ParenTokenType>(PAREN::ROUND_CLOSE);
 
 
-{REAL} return make<NumTokenType>(NUM::REAL, yytext);
-{IMAG} return make<NumTokenType>(NUM::IMAG, "1");
+{REAL} return make_token<NumTokenType>(NUM::REAL, yytext);
+{IMAG} return make_token<NumTokenType>(NUM::IMAG, "1");
 {REAL}{IMAG} {
     yytext[strlen(yytext)-1] = '\0';
-    return make<NumTokenType>(NUM::IMAG, yytext);
+    return make_token<NumTokenType>(NUM::IMAG, yytext);
 }
 
-{ID} return make<IdentifierTokenType>(yytext);
+{ID} return make_token<IdentifierTokenType>(yytext);
 
 . { throw std::runtime_error("some error"); }
 <<EOF>> yyterminate()

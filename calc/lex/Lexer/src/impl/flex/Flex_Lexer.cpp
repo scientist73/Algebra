@@ -548,7 +548,7 @@ char *yytext;
 
 using alg::calc::lex::impl::flex::Flex_Lexer;
 
-using alg::calc::tok::make;
+using alg::calc::tok::make_token;
 
 using alg::calc::tok::TokenType;
 using alg::calc::tok::OperatorTokenType;
@@ -569,7 +569,7 @@ if (getInputType() == INPUT::END_OF_INPUT)\
 else\
 {\
     input_t = INPUT::END_OF_INPUT;\
-    return make<TerminationTokenType>(TERMINATION::END_OF_INPUT);\
+    return make_token<TerminationTokenType>(TERMINATION::END_OF_INPUT);\
 }
 #line 575 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.cpp"
 #line 576 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.cpp"
@@ -939,60 +939,60 @@ case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
 #line 56 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return make<TerminationTokenType>(TERMINATION::END_OF_LINE);
+return make_token<TerminationTokenType>(TERMINATION::END_OF_LINE);
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 58 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return make<OperatorTokenType>(OPERATOR::MINUS);
+return make_token<OperatorTokenType>(OPERATOR::MINUS);
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 59 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return make<OperatorTokenType>(OPERATOR::PLUS);
+return make_token<OperatorTokenType>(OPERATOR::PLUS);
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 60 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return make<OperatorTokenType>(OPERATOR::MULT);
+return make_token<OperatorTokenType>(OPERATOR::MULT);
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 61 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return make<OperatorTokenType>(OPERATOR::DIV);
+return make_token<OperatorTokenType>(OPERATOR::DIV);
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 63 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return make<ParenTokenType>(PAREN::ROUND_OPEN);
+return make_token<ParenTokenType>(PAREN::ROUND_OPEN);
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 64 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return make<ParenTokenType>(PAREN::ROUND_CLOSE);
+return make_token<ParenTokenType>(PAREN::ROUND_CLOSE);
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 67 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return make<NumTokenType>(NUM::REAL, yytext);
+return make_token<NumTokenType>(NUM::REAL, yytext);
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 68 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return make<NumTokenType>(NUM::IMAG, "1");
+return make_token<NumTokenType>(NUM::IMAG, "1");
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 69 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
 {
     yytext[strlen(yytext)-1] = '\0';
-    return make<NumTokenType>(NUM::IMAG, yytext);
+    return make_token<NumTokenType>(NUM::IMAG, yytext);
 }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 74 "/home/scientist73/projects/Algebra/calc/lex/Lexer/src/impl/flex/Flex_Lexer.l"
-return make<IdentifierTokenType>(yytext);
+return make_token<IdentifierTokenType>(yytext);
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
