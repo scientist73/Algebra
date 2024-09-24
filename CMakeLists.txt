@@ -26,6 +26,8 @@ endif()
 #
 # algebra's modules build
 
+add_subdirectory(except/AlgebraException)
+
 add_subdirectory(num/Real)
 add_subdirectory(num/Complex)
 add_subdirectory(num/scalar/ScalarType)

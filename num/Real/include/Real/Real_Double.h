@@ -20,10 +20,10 @@ namespace alg
 
             constexpr Real<double>& operator=(double value) noexcept;
 
-            constexpr Real<double>& operator+=(const Real<double>& right_op);
-            constexpr Real<double>& operator-=(const Real<double>& right_op);
-            constexpr Real<double>& operator*=(const Real<double>& right_op);
-            constexpr Real<double>& operator/=(const Real<double>& right_op);
+            constexpr Real<double>& operator+=(const Real<double>& right_op) noexcept;
+            constexpr Real<double>& operator-=(const Real<double>& right_op) noexcept;
+            constexpr Real<double>& operator*=(const Real<double>& right_op) noexcept;
+            constexpr Real<double>& operator/=(const Real<double>& right_op) noexcept;
         private:
             double value;
         };
@@ -57,25 +57,23 @@ constexpr Real<double>& Real<double>::operator=(double value) noexcept
     return *this;
 }
 
-constexpr Real<double>& Real<double>::operator+=(const Real<double>& right_op)
+constexpr Real<double>& Real<double>::operator+=(const Real<double>& right_op) noexcept
 {
     this->value += right_op.value;
     return *this;
 }
-constexpr Real<double>& Real<double>::operator-=(const Real<double>& right_op)
+constexpr Real<double>& Real<double>::operator-=(const Real<double>& right_op) noexcept
 {
     this->value -= right_op.value;
     return *this;
 }
-constexpr Real<double>& Real<double>::operator*=(const Real<double>& right_op)
+constexpr Real<double>& Real<double>::operator*=(const Real<double>& right_op) noexcept
 {
     this->value *= right_op.value;
     return *this;
 }
-constexpr Real<double>& Real<double>::operator/=(const Real<double>& right_op)
+constexpr Real<double>& Real<double>::operator/=(const Real<double>& right_op) noexcept
 {
-    if (!right_op) throw std::runtime_error("div by zero is invalid");
-
     this->value /= right_op.value;
     return *this;
 }

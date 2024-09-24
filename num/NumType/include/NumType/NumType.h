@@ -7,6 +7,7 @@
 #include "INumType.h"
 #include "Real_NumType.h"
 #include "Complex_NumType.h"
+#include "NumTypeException.h"
 #include <cassert>
 
 namespace alg
@@ -56,7 +57,7 @@ namespace alg
             template<typename SpecificNumType> requires impl::IsSpecificNumType<SpecificNumType, ScalarType>
             constexpr NumType(SpecificNumType&& specific_num);
 
-            constexpr bool is_valid() const;
+            constexpr bool has_value() const noexcept;
 
             std::optional<std::variant<Real_NumType<ScalarType>, Complex_NumType<ScalarType>>> value;
         };
@@ -92,8 +93,8 @@ constexpr NumType<ScalarType>::NumType(SpecificNumType&& specific_num) :
 template<typename ScalarType>
 constexpr NUM NumType<ScalarType>::getNumType() const
 {
-    if (!is_valid())
-        throw std::runtime_error("NumType<ScalarType>::getNumType() error: NumType doesn't contain a value");
+    if (!has_value())
+        throw except::num_has_no_value("");
 
     switch(this->value.value().index())
     {
@@ -102,22 +103,22 @@ constexpr NUM NumType<ScalarType>::getNumType() const
     case 1:
         return NUM::COMPLEX;
     default:
-        throw std::runtime_error("");
+        throw except::unknown_exception("");
     }
 }
 
 template<typename SpecificNumType, typename ScalarType> requires alg::num::IsSpecificNumType<SpecificNumType, ScalarType>
 constexpr const SpecificNumType& alg::num::get_num(const NumType<ScalarType>& num)
 {
-    if (!num.is_valid())
-        throw std::runtime_error("NumType<ScalarType>::getReal() error: NumType doesn't contain a value");
+    if (!num.has_value())
+        throw except::num_has_no_value("");
 
     if constexpr (std::is_same<SpecificNumType, Real<ScalarType>>::value)
         return std::get<Real_NumType<ScalarType>>(num.value.value()).getReal();
     else if constexpr (std::is_same<SpecificNumType, Complex<ScalarType>>::value)
         return std::get<Complex_NumType<ScalarType>>(num.value.value()).getComplex();
     else
-        throw std::runtime_error("");
+        throw except::unknown_exception("");
 }
 
 template<typename ScalarType>
@@ -133,8 +134,8 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator=(SpecificNumType&& 
 template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator+=(const NumType& right_op)
 {
-    if (!is_valid())
-        throw std::runtime_error("NumType<ScalarType>::operator+= error: NumType doesn't contain a value");
+    if (!has_value())
+        throw except::num_has_no_value("");
 
     switch (this->getNumType())
     {
@@ -185,13 +186,13 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator+=(const NumType& ri
         break;
     }
 
-    throw std::runtime_error("NumType<ScalarType>::operator+= error");
+    throw except::unknown_exception("");
 }
 template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator-=(const NumType& right_op)
 {
-    if (!is_valid())
-        throw std::runtime_error("NumType<ScalarType>::operator-= error: NumType doesn't contain a value");
+    if (!has_value())
+        throw except::num_has_no_value("");
 
     switch (this->getNumType())
     {
@@ -242,13 +243,13 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator-=(const NumType& ri
         break;
     }
 
-    throw std::runtime_error("NumType<ScalarType>::operator-= error");
+    throw except::unknown_exception("");
 }
 template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator*=(const NumType& right_op)
 {
-    if (!is_valid())
-        throw std::runtime_error("NumType<ScalarType>::operator*= error: NumType doesn't contain a value");
+    if (!has_value())
+        throw except::num_has_no_value("");
 
     switch (this->getNumType())
     {
@@ -299,13 +300,13 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator*=(const NumType& ri
         break;
     }
 
-    throw std::runtime_error("NumType<ScalarType>::operator*= error");
+    throw except::unknown_exception("");
 }
 template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator/=(const NumType& right_op)
 {
-    if (!is_valid())
-        throw std::runtime_error("NumType<ScalarType>::operator/= error: NumType doesn't contain a value");
+    if (!has_value())
+        throw except::num_has_no_value("");
 
     switch (this->getNumType())
     {
@@ -356,14 +357,14 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator/=(const NumType& ri
         break;
     }
 
-    throw std::runtime_error("NumType<ScalarType>::operator/= error");
+    throw except::unknown_exception("");
 }
 
 template<typename ScalarType>
 constexpr NumType<ScalarType> NumType<ScalarType>::operator+(const NumType& right_op) const
 {
-    if (!is_valid())
-        throw std::runtime_error("NumType<ScalarType>::operator+ error: NumType doesn't contain a value");
+    if (!has_value())
+        throw except::num_has_no_value("");
 
     switch (this->getNumType())
     {
@@ -402,13 +403,13 @@ constexpr NumType<ScalarType> NumType<ScalarType>::operator+(const NumType& righ
         break;
     }
 
-    throw std::runtime_error("NumType<ScalarType>::operator+ error");
+    throw except::unknown_exception("");
 }
 template<typename ScalarType>
 constexpr NumType<ScalarType> NumType<ScalarType>::operator-(const NumType& right_op) const
 {
-    if (!is_valid())
-        throw std::runtime_error("NumType<ScalarType>::operator- error: NumType doesn't contain a value");
+    if (!has_value())
+        throw except::num_has_no_value("");
 
     switch (this->getNumType())
     {
@@ -447,13 +448,13 @@ constexpr NumType<ScalarType> NumType<ScalarType>::operator-(const NumType& righ
         break;
     }
 
-    throw std::runtime_error("NumType<ScalarType>::operator- error");
+    throw except::unknown_exception("");
 }
 template<typename ScalarType>
 constexpr NumType<ScalarType> NumType<ScalarType>::operator*(const NumType& right_op) const
 {
-    if (!is_valid())
-        throw std::runtime_error("NumType<ScalarType>::operator* error: NumType doesn't contain a value");
+    if (!has_value())
+        throw except::num_has_no_value("");
 
     switch (this->getNumType())
     {
@@ -492,13 +493,13 @@ constexpr NumType<ScalarType> NumType<ScalarType>::operator*(const NumType& righ
         break;
     }
 
-    throw std::runtime_error("NumType<ScalarType>::operator* error");
+    throw except::unknown_exception("");
 }
 template<typename ScalarType>
 constexpr NumType<ScalarType> NumType<ScalarType>::operator/(const NumType& right_op) const
 {
-    if (!is_valid())
-        throw std::runtime_error("NumType<ScalarType>::operator/ error: NumType doesn't contain a value");
+    if (!has_value())
+        throw except::num_has_no_value("");
 
     switch (this->getNumType())
     {
@@ -537,7 +538,7 @@ constexpr NumType<ScalarType> NumType<ScalarType>::operator/(const NumType& righ
         break;
     }
 
-    throw std::runtime_error("NumType<ScalarType>::operator/ error");
+    throw except::unknown_exception("");
 }
 
 template<typename ScalarType>
@@ -547,7 +548,7 @@ constexpr NumType<ScalarType>::NumType(SpecificNumType&& specific_num) :
 {}
 
 template<typename ScalarType>
-inline constexpr bool NumType<ScalarType>::is_valid() const
+inline constexpr bool NumType<ScalarType>::has_value() const noexcept
 {
     return value.has_value();
 }

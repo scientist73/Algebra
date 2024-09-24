@@ -26,11 +26,13 @@ if (NOT TARGET NumType)
     #
     # NumType's dependencies.
 
+    add_subdirectory(../../except/AlgebraException build/except/AlgebraException)
+
     add_subdirectory(../Real build/Real)
     add_subdirectory(../Complex build/Complex)
     add_subdirectory(../scalar/ScalarType build/scalar/ScalarType)
 
-    target_link_libraries(NumType INTERFACE Complex Real ScalarType)
+    target_link_libraries(NumType INTERFACE AlgebraException Complex Real ScalarType)
 
     ########################################################################
     #
