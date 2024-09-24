@@ -17,9 +17,9 @@ namespace alg
                     IMAG,
                 };
 
-                constexpr explicit NumTokenType(NUM num_t, std::string_view scalar);
+                constexpr explicit NumTokenType(NUM num_t, std::string_view scalar) noexcept;
 
-                constexpr NUM getNumTokenType() const;
+                constexpr NUM getNumTokenType() const noexcept;
                 constexpr std::string_view getScalar() const;
 
             private:
@@ -35,11 +35,11 @@ namespace alg
 
 using namespace alg::calc::tok;
 
-constexpr NumTokenType::NumTokenType(NUM num_t, std::string_view scalar) :
+constexpr NumTokenType::NumTokenType(NUM num_t, std::string_view scalar) noexcept :
     num_t(num_t), scalar(scalar)
 {}
 
-constexpr NumTokenType::NUM NumTokenType::getNumTokenType() const
+constexpr NumTokenType::NUM NumTokenType::getNumTokenType() const noexcept
 {
     return num_t;
 }

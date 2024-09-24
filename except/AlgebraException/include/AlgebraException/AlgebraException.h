@@ -6,12 +6,14 @@ namespace alg
 {
     namespace except
     {
-        class alg_exception
+        class alg_exception : std::exception
         {
         public:
+            explicit alg_exception() noexcept;
             explicit alg_exception(std::string_view error_msg) noexcept;
-            virtual ~alg_exception() noexcept = default;
-            virtual std::string_view what() const noexcept;
+            ~alg_exception() noexcept override = default;
+            
+            const char* what() const noexcept override;
 
         protected:
             std::string_view error_msg;

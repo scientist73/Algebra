@@ -18,9 +18,9 @@ namespace alg
                     DIV,
                 };
 
-                constexpr explicit OperatorTokenType(OPERATOR operator_t);
+                constexpr explicit OperatorTokenType(OPERATOR operator_t) noexcept;
 
-                constexpr OPERATOR getOperatorTokenType() const;
+                constexpr OPERATOR getOperatorTokenType() const noexcept;
                 
             private:
                 OPERATOR operator_t;
@@ -34,11 +34,11 @@ namespace alg
 
 using namespace alg::calc::tok;
 
-constexpr OperatorTokenType::OperatorTokenType(OPERATOR operator_t) :
+constexpr OperatorTokenType::OperatorTokenType(OPERATOR operator_t) noexcept :
     operator_t(operator_t)
 {}
 
-constexpr OperatorTokenType::OPERATOR OperatorTokenType::getOperatorTokenType() const
+constexpr OperatorTokenType::OPERATOR OperatorTokenType::getOperatorTokenType() const noexcept
 {
     return operator_t;
 }

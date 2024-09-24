@@ -10,7 +10,7 @@ namespace alg
             class IdentifierTokenType : public ITokenType
             {
             public:
-                constexpr explicit IdentifierTokenType(std::string_view identifier);
+                constexpr explicit IdentifierTokenType(std::string_view identifier) noexcept;
 
                 constexpr std::string_view getIdentifier() const;
 
@@ -27,7 +27,7 @@ namespace alg
 using namespace alg::calc::tok;
 
 
-constexpr IdentifierTokenType::IdentifierTokenType(std::string_view identifier) :
+constexpr IdentifierTokenType::IdentifierTokenType(std::string_view identifier) noexcept :
     identifier(identifier)
 {}
 

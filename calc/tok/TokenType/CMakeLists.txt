@@ -15,6 +15,7 @@ if (NOT TARGET TokenType)
     # Where TokenType's .h files can be found.
     set(TokenType_include_dirs
         "${TokenType_SOURCE_DIR}/include/TokenType"
+        "${TokenType_SOURCE_DIR}/include/TokenType/SpecificTokenType"
     )
     # TokenType's .cpp files
     set(TokenType_src_files 
@@ -22,6 +23,14 @@ if (NOT TARGET TokenType)
 
     add_library(TokenType INTERFACE)
     target_include_directories(TokenType INTERFACE ${TokenType_include_dirs})
+
+    ########################################################################
+    #
+    # TokenType's dependencies.
+
+    add_subdirectory(../../../except/AlgebraException build/except/AlgebraException)
+
+    target_link_libraries(TokenType INTERFACE AlgebraException)
 
     ########################################################################
     #

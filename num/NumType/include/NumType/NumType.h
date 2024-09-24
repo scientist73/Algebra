@@ -94,7 +94,7 @@ template<typename ScalarType>
 constexpr NUM NumType<ScalarType>::getNumType() const
 {
     if (!has_value())
-        throw except::num_has_no_value("");
+        throw except::num_has_no_value();
 
     switch(this->value.value().index())
     {
@@ -102,23 +102,30 @@ constexpr NUM NumType<ScalarType>::getNumType() const
         return NUM::REAL;
     case 1:
         return NUM::COMPLEX;
-    default:
-        throw except::unknown_exception("");
     }
+
+    assert(false);
 }
 
 template<typename SpecificNumType, typename ScalarType> requires alg::num::IsSpecificNumType<SpecificNumType, ScalarType>
 constexpr const SpecificNumType& alg::num::get_num(const NumType<ScalarType>& num)
 {
     if (!num.has_value())
-        throw except::num_has_no_value("");
+        throw except::num_has_no_value();
 
-    if constexpr (std::is_same<SpecificNumType, Real<ScalarType>>::value)
-        return std::get<Real_NumType<ScalarType>>(num.value.value()).getReal();
-    else if constexpr (std::is_same<SpecificNumType, Complex<ScalarType>>::value)
-        return std::get<Complex_NumType<ScalarType>>(num.value.value()).getComplex();
-    else
-        throw except::unknown_exception("");
+    try
+    {
+        if constexpr (std::is_same<SpecificNumType, Real<ScalarType>>::value)
+            return std::get<Real_NumType<ScalarType>>(num.value.value()).getReal();
+        else if constexpr (std::is_same<SpecificNumType, Complex<ScalarType>>::value)
+            return std::get<Complex_NumType<ScalarType>>(num.value.value()).getComplex();
+    }
+    catch(std::bad_variant_access const& ex)
+    {
+        throw except::num_value_has_different_type(num.getNumType());
+    }
+
+    assert(false);
 }
 
 template<typename ScalarType>
@@ -135,7 +142,7 @@ template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator+=(const NumType& right_op)
 {
     if (!has_value())
-        throw except::num_has_no_value("");
+        throw except::num_has_no_value();
 
     switch (this->getNumType())
     {
@@ -186,13 +193,13 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator+=(const NumType& ri
         break;
     }
 
-    throw except::unknown_exception("");
+    assert(false);
 }
 template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator-=(const NumType& right_op)
 {
     if (!has_value())
-        throw except::num_has_no_value("");
+        throw except::num_has_no_value();
 
     switch (this->getNumType())
     {
@@ -243,13 +250,13 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator-=(const NumType& ri
         break;
     }
 
-    throw except::unknown_exception("");
+    assert(false);
 }
 template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator*=(const NumType& right_op)
 {
     if (!has_value())
-        throw except::num_has_no_value("");
+        throw except::num_has_no_value();
 
     switch (this->getNumType())
     {
@@ -300,13 +307,13 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator*=(const NumType& ri
         break;
     }
 
-    throw except::unknown_exception("");
+    assert(false);
 }
 template<typename ScalarType>
 constexpr NumType<ScalarType>& NumType<ScalarType>::operator/=(const NumType& right_op)
 {
     if (!has_value())
-        throw except::num_has_no_value("");
+        throw except::num_has_no_value();
 
     switch (this->getNumType())
     {
@@ -357,14 +364,14 @@ constexpr NumType<ScalarType>& NumType<ScalarType>::operator/=(const NumType& ri
         break;
     }
 
-    throw except::unknown_exception("");
+    assert(false);
 }
 
 template<typename ScalarType>
 constexpr NumType<ScalarType> NumType<ScalarType>::operator+(const NumType& right_op) const
 {
     if (!has_value())
-        throw except::num_has_no_value("");
+        throw except::num_has_no_value();
 
     switch (this->getNumType())
     {
@@ -403,13 +410,13 @@ constexpr NumType<ScalarType> NumType<ScalarType>::operator+(const NumType& righ
         break;
     }
 
-    throw except::unknown_exception("");
+    assert(false);
 }
 template<typename ScalarType>
 constexpr NumType<ScalarType> NumType<ScalarType>::operator-(const NumType& right_op) const
 {
     if (!has_value())
-        throw except::num_has_no_value("");
+        throw except::num_has_no_value();
 
     switch (this->getNumType())
     {
@@ -448,13 +455,13 @@ constexpr NumType<ScalarType> NumType<ScalarType>::operator-(const NumType& righ
         break;
     }
 
-    throw except::unknown_exception("");
+    assert(false);
 }
 template<typename ScalarType>
 constexpr NumType<ScalarType> NumType<ScalarType>::operator*(const NumType& right_op) const
 {
     if (!has_value())
-        throw except::num_has_no_value("");
+        throw except::num_has_no_value();
 
     switch (this->getNumType())
     {
@@ -493,13 +500,13 @@ constexpr NumType<ScalarType> NumType<ScalarType>::operator*(const NumType& righ
         break;
     }
 
-    throw except::unknown_exception("");
+    assert(false);
 }
 template<typename ScalarType>
 constexpr NumType<ScalarType> NumType<ScalarType>::operator/(const NumType& right_op) const
 {
     if (!has_value())
-        throw except::num_has_no_value("");
+        throw except::num_has_no_value();
 
     switch (this->getNumType())
     {
@@ -538,7 +545,7 @@ constexpr NumType<ScalarType> NumType<ScalarType>::operator/(const NumType& righ
         break;
     }
 
-    throw except::unknown_exception("");
+    assert(false);
 }
 
 template<typename ScalarType>

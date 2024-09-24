@@ -16,9 +16,9 @@ namespace alg
                     ROUND_CLOSE,
                 };
 
-                constexpr explicit ParenTokenType(PAREN paren_t);
+                constexpr explicit ParenTokenType(PAREN paren_t) noexcept;
 
-                constexpr PAREN getParenTokenType() const;
+                constexpr PAREN getParenTokenType() const noexcept;
             
             private:
                 PAREN paren_t;
@@ -32,11 +32,11 @@ namespace alg
 
 using namespace alg::calc::tok;
 
-constexpr ParenTokenType::ParenTokenType(PAREN paren_t) :
+constexpr ParenTokenType::ParenTokenType(PAREN paren_t) noexcept :
     paren_t(paren_t)
 {}
 
-constexpr ParenTokenType::PAREN ParenTokenType::getParenTokenType() const
+constexpr ParenTokenType::PAREN ParenTokenType::getParenTokenType() const noexcept
 {
     return paren_t;
 }

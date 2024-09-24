@@ -17,9 +17,9 @@ namespace alg
                     END_OF_LINE
                 };
 
-                constexpr explicit TerminationTokenType(TERMINATION term_t);
+                constexpr explicit TerminationTokenType(TERMINATION term_t) noexcept;
 
-                constexpr TERMINATION getTerminationTokenType() const;
+                constexpr TERMINATION getTerminationTokenType() const noexcept;
             private:
                 TERMINATION term_t;
             };
@@ -32,11 +32,11 @@ namespace alg
 
 using namespace alg::calc::tok;
 
-constexpr TerminationTokenType::TerminationTokenType(TERMINATION term_t) :
+constexpr TerminationTokenType::TerminationTokenType(TERMINATION term_t) noexcept :
     term_t(term_t)
 {}
 
-constexpr TerminationTokenType::TERMINATION TerminationTokenType::getTerminationTokenType() const
+constexpr TerminationTokenType::TERMINATION TerminationTokenType::getTerminationTokenType() const noexcept
 {
     return term_t;
 }

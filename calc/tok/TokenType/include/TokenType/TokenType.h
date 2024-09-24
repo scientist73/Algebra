@@ -5,10 +5,12 @@
 #include "OperatorTokenType.h"
 #include "ParenTokenType.h"
 #include "TerminationTokenType.h"
+#include "TokenTypeException.h"
 #include <optional>
 #include <string>
 #include <stdexcept>
 #include <variant>
+#include <cassert>
 
 namespace alg
 {
@@ -33,8 +35,8 @@ namespace alg
 
                 template<typename SpecificTokenType> requires IsSpecificTokenType<SpecificTokenType>
                 friend constexpr const SpecificTokenType& get_token(const TokenType& token);
-                constexpr TOKEN getTokenType() const;
-                constexpr bool isEmpty() const;
+                constexpr TOKEN getTokenType() const noexcept;
+                constexpr bool isEmpty() const noexcept;
 
             private:
                 std::optional<std::variant<OperatorTokenType, ParenTokenType, NumTokenType, IdentifierTokenType, TerminationTokenType>> token;
@@ -62,7 +64,7 @@ constexpr TokenType::TokenType(SpecificTokenType&& specific_token) :
     token(std::forward<SpecificTokenType>(specific_token))
 {}
 
-constexpr TOKEN TokenType::getTokenType() const
+constexpr TOKEN TokenType::getTokenType() const noexcept
 { 
     if (token.has_value())
     {
@@ -78,16 +80,15 @@ constexpr TOKEN TokenType::getTokenType() const
             return TOKEN::IDENTIFIER;
         case 4:
             return TOKEN::TERMINATION;
-        default:
-            throw std::runtime_error("");
         }
     }
     else
         return TOKEN::EMPTY;
 
+    assert(false);
 }
 
-constexpr bool TokenType::isEmpty() const
+constexpr bool TokenType::isEmpty() const noexcept
 {
     return getTokenType() == TOKEN::EMPTY;
 }
@@ -99,9 +100,9 @@ constexpr const SpecificTokenType& alg::calc::tok::get_token(const TokenType& to
     { 
         return std::get<SpecificTokenType>(token.token.value());
     } 
-    catch(std::bad_variant_access& ex) 
-    { 
-        throw std::runtime_error("get" + std::string(typeid(SpecificTokenType).name())); 
+    catch(std::bad_variant_access const& ex)
+    {
+        throw except::token_value_has_different_type(token.getTokenType());
     }
 }
 template<typename SpecificTokenType, typename... Args> requires IsSpecificTokenType<SpecificTokenType>
